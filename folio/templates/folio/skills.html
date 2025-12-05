@@ -1,0 +1,224 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+/* =========================================
+   GLOBAL & CARD STYLING
+========================================= */
+.skill-card {
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+}
+.skill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+/* Glow Skill Bar */
+.progress {
+    height: 12px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+}
+.progress-bar {
+    border-radius: 8px;
+    animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+    from { box-shadow: 0 0 10px #00c6ff; }
+    to { box-shadow: 0 0 25px #00c6ff; }
+}
+
+/* Category Buttons */
+.category-btn {
+    margin-right: 10px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: 0.3s;
+}
+.category-btn.active, .category-btn:hover {
+    background: #00c6ff;
+    color: black;
+    border-color: #00c6ff;
+}
+
+/* Rating Stars */
+.star {
+    color: gold;
+    margin-right: 3px;
+}
+
+/* Search Bar */
+.search-input {
+    width: 250px;
+    border-radius: 20px;
+    padding: 6px 15px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* Sort Dropdown */
+.sort-select {
+    border-radius: 20px;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+</style>
+
+<div class="container mt-5">
+
+    <h1 class="text-center text-light mb-4">
+        <i class="fas fa-code"></i> My Skills
+    </h1>
+
+    <!-- Controls: Search, Sort, Filter -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+
+        <!-- Search Bar -->
+        <input type="text" id="searchBox" class="search-input mb-2"
+               placeholder="Search skills...">
+
+        <!-- Sort by Proficiency -->
+        <select id="sortSkills" class="sort-select mb-2">
+            <option value="default">Sort by</option>
+            <option value="high">Highest Proficiency</option>
+            <option value="low">Lowest Proficiency</option>
+        </select>
+
+        <!-- Category Filters -->
+        <div class="mb-2">
+            <span class="category-btn active" data-category="all">All</span>
+            <span class="category-btn" data-category="Frontend">Frontend</span>
+            <span class="category-btn" data-category="Backend">Backend</span>
+            <span class="category-btn" data-category="Database">Database</span>
+            <span class="category-btn" data-category="Tools">Tools</span>
+            <span class="category-btn" data-category="Other">Other</span>
+        </div>
+
+        <a href="{% url 'add_skill' %}" class="btn btn-primary shadow mb-2">
+            <i class="fas fa-plus"></i> Add Skill
+        </a>
+    </div>
+
+    <div class="row" id="skillsContainer">
+
+        {% for skill in skills %}
+        <div class="col-md-4 mb-4 skill-item" 
+             data-name="{{ skill.name }}"
+             data-level="{{ skill.level }}"
+             data-category="{{ skill.category }}">
+
+            <div class="card skill-card text-light">
+
+                <div class="card-body">
+
+                    <!-- Skill Title -->
+                    <h4 class="card-title mb-1">
+                        <i class="fas fa-check-circle text-success"></i>
+                        {{ skill.name }}
+                    </h4>
+
+                    <!-- Category -->
+                    <span class="badge bg-info text-dark mb-2">{{ skill.category }}</span>
+
+                    <!-- Rating Stars (level ÷ 20) -->
+                    <div class="mb-2">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= skill.level|divisibleby:20 %}
+                                <i class="fas fa-star star"></i>
+                            {% else %}
+                                <i class="far fa-star star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <p class="text-secondary small">{{ skill.level }}% proficiency</p>
+
+                    <!-- Progress Bar -->
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-info" 
+                             role="progressbar"
+                             style="width: {{ skill.level }}%;">
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{% url 'update_skill' skill.id %}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="{% url 'delete_skill' skill.id %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-light">No skills added yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- ================== JAVASCRIPT FEATURES ================== -->
+<script>
+// 🔍 Live Search
+document.getElementById("searchBox").addEventListener("keyup", function() {
+    let value = this.value.toLowerCase();
+    document.querySelectorAll(".skill-item").forEach(item => {
+        item.style.display = item.dataset.name.toLowerCase().includes(value) ? "" : "none";
+    });
+});
+
+// 🔄 Sort Skills
+document.getElementById("sortSkills").addEventListener("change", function() {
+    let container = document.getElementById("skillsContainer");
+    let items = Array.from(document.querySelectorAll(".skill-item"));
+
+    if (this.value === "high") {
+        items.sort((a, b) => b.dataset.level - a.dataset.level);
+    } else if (this.value === "low") {
+        items.sort((a, b) => a.dataset.level - b.dataset.level);
+    }
+
+    items.forEach(item => container.appendChild(item));
+});
+
+// 🎯 Category Filter
+document.querySelectorAll(".category-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+        document.querySelector(".category-btn.active").classList.remove("active");
+        this.classList.add("active");
+
+        let category = this.dataset.category;
+
+        document.querySelectorAll(".skill-item").forEach(item => {
+            if (category === "all" || item.dataset.category === category)
+                item.style.display = "";
+            else
+                item.style.display = "none";
+        });
+    });
+});
+</script>
+
+{% endblock %}

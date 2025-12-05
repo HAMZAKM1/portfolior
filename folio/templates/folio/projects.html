@@ -1,0 +1,263 @@
+{% extends 'folio/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+/* BACKGROUND + VISUALS */
+#particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -2; }
+.parallax-header {
+    height: 280px;
+    background: url("{% static 'images/projects_header.jpg' %}") center/cover fixed;
+    display:flex;justify-content:center;align-items:center;
+    color:white;font-size:45px;font-weight:700;
+    text-shadow:0 0 12px cyan;
+}
+
+/* Floating Add Button */
+#addProjectBtn {
+    position:fixed; bottom:25px; right:30px; z-index:10;
+    border-radius:50%; padding:20px;
+    box-shadow:0 0 20px cyan;
+    animation:float 3s infinite ease-in-out;
+}
+@keyframes float {0%{transform:translateY(0);}50%{transform:translateY(-10px);}100%{transform:translateY(0);}}
+
+/* Stats Bar */
+.stats-bar {
+    background:rgba(255,255,255,0.07);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(0,255,255,0.2);
+    padding:15px; border-radius:15px;
+}
+.stats-bar span { font-size:18px; color:#00eaff; margin-right:20px; }
+
+/* Toggle Buttons */
+.view-toggle button { margin:0 5px; }
+
+/* Project Card */
+.project-card {
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(15px);
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid rgba(0,255,255,0.15);
+  transition:0.3s ease;
+  opacity:0; transform:translateY(20px);
+}
+.project-card.visible { opacity:1; transform:translateY(0); }
+.project-card:hover { transform:translateY(-10px); box-shadow:0 15px 35px rgba(0,255,255,0.2); }
+
+/* Timeline View */
+.timeline-item {
+    display:flex; gap:20px; margin-bottom:40px;
+    background:rgba(255,255,255,0.09);
+    padding:20px; border-radius:20px;
+    border-left:4px solid cyan;
+}
+.timeline-img { width:250px; height:150px; object-fit:cover; border-radius:15px; }
+
+/* Tags */
+.tag { background:#00eaff22; padding:3px 9px; margin:2px; border-radius:10px; border:1px solid cyan; font-size:12px; }
+
+/* Favorites */
+.fav-btn { position:absolute; top:10px; left:10px; font-size:22px; cursor:pointer; color:white; text-shadow:0 0 5px red; }
+.fav-btn.active { color:red; }
+
+/* View Counter */
+.view-counter {
+    position:absolute; bottom:10px; right:10px;
+    background:rgba(0,0,0,0.6); padding:5px 10px;
+    border-radius:10px; color:#fff; font-size:12px;
+}
+
+/* Gallery Slider */
+.gallery-thumbs img { width:60px; height:45px; object-fit:cover; border-radius:5px; margin:3px; cursor:pointer; opacity:0.7; }
+.gallery-thumbs img:hover { opacity:1; }
+
+/* AI SUGGESTIONS BOX */
+.ai-box {
+    margin-top:40px;
+    padding:25px;
+    background:rgba(0,255,255,0.05);
+    border:1px solid cyan;
+    border-radius:20px;
+}
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+<div id="particles-js"></div>
+
+<div class="parallax-header">🚀 My Projects Portfolio</div>
+
+<div class="container my-5">
+
+    <!-- Floating Add Button -->
+    {% if user.is_authenticated %}
+    <a href="{% url 'add_project' %}" id="addProjectBtn" class="btn btn-primary btn-lg">➕</a>
+    {% endif %}
+
+    <!-- Stats Bar -->
+    <div class="stats-bar mb-4 d-flex justify-content-between">
+        <span>Total Projects: {{ projects.count }}</span>
+        <span>Frontend: {{ projects|dictsort:"project_type"|length }}</span>
+        <span>Categories: {{ categories.count }}</span>
+    </div>
+
+    <!-- Sort + View Switch -->
+    <div class="d-flex justify-content-between mb-4">
+        <select id="sortProjects" class="form-select w-25">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="az">A → Z</option>
+            <option value="za">Z → A</option>
+        </select>
+
+        <div class="view-toggle">
+            <button class="btn btn-outline-info" id="gridView">Grid View</button>
+            <button class="btn btn-outline-info" id="timelineView">Timeline View</button>
+        </div>
+    </div>
+
+
+    <!-- GRID VIEW -->
+    <div class="row g-4" id="projectGrid">
+        {% for project in projects %}
+        <div class="col-md-4 project-item" data-title="{{ project.title|lower }}" data-date="{{ project.created_at }}">
+            <div class="card project-card h-100">
+
+                <!-- Favorite -->
+                <div class="fav-btn">❤</div>
+
+                <!-- Image -->
+                {% if project.image %}
+                <img src="{{ project.image.url }}" class="w-100" style="max-height:220px;object-fit:cover;">
+                {% endif %}
+
+                <!-- View Counter -->
+                <div class="view-counter">👁 {{ project.views|default:"0" }}</div>
+
+                <!-- Body -->
+                <div class="card-body d-flex flex-column">
+                    <h4>{{ project.title }}</h4>
+
+                    {% if project.tech_list %}
+                    <p>
+                        {% for t in project.tech_list %}
+                        <span class="tag">{{ t }}</span>
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+
+                    <p class="text-muted">{{ project.description|truncatewords:20 }}</p>
+
+                    {% if project.gallery.all %}
+                    <div class="gallery-thumbs d-flex flex-wrap">
+                        {% for g in project.gallery.all %}
+                        <img src="{{ g.image.url }}" data-full="{{ g.image.url }}">
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <a href="{{ project.link }}" target="_blank" class="btn btn-outline-info mt-auto">Live Demo</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <!-- TIMELINE VIEW -->
+    <div id="timelineContainer" style="display:none;">
+        {% for project in projects %}
+        <div class="timeline-item" data-title="{{ project.title|lower }}">
+            {% if project.image %}
+            <img src="{{ project.image.url }}" class="timeline-img">
+            {% endif %}
+            <div>
+                <h3>{{ project.title }}</h3>
+                <p class="text-muted">{{ project.description|truncatewords:30 }}</p>
+
+                <p>
+                {% for t in project.tech_list %}
+                    <span class="tag">{{ t }}</span>
+                {% endfor %}
+                </p>
+
+                <a href="{{ project.link }}" class="btn btn-sm btn-info" target="_blank">Visit</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <!-- AI Suggestions -->
+    <div class="ai-box">
+        <h3>🤖 AI Suggestions for Your Next Projects</h3>
+        <ul>
+            <li>Build a Weather Dashboard with API</li>
+            <li>Create a Full-Stack Expense Tracker</li>
+            <li>Develop a Real-Time Chat App with WebSockets</li>
+            <li>AI Mini Tools: QR Generator, Password Generator</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script>
+/* Particle JS */
+particlesJS("particles-js", {
+    particles: { number:{value:60}, size:{value:3}, color:{value:"#00eaff"} }
+});
+
+/* Fade-in Cards */
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting)e.target.classList.add('visible'); });
+});
+document.querySelectorAll('.project-card').forEach(el=>observer.observe(el));
+
+/* View Toggle */
+document.getElementById("gridView").onclick = () => {
+    document.getElementById("projectGrid").style.display="flex";
+    document.getElementById("timelineContainer").style.display="none";
+};
+document.getElementById("timelineView").onclick = () => {
+    document.getElementById("projectGrid").style.display="none";
+    document.getElementById("timelineContainer").style.display="block";
+};
+
+/* Sorting */
+document.getElementById("sortProjects").addEventListener("change", function(){
+    let items = [...document.querySelectorAll(".project-item")];
+    let grid = document.getElementById("projectGrid");
+
+    let type = this.value;
+    if(type=="az") items.sort((a,b)=>a.dataset.title.localeCompare(b.dataset.title));
+    if(type=="za") items.sort((a,b)=>b.dataset.title.localeCompare(a.dataset.title));
+    if(type=="newest") items.sort((a,b)=>new Date(b.dataset.date)-new Date(a.dataset.date));
+    if(type=="oldest") items.sort((a,b)=>new Date(a.dataset.date)-new Date(b.dataset.date));
+
+    grid.innerHTML="";
+    items.forEach(i=>grid.appendChild(i));
+});
+
+/* Favorites */
+document.querySelectorAll(".fav-btn").forEach(btn=>{
+    btn.onclick = () => btn.classList.toggle("active");
+});
+
+/* Gallery Thumb Preview */
+document.querySelectorAll(".gallery-thumbs img").forEach(img=>{
+    img.addEventListener("click", function(){
+        this.closest(".project-card").querySelector("img").src = this.dataset.full;
+    });
+});
+
+</script>
+{% endblock %}

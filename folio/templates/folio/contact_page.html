@@ -1,0 +1,220 @@
+{% extends 'folio/base.html' %}
+
+{% block extra_css %}
+<style>
+body {
+  background: radial-gradient(circle at top, #0a0a0a, #000000 85%);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Particle Background */
+#particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -2;
+}
+
+/* Waves Animation */
+.waves {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 220px;
+  background: url('/static/images/wave.svg');
+  background-size: 1000px 200px;
+  animation: wave 12s linear infinite;
+  opacity: 0.25;
+  z-index: -1;
+}
+@keyframes wave {
+  from { background-position-x: 0; }
+  to { background-position-x: 1000px; }
+}
+
+/* Contact Wrapper */
+.contact-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  z-index: 1;
+}
+
+/* Glass Box */
+.glass-box {
+  width: 480px;
+  padding: 40px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(25px);
+  box-shadow: 0 0 40px #00eaff;
+  border: 1px solid rgba(0,255,255,0.2);
+  animation: float 5s ease-in-out infinite;
+  position: relative;
+}
+@keyframes float {
+  0% { transform: translateY(0px) rotateX(0deg); }
+  50% { transform: translateY(-20px) rotateX(2deg); }
+  100% { transform: translateY(0px) rotateX(0deg); }
+}
+
+/* Titles */
+.glass-box h2 {
+  text-align: center;
+  color: #00eaff;
+  font-size: 32px;
+  margin-bottom: 25px;
+  text-shadow: 0 0 15px #00eaff;
+}
+
+/* Form Inputs */
+form input, form textarea {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,255,255,0.2);
+  color: #fff;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  outline: none;
+  transition: 0.3s ease;
+}
+form input:focus, form textarea:focus {
+  background: rgba(0,255,255,0.12);
+  box-shadow: 0 0 15px #00eaff;
+  border-color: #00eaff;
+}
+form input::placeholder,
+form textarea::placeholder {
+  color: #bbb;
+  opacity: 0.8;
+}
+
+/* Submit Button */
+button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #00eaff, #0066ff);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.4s ease;
+}
+button:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 25px #00eaff;
+}
+
+/* Back Home Link */
+.back-home {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #00eaff;
+  text-decoration: none;
+  text-shadow: 0 0 10px #00eaff;
+}
+
+/* Project Slider */
+.slider {
+  margin-top: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,255,255,0.3);
+}
+.slider img {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.slider img:hover {
+  transform: scale(1.05);
+}
+
+/* Social Links */
+.social-links {
+  margin-top: 20px;
+  text-align: center;
+}
+.social-links a {
+  margin: 0 10px;
+  color: #00eaff;
+  font-size: 22px;
+  transition: 0.3s;
+}
+.social-links a:hover {
+  color: #fff;
+  text-shadow: 0 0 15px #00eaff;
+}
+
+/* Dark Mode Override */
+body.dark .glass-box {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,255,255,0.3);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="contact-wrapper">
+  <div class="glass-box">
+    <h2>📩 Contact Me</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Send Message</button>
+    </form>
+
+    <a href="/" class="back-home">← Back to Home</a>
+
+    <!-- Optional Project/Portfolio Slider -->
+    <div class="slider">
+      <img src="/static/images/project1.jpg" alt="Project 1">
+      <img src="/static/images/project2.jpg" alt="Project 2">
+      <img src="/static/images/project3.jpg" alt="Project 3">
+    </div>
+
+    <!-- Social Links -->
+    <div class="social-links">
+      <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+    </div>
+  </div>
+</div>
+
+<div class="waves"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+particlesJS("particles-js", {
+  "particles": {
+    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+    "color": { "value": "#00eaff" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.3 },
+    "size": { "value": 3 },
+    "line_linked": { "enable": true, "distance": 150, "color": "#00eaff", "opacity": 0.2, "width": 1 },
+    "move": { "enable": true, "speed": 2 }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": { "onhover": { "enable": true, "mode": "repulse" } }
+  }
+});
+</script>
+{% endblock %}

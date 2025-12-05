@@ -1,0 +1,135 @@
+{% extends 'folio/base.html' %}
+{% load static %}
+
+{% block title %}Home - {{ profile.name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero text-center my-5" id="hero" style="position: relative; z-index: 2;">
+  <img src="{{ profile.photo.url }}" class="rounded-circle shadow-lg" width="150" height="150" alt="Profile Photo">
+  <h1 class="mt-3">{{ profile.name }}</h1>
+  <p class="lead">{{ profile.bio }}</p>
+  <div class="buttons my-3">
+    <a href="{% url 'contact_page' %}" class="btn btn-light btn-lg me-2">💼 Hire Me</a>
+    {% if resume %}
+    <a href="{{ resume.file.url }}" class="btn btn-dark btn-lg" download>📄 Download Resume</a>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section class="skills container my-5" id="skills">
+  <h2 class="text-center mb-4">⚡ Skills</h2>
+  <div class="row">
+    {% for skill in skills %}
+    <div class="col-md-6 mb-4">
+      <div class="skill-card p-4 text-center glass-card">
+        <h5>{{ skill.name }}</h5>
+        <div class="progress glass-progress mt-2">
+          <div class="progress-bar" style="width:{{ skill.level }}%">{{ skill.level }}%</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section class="projects container my-5" id="projects">
+  <h2 class="text-center mb-4">🚀 Projects</h2>
+
+  <!-- Filter Buttons -->
+  <div class="text-center mb-4">
+    <button class="btn btn-outline-primary btn-sm me-2 filter-btn" data-filter="all">All</button>
+    {% for category in project_categories %}
+    <button class="btn btn-outline-primary btn-sm me-2 filter-btn" data-filter="{{ category }}">{{ category|title }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="row" id="project-grid">
+    {% for project in projects %}
+    <div class="col-md-4 mb-4 project-item {{ project.category }}">
+      <div class="card h-100 shadow-sm glass-card">
+        {% if project.image %}
+        <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+        {% endif %}
+        <div class="card-body">
+          <h5>{{ project.title }}</h5>
+          <p>{{ project.description|truncatewords:20 }}</p>
+          {% if project.link %}
+          <a href="{{ project.link }}" class="btn btn-primary btn-sm" target="_blank">View</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="container my-5" id="testimonials">
+  <h2 class="text-center mb-4">💬 Testimonials</h2>
+  <div class="row" id="testimonial-carousel">
+    {% for t in testimonials %}
+    <div class="col-md-4 mb-4 testimonial-card">
+      <div class="card p-3 text-center shadow-sm glass-card">
+        {% if t.photo %}
+        <img src="{{ t.photo.url }}" class="rounded-circle mb-2" width="80" height="80" alt="{{ t.name }}">
+        {% endif %}
+        <h5>{{ t.name }}</h5>
+        <p>{{ t.feedback|truncatewords:25 }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Project filtering
+const filterButtons = document.querySelectorAll('.filter-btn');
+const projectItems = document.querySelectorAll('.project-item');
+
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.getAttribute('data-filter');
+    projectItems.forEach(item => {
+      if(filter === 'all' || item.classList.contains(filter)){
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+
+// Simple testimonials carousel
+let testimonials = document.querySelectorAll('.testimonial-card');
+let currentIndex = 0;
+
+function showTestimonial(index){
+  testimonials.forEach((t, i) => {
+    t.style.display = i === index ? 'block' : 'none';
+  });
+}
+
+showTestimonial(currentIndex);
+setInterval(() => {
+  currentIndex = (currentIndex + 1) % testimonials.length;
+  showTestimonial(currentIndex);
+}, 5000);
+
+</script>
+{% endblock %}

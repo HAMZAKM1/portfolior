@@ -1,0 +1,232 @@
+{% extends 'folio/base.html' %}
+{% load static %}
+
+{% block title %}Contact - {{ profile.name }}{% endblock %}
+
+{% block content %}
+
+<section class="contact container my-5 p-5 rounded shadow-lg glass-card"
+         style="background: rgba(255,255,255,0.1); backdrop-filter: blur(15px);">
+
+  <h2 class="text-center mb-4">📬 Contact Me</h2>
+
+  <!-- Django Messages -->
+  {% if messages %}
+  <div class="mb-3">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Contact Form -->
+  <form method="post" class="row g-4">
+    {% csrf_token %}
+
+    <div class="col-md-6">
+      <div class="form-floating">
+        <input type="text" name="name" value="{{ form.name.value }}"
+               class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+               id="name" placeholder="Your Name" required>
+        <label for="name">Your Name</label>
+        {% for error in form.name.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-floating">
+        <input type="email" name="email" value="{{ form.email.value }}"
+               class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+               id="email" placeholder="Your Email" required>
+        <label for="email">Your Email</label>
+        {% for error in form.email.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-floating">
+        <textarea name="message" maxlength="500"
+                  class="form-control {% if form.message.errors %}is-invalid{% endif %}"
+                  id="message" placeholder="Your Message..." rows="6" required>{{ form.message.value }}</textarea>
+        <label for="message">Your Message</label>
+        {% for error in form.message.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Character Counter -->
+      <small class="text-light" id="messageCounter">0 / 500 characters</small>
+    </div>
+
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary btn-lg px-5">✉ Send Message</button>
+    </div>
+  </form>
+
+  <!-- Google Maps -->
+  {% if profile.location %}
+  <div class="map mt-5 rounded shadow-sm">
+    <iframe src="https://www.google.com/maps?q={{ profile.location|urlencode }}&output=embed"
+      width="100%" height="300" style="border:0;" allowfullscreen loading="lazy"></iframe>
+  </div>
+  {% endif %}
+
+  <!-- Contact Info Panel -->
+  <div class="contact-info-box mt-5 p-4 rounded">
+    <h4 class="text-center mb-3">📞 Contact Information</h4>
+    <div class="row text-center">
+      <div class="col-md-4">
+        <i class="fas fa-phone fa-2x text-info mb-2"></i>
+        <p>{{ profile.phone }}</p>
+      </div>
+      <div class="col-md-4">
+        <i class="fas fa-envelope fa-2x text-warning mb-2"></i>
+        <p>{{ profile.email }}</p>
+      </div>
+      <div class="col-md-4">
+        <i class="fas fa-map-marker-alt fa-2x text-danger mb-2"></i>
+        <p>{{ profile.location }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Stats -->
+  <div class="contact-stats mt-5 p-4 rounded text-center">
+    <h4>📊 Contact Stats</h4>
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <h2 class="glow-text">{{ total_messages }}</h2>
+        <p>Total Messages</p>
+      </div>
+      <div class="col-md-4">
+        <h2 class="glow-text">{{ avg_response_time }} hrs</h2>
+        <p>Avg Response Time</p>
+      </div>
+      <div class="col-md-4">
+        <h2 class="glow-text">{{ today_messages }}</h2>
+        <p>Messages Today</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Social Media -->
+  <div class="social-section text-center mt-5">
+    <h4>🌐 Connect With Me</h4>
+    <div class="mt-3">
+      <a href="{{ profile.linkedin }}" class="social-btn linkedin"><i class="fab fa-linkedin"></i></a>
+      <a href="{{ profile.github }}" class="social-btn github"><i class="fab fa-github"></i></a>
+      <a href="{{ profile.instagram }}" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+
+</section>
+
+<!-- Success Popup -->
+<div id="successAnimation" class="success-popup">
+  <i class="fas fa-check-circle"></i>
+  <p>Message Sent Successfully!</p>
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+<style>
+
+.contact { transition: all 0.3s; }
+
+/* Inputs */
+.contact .form-control {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #000;
+}
+.contact .form-control:focus {
+  border-color: #00c6ff;
+  box-shadow: 0 0 10px rgba(0,198,255,0.5);
+}
+
+/* Contact Info Box */
+.contact-info-box {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.contact-info-box i:hover {
+  transform: scale(1.2);
+  text-shadow: 0 0 15px #00c6ff;
+  transition: 0.3s;
+}
+
+/* Stats Section */
+.contact-stats {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+}
+.glow-text {
+  color: #00c6ff;
+  text-shadow: 0 0 10px #00c6ff;
+}
+
+/* Social Buttons */
+.social-btn {
+  width: 50px;
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 22px;
+  background: rgba(255,255,255,0.1);
+  transition: 0.3s;
+  margin: 0 10px;
+}
+.social-btn:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px #00c6ff;
+}
+
+/* Popup Animation */
+.success-popup {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,255,0,0.2);
+  border: 2px solid lime;
+  padding: 25px 40px;
+  color: #fff;
+  text-align: center;
+  border-radius: 15px;
+  font-size: 22px;
+  backdrop-filter: blur(10px);
+}
+.success-popup i { font-size: 40px; }
+
+</style>
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+// Character Counter
+document.getElementById("message").addEventListener("input", function() {
+    let count = this.value.length;
+    document.getElementById("messageCounter").innerHTML = count + " / 500 characters";
+});
+
+// Popup on success
+{% if messages %}
+document.getElementById("successAnimation").style.display = "block";
+setTimeout(() => {
+    document.getElementById("successAnimation").style.display = "none";
+}, 3000);
+{% endif %}
+</script>
+{% endblock %}

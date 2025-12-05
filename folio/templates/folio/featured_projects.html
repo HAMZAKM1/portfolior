@@ -1,0 +1,240 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+/* ===================== Glass Card ===================== */
+.project-card {
+    position: relative;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 20px;
+    transition: 0.4s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+.project-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+.project-card:hover .hover-info {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ===================== Masonry Grid ===================== */
+.masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* ===================== Image ===================== */
+.project-thumb {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+/* Ribbon */
+.ribbon {
+  position: absolute;
+  top: 15px;
+  left: -5px;
+  background: #e91e63;
+  padding: 6px 15px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  transform: rotate(-20deg);
+  border-radius: 6px;
+}
+
+/* Tech Stack Chips */
+.tech-chip {
+  display: inline-block;
+  padding: 5px 12px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  margin-right: 6px;
+  color: #bde0ff;
+  font-size: 13px;
+  transition: 0.3s;
+}
+.project-card:hover .tech-chip {
+    background: #00c6ff;
+    color: #000;
+}
+
+/* Hover Info Overlay */
+.hover-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: rgba(0,0,0,0.6);
+    transform: translateY(100%);
+    opacity: 0;
+    transition: 0.3s;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+}
+
+/* Filter Buttons */
+.filter-btn {
+  margin: 0 6px 12px 6px;
+  padding: 6px 20px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  transition: 0.3s;
+}
+.filter-btn.active, .filter-btn:hover {
+  background: #00c6ff;
+  color: #000;
+}
+
+/* Scroll-to-top */
+#scrollTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    background: #00c6ff;
+    color: #000;
+    padding: 12px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+#scrollTopBtn:hover {
+    background: #0088aa;
+}
+</style>
+
+<!-- ===================== Section ===================== -->
+<section class="relative w-full min-h-screen overflow-hidden">
+    <!-- Background Video -->
+    <video autoplay muted loop class="absolute top-0 left-0 w-full h-full object-cover z-0">
+        <source src="{% static 'videos/tech_bg.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <!-- Overlay -->
+    <div class="absolute top-0 left-0 w-full h-full bg-black/70 z-10"></div>
+
+    <div class="relative z-20 container mx-auto px-6 py-24 text-center text-white">
+        <h1 class="text-5xl font-bold mb-4">🌟 Featured Projects</h1>
+        <p class="text-lg mb-12 max-w-2xl mx-auto">Explore top projects with live demos, GitHub repos, and tech previews.</p>
+
+        <!-- 🔍 Search -->
+        <div class="text-center mb-4">
+            <input type="text" id="searchBox" class="form-control w-50 mx-auto" placeholder="Search project...">
+        </div>
+
+        <!-- 🏷 Filters -->
+        <div class="text-center mb-8">
+            <button class="filter-btn active" onclick="filterProjects('all')">All</button>
+            {% for category in categories %}
+                <button class="filter-btn" onclick="filterProjects('{{ category.name }}')">{{ category.name }}</button>
+            {% endfor %}
+        </div>
+
+        <!-- Masonry Grid -->
+        <div class="masonry-grid" id="projectGrid">
+            {% for project in featured_projects %}
+            <div class="project-card project-item" data-category="{{ project.category.name }}" data-title="{{ project.title|lower }}">
+                
+                <span class="ribbon">Featured</span>
+
+                {% if project.cover_image %}
+                    <img src="{{ project.cover_image.url }}" class="project-thumb" loading="lazy">
+                {% else %}
+                    <img src="/static/defaults/project.jpg" class="project-thumb" loading="lazy">
+                {% endif %}
+
+                <h3 class="mt-3">{{ project.title }}</h3>
+
+                <!-- Tech Stack -->
+                <div class="mb-3">
+                    {% for tech in project.tech_stack.all %}
+                    <span class="tech-chip">{{ tech.name }}</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Hover Info -->
+                <div class="hover-info">
+                    <p>{{ project.short_description|slice:":150" }}...</p>
+                    <div class="mt-2">
+                        <a href="{% url 'project_detail' project.id %}" class="btn btn-primary btn-sm">Details</a>
+                        {% if project.link %}
+                        <a href="{{ project.link }}" target="_blank" class="btn btn-success btn-sm">Live Demo</a>
+                        {% endif %}
+                        {% if project.github %}
+                        <a href="{{ project.github }}" target="_blank" class="btn btn-dark btn-sm">GitHub</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-gray-300 col-span-full">No featured projects yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Scroll-to-top -->
+    <button id="scrollTopBtn">↑</button>
+</section>
+
+<!-- ===================== Scripts ===================== -->
+<script>
+/* --- CATEGORY FILTER --- */
+function filterProjects(category) {
+  let items = document.querySelectorAll(".project-item");
+  let buttons = document.querySelectorAll(".filter-btn");
+
+  buttons.forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
+
+  let found = false;
+  items.forEach(item => {
+      if (category === "all" || item.dataset.category === category) {
+          item.style.display = "block";
+          found = true;
+      } else {
+          item.style.display = "none";
+      }
+  });
+
+  if(!found) document.getElementById("projectGrid").innerHTML = "<p class='text-gray-300 col-span-full'>No projects found.</p>";
+}
+
+/* --- SEARCH --- */
+document.getElementById("searchBox").addEventListener("keyup", function () {
+  let val = this.value.toLowerCase();
+  let found = false;
+  document.querySelectorAll(".project-item").forEach(item => {
+      if(item.dataset.title.includes(val)){
+          item.style.display = "block";
+          found = true;
+      } else {
+          item.style.display = "none";
+      }
+  });
+  if(!found) document.getElementById("projectGrid").innerHTML = "<p class='text-gray-300 col-span-full'>No projects found.</p>";
+});
+
+/* --- SCROLL TO TOP --- */
+const scrollBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+    scrollBtn.style.display = (window.scrollY > 300) ? 'block' : 'none';
+});
+scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+
+{% endblock %}

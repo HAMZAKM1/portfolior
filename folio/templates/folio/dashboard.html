@@ -1,0 +1,124 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+.dashboard-container {
+    margin-top: 80px;
+    padding: 20px;
+    color: #fff;
+}
+
+.stats-box {
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+}
+.stats-box:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.12);
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.profile-img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #00eaff;
+}
+
+.card-item {
+    background: rgba(255,255,255,0.06);
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 12px;
+}
+
+</style>
+
+<div class="container dashboard-container">
+
+    <h2 class="text-center mb-4">🌟 Dashboard Overview</h2>
+
+    <!-- Top Stats -->
+    <div class="row text-center">
+        <div class="col-md-3">
+            <div class="stats-box">
+                <h4>Projects</h4>
+                <h2>{{ projects|length }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stats-box">
+                <h4>Skills</h4>
+                <h2>{{ skills|length }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stats-box">
+                <h4>Blogs</h4>
+                <h2>{{ blogs|length }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stats-box">
+                <h4>Visitors</h4>
+                <h2>{{ visitors|length }}</h2>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Profile Section -->
+    <h3 class="section-title">👤 Profile</h3>
+    <div class="card-item d-flex align-items-center">
+        <img src="{{ profile.image.url }}" class="profile-img" alt="Profile">
+
+        <div class="ms-4">
+            <h4>{{ profile.name }}</h4>
+            <p>{{ profile.bio }}</p>
+            <a href="{% url 'index' %}" class="btn btn-info btn-sm mt-2">View Portfolio</a>
+        </div>
+    </div>
+
+
+    <!-- Recent Projects -->
+    <h3 class="section-title">🛠 Latest Projects</h3>
+
+    {% for p in projects|slice:":3" %}
+        <div class="card-item">
+            <h4>{{ p.title }}</h4>
+            <p>{{ p.short_description }}</p>
+        </div>
+    {% empty %}
+        <p>No projects found.</p>
+    {% endfor %}
+
+
+    <!-- Recent Blogs -->
+    <h3 class="section-title">📝 Latest Blog Posts</h3>
+
+    {% for b in blogs|slice:":3" %}
+        <div class="card-item">
+            <h4>{{ b.title }}</h4>
+            <p>{{ b.content|truncatewords:20 }}</p>
+        </div>
+    {% empty %}
+        <p>No blog posts available.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

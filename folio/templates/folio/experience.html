@@ -1,0 +1,99 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="page-section">
+    <h1 class="page-title">Experience</h1>
+
+    <!-- Experience Timeline -->
+    <div class="glass-box experience-section">
+        <h2>My Work Experience</h2>
+
+        <ul class="timeline">
+            <li>
+                <div class="timeline-content">
+                    <span class="timeline-year">2025 - Present</span>
+                    <h3>SQL Intern <small>@ XYZ Company</small></h3>
+                    <p>Worked on building reporting dashboards, optimizing SQL queries, and automating data workflows.</p>
+                </div>
+            </li>
+            <li>
+                <div class="timeline-content">
+                    <span class="timeline-year">2024 - 2025</span>
+                    <h3>Web Developer <small>@ ABC Company</small></h3>
+                    <p>Developed dynamic e-commerce websites using Django & React, improved site performance, and implemented payment integrations.</p>
+                </div>
+            </li>
+            <li>
+                <div class="timeline-content">
+                    <span class="timeline-year">2023 - 2024</span>
+                    <h3>Frontend Developer <small>@ Tech Solutions</small></h3>
+                    <p>Created responsive UI components, worked with modern JavaScript frameworks, and collaborated on design improvements.</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<style>
+/* Glass Box */
+.glass-box {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+.glass-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Timeline Styles */
+.timeline {
+    list-style: none;
+    padding-left: 0;
+    position: relative;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #00ffff;
+    border-radius: 2px;
+}
+.timeline li {
+    position: relative;
+    margin: 20px 0 20px 60px;
+}
+.timeline-year {
+    font-weight: bold;
+    color: #ff69b4;
+    font-size: 1.1em;
+}
+.timeline-content {
+    background: rgba(255,255,255,0.05);
+    padding: 15px 20px;
+    border-radius: 12px;
+    border-left: 4px solid #00ffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(0,255,255,0.3);
+}
+.timeline-content h3 {
+    margin: 5px 0;
+    color: #00ffff;
+}
+.timeline-content small {
+    color: #ff69b4;
+}
+.timeline-content p {
+    margin: 8px 0 0 0;
+}
+</style>
+{% endblock %}

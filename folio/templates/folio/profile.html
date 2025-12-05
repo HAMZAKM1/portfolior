@@ -1,0 +1,502 @@
+{# folio/templates/folio/profile.html #}
+{% extends "folio/base.html" %}
+{% load static %}
+{% load tz %}
+
+{% block title %}Profile — {{ request.user.username }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<style>
+/* ---------- Layout ---------- */
+.container-sm { max-width:1100px; }
+.cover {
+  height: 260px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::after {
+  content: "";
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45));
+}
+.profile-grid { display:grid; grid-template-columns: 360px 1fr; gap:22px; margin-top:-80px; }
+@media (max-width:980px){ .profile-grid{ grid-template-columns:1fr; margin-top:-40px; } }
+
+/* ---------- Card styles ---------- */
+.water-box { border-radius:12px; padding:14px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+.profile-card { border-radius:12px; padding:18px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); }
+
+/* ---------- Avatar ---------- */
+.avatar { width:150px; height:150px; border-radius:50%; object-fit:cover; border:6px solid rgba(138,63,252,0.14); background:#222; display:block; margin:0 auto; }
+
+/* ---------- Small utils ---------- */
+.stat-box { padding:12px; border-radius:10px; background:rgba(255,255,255,0.02); text-align:center; }
+.badge-level { padding:6px 10px; border-radius:999px; font-weight:600; font-size:.85rem; color:#fff; }
+.badge-online { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:-1px; }
+
+/* ---------- Strength meter ---------- */
+.strength { height:18px; background:#1b1b1b; border-radius:10px; overflow:hidden; }
+.strength .bar { height:100%; width:0%; transition: width 1s ease; }
+
+/* ---------- Heatmap ---------- */
+.heatmap { display:grid; grid-template-columns: repeat(14, 1fr); gap:4px; margin:6px 0; }
+.heat-square { width:100%; padding-bottom:100%; border-radius:3px; position:relative; overflow:hidden; }
+.hm-0{ background:#0f1720 } .hm-1{ background:#16324a } .hm-2{ background:#1f77b4 } .hm-3{ background:#3aa0ff } .hm-4{ background:#7bdcff }
+
+/* ---------- Skill cloud ---------- */
+.tech-cloud { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.tech-pill { padding:6px 10px; border-radius:999px; background:rgba(255,255,255,0.03); font-weight:600; transform-origin:center; transition: transform .35s; }
+.tech-pill:hover { transform: scale(1.06); }
+
+/* ---------- Timeline ---------- */
+.timeline { list-style:none; padding:0; margin:0; }
+.timeline li { position:relative; padding:12px 12px 12px 48px; border-left:2px solid rgba(255,255,255,0.03); margin-bottom:8px; }
+.timeline li::before { content:""; position:absolute; left:28px; top:18px; width:12px; height:12px; border-radius:50%; background:#8a3ffd; }
+
+/* ---------- Certificates grid ---------- */
+.cert-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap:12px; }
+.cert-card { border-radius:10px; padding:10px; background:rgba(0,0,0,0.25); text-align:center; }
+
+/* ---------- Responsive small fixes ---------- */
+@media (max-width:600px){ .avatar { width:120px; height:120px } .profile-grid { gap:12px } }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container-sm">
+
+    {# ---------- COVER BANNER ---------- #}
+    <div class="cover"
+         style="background-image: url('{% if profile and profile.cover_image and profile.cover_image.name %}{{ profile.cover_image.url }}{% else %}{% static 'images/cover-default.jpg' %}{% endif %}');">
+      <div style="position:absolute; right:16px; bottom:14px;">
+        <button class="btn btn-sm btn-outline-light" id="download-qr-btn" title="Download profile QR">📱 QR</button>
+        <button class="btn btn-sm btn-light" id="follow-btn"
+                data-following="{% if followers|default:0 > 0 and profile.is_following %}1{% else %}0{% endif %}">
+          {% if profile.is_following %}Following{% else %}Follow{% endif %}
+        </button>
+      </div>
+    </div>
+
+    <div class="profile-grid">
+
+      {# ---------- LEFT: PROFILE CARD ---------- #}
+      <div class="profile-card water-box" id="profileCard">
+        <div class="text-center">
+          {% if profile and profile.profile_image and profile.profile_image.name %}
+            <img class="avatar" id="avatarImg" src="{{ profile.profile_image.url }}" alt="avatar">
+          {% else %}
+            <img class="avatar" id="avatarImg" src="{% static 'images/default-profile.png' %}" alt="avatar">
+          {% endif %}
+
+          <h3 id="fullname" style="margin-top:12px;">
+            <span class="inline-edit" data-field="full_name">{{ profile.full_name|default:request.user.username }}</span>
+            <span id="statusDot" style="margin-left:8px;" title="{% if profile.last_seen %}Last seen {{ profile.last_seen|date:'F j, Y, g:i a' }}{% else %}No activity recorded{% endif %}"></span>
+          </h3>
+
+          <div style="margin:6px 0;">
+            <span id="levelBadge" class="badge-level">Loading…</span>
+            <small class="text-muted d-block mt-1">{{ profile.headline|default:"Full-Stack Developer — Django, React, AWS" }}</small>
+          </div>
+
+          <div class="d-flex justify-content-center gap-2 mt-3">
+            <a class="btn btn-gradient" href="{% url 'edit_profile' %}">Edit Profile</a>
+            <button class="btn btn-outline-light" id="messageMeBtn">Message</button>
+          </div>
+        </div>
+
+        <hr style="margin:12px 0; border-top:1px solid rgba(255,255,255,0.03)">
+
+        {# small stats #}
+        <div class="row g-2">
+          <div class="col-4"><div class="stat-box">Projects<br><strong id="projCount">{{ projects|length }}</strong></div></div>
+          <div class="col-4"><div class="stat-box">Skills<br><strong id="skillsCount">{{ skills|length }}</strong></div></div>
+          <div class="col-4"><div class="stat-box">Followers<br><strong id="followerCount">{{ followers|default:0 }}</strong></div></div>
+        </div>
+
+        <hr style="margin:12px 0; border-top:1px solid rgba(255,255,255,0.03)">
+
+        {# Strength meter #}
+        <div class="mt-2">
+          <h6>Profile Strength <small class="text-muted">(completeness)</small></h6>
+          <div class="strength mt-2"><div class="bar" id="strengthBar"></div></div>
+          <div class="small text-muted mt-1" id="strengthText">Calculating…</div>
+        </div>
+
+        <hr style="margin:12px 0; border-top:1px solid rgba(255,255,255,0.03)">
+
+        {# social & QR #}
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div>
+            {% if profile.github %}<a href="{{ profile.github }}" class="badge" target="_blank"><i class="fab fa-github"></i></a>{% endif %}
+            {% if profile.linkedin %}<a href="{{ profile.linkedin }}" class="badge" target="_blank"><i class="fab fa-linkedin"></i></a>{% endif %}
+            {% if profile.twitter %}<a href="{{ profile.twitter }}" class="badge" target="_blank"><i class="fab fa-twitter"></i></a>{% endif %}
+          </div>
+
+          <div class="qr-box">
+            <div id="qrImageContainer"><img id="qrImage" alt="qr" style="width:64px;height:64px;border-radius:6px"></div>
+            <div style="font-size:.85rem;color:#bfc7d3">Share</div>
+          </div>
+        </div>
+
+      </div>
+
+      {# ---------- RIGHT: MAIN CONTENT ---------- #}
+      <div>
+
+        {# ABOUT #}
+        <div class="water-box mb-3">
+          <div class="d-flex justify-content-between align-items-start">
+            <h5>About</h5>
+            <small class="text-muted">Joined: {{ request.user.date_joined|date:"F j, Y" }}</small>
+          </div>
+          <p id="bioText">{{ profile.bio|default:"Add a short bio about yourself." }}</p>
+        </div>
+
+        {# Skills & Skill Radar + Tech Cloud #}
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <div class="water-box mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6>Skill Overview</h6>
+                <small class="text-muted">{{ skills|length }} skills</small>
+              </div>
+              <canvas id="skillsRadar" height="240"></canvas>
+              <div class="mt-2 tech-cloud" id="techCloud">
+                {% for s in skills %}
+                  <div class="tech-pill" data-size="{{ s.level }}">{{ s.name }}</div>
+                {% empty %}
+                  <div class="small text-muted">No skills yet.</div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          {# Activity heatmap & visitors #}
+          <div class="col-lg-6">
+            <div class="water-box mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6>Activity Heatmap</h6>
+                <small class="text-muted">{{ visitors_count|default:0 }} profile views</small>
+              </div>
+              <div id="heatmap" class="heatmap" aria-hidden="false"></div>
+              <div class="mt-2 small text-muted">Darker = more activity</div>
+            </div>
+          </div>
+        </div>
+
+        {# Timeline + Charts #}
+        <div class="row g-3">
+          <div class="col-lg-7">
+            <div class="water-box mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6>Achievement Timeline</h6>
+                <a class="small" href="#" id="addTimelineBtn">+ Add</a>
+              </div>
+              <ul class="timeline" id="timelineList">
+                {% for a in activity %}
+                  <li>
+                    <div><strong>{{ a.title|default:a }}</strong></div>
+                    <div class="small text-muted">{{ a.ts|default:"" }}</div>
+                    <div class="small text-muted">{{ a.desc|default:"" }}</div>
+                  </li>
+                {% empty %}
+                  <li>No recent activity</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="water-box mb-3">
+              <h6>Portfolio Stats</h6>
+              <canvas id="portfolioChart" height="220"></canvas>
+              <div class="small text-muted mt-2">Projects vs Interactions (sample)</div>
+            </div>
+
+            <div class="water-box mb-3">
+              <h6>Resume</h6>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-light" id="previewResumeBtn">Preview</button>
+                {% if profile.resume_url %}
+                  <a class="btn btn-gradient" href="{{ profile.resume_url }}" target="_blank">Download</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {# Certificates #}
+        <div class="water-box mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <h6>Certificates</h6>
+            <a href="#" id="uploadCertBtn" class="small">Upload</a>
+          </div>
+          <div class="cert-grid mt-3" id="certGrid">
+            {% for c in certificates %}
+              <div class="cert-card">
+                <div style="font-weight:700">{{ c.title }}</div>
+                <div class="small text-muted">{{ c.issuer }}</div>
+                {% if c.url %}
+                  <a href="{{ c.url }}" target="_blank" class="btn btn-sm btn-outline-light mt-2">View</a>
+                {% endif %}
+              </div>
+            {% empty %}
+              <div class="small text-muted">No certificates yet.</div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    {# Followers modal (placeholder) #}
+    <div class="modal" id="followersModal" tabindex="-1" style="display:none;">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content water-box">
+          <div class="modal-header"><h5>Followers</h5><button class="btn-close" id="closeFollowers">✕</button></div>
+          <div class="modal-body" id="followersList"><div class="small text-muted">No followers data.</div></div>
+        </div>
+      </div>
+    </div>
+
+    {# Resume Preview modal #}
+    <div class="modal" id="resumeModal" tabindex="-1" style="display:none;">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content water-box">
+          <div class="modal-header"><h5>Resume Preview</h5><button class="btn-close" id="closeResume">✕</button></div>
+          <div class="modal-body" id="resumePreviewBody">
+            {% if profile.resume_url %}
+              <embed src="{{ profile.resume_url }}" type="application/pdf" width="100%" height="600px" />
+            {% else %}
+              <div class="small text-muted">No resume uploaded.</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* -------------------------
+   Defensive helper: check file existence safely
+   ------------------------- */
+function hasFileAttr(obj, prop) {
+  try { return obj && obj[prop] && obj[prop].length && obj[prop] !== 'None'; } catch(e){ return false; }
+}
+
+/* -------------------------
+   QR generation (Google Chart API)
+   ------------------------- */
+function setQR() {
+  const u = encodeURIComponent(window.location.origin + "/users/{{ request.user.username }}/");
+  const size = 200;
+  const src = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${u}&choe=UTF-8`;
+  const qr = document.getElementById('qrImage');
+  if (qr) qr.src = src;
+}
+document.getElementById('download-qr-btn')?.addEventListener('click', function(){
+  const src = document.getElementById('qrImage').src;
+  const a = document.createElement('a'); a.href = src; a.download = '{{ request.user.username }}-profile-qr.png'; document.body.appendChild(a); a.click(); a.remove();
+});
+setQR();
+
+/* -------------------------
+   Profile status / level badge
+   ------------------------- */
+(function profileMeta(){
+  const lvlEl = document.getElementById('levelBadge');
+  const statusDot = document.getElementById('statusDot');
+  // compute simple badge by skills/projects counts
+  const skillCount = parseInt("{{ skills|length }}",10) || 0;
+  const projCount = parseInt("{{ projects|length }}",10) || 0;
+  const followers = parseInt("{{ followers|default:0 }}",10) || 0;
+
+  const score = Math.min(100, Math.round((skillCount * 6) + (projCount * 8) + (followers * 0.5) + ({{ profile.github|yesno:"10,0" }})));
+  // choose label
+  let label = 'Beginner'; let color = '#6c757d';
+  if (score >= 80) { label='Expert'; color='#ff4d4f'; }
+  else if (score >= 60) { label='Advanced'; color='#f59e0b'; }
+  else if (score >= 35) { label='Intermediate'; color='#10b981'; }
+  else { label='Beginner'; color='#6c757d'; }
+
+  if (lvlEl) { lvlEl.textContent = label; lvlEl.style.background = color; }
+  // status dot (simple: if last_seen within 10min -> online)
+  const lastSeenRaw = "{{ profile.last_seen|default:'' }}";
+  if (statusDot) {
+    let isOnline = false;
+    try {
+      if (lastSeenRaw) {
+        const last = new Date("{{ profile.last_seen|date:'c' }}");
+        const diffMin = (Date.now() - last.getTime()) / 60000;
+        isOnline = diffMin <= 10;
+      }
+    } catch(e){}
+    statusDot.innerHTML = isOnline ? '<span class="badge-online" style="background: #2dd4bf"></span><small class="text-muted">Online</small>' : '<span class="badge-online" style="background: #9ca3af"></span><small class="text-muted">Last active</small>';
+  }
+
+  // animate strength bar
+  const bar = document.getElementById('strengthBar');
+  const txt = document.getElementById('strengthText');
+  if (bar) {
+    const strength = score; // reuse score
+    bar.style.background = `linear-gradient(90deg, rgba(138,63,252,0.9) 0%, rgba(59,130,246,0.9) 100%)`;
+    setTimeout(()=> bar.style.width = strength + "%", 120);
+    if (txt) txt.textContent = strength + "% profile strength";
+  }
+
+})();
+
+/* -------------------------
+   Heatmap rendering
+   ------------------------- */
+(function renderHeatmap(){
+  const container = document.getElementById('heatmap');
+  if (!container) return;
+  let counts = [];
+  try {
+    counts = JSON.parse('{{ activity_counts|default:"[]"|escapejs }}');
+  } catch(e) { counts = []; }
+  if (!counts || counts.length < 1) {
+    // generate demo random distribution
+    for (let i=0;i<98;i++) counts.push(Math.floor(Math.random()*5));
+  }
+  container.innerHTML = '';
+  for (let v of counts) {
+    const sq = document.createElement('div');
+    sq.className = 'heat-square hm-' + Math.min(Math.max(Math.round(v),0),4);
+    container.appendChild(sq);
+  }
+})();
+
+/* -------------------------
+   Radar chart for skills
+   ------------------------- */
+(function renderRadar(){
+  const canvas = document.getElementById('skillsRadar');
+  if (!canvas) return;
+  const names = [], values = [];
+  {% for s in skills %}
+    names.push("{{ s.name|escapejs }}");
+    values.push({{ s.level|default:50 }});
+  {% endfor %}
+  if (names.length === 0) {
+    names.push('Django','React','AWS','Python','SQL');
+    values.push(80,70,55,88,72);
+  }
+  new Chart(canvas.getContext('2d'), {
+    type: 'radar',
+    data: {
+      labels: names,
+      datasets: [{ label: 'Skill level', data: values, fill:true, backgroundColor:'rgba(138,63,252,0.18)', borderColor:'rgba(138,63,252,0.9)', pointBackgroundColor:'rgba(255,255,255,0.8)' }]
+    },
+    options: { scales: { r: { beginAtZero:true, max:100, ticks:{display:false} } }, plugins:{legend:{display:false}} }
+  });
+})();
+
+/* -------------------------
+   Portfolio mini bar chart
+   ------------------------- */
+(function renderPortfolioChart(){
+  const canvas = document.getElementById('portfolioChart');
+  if (!canvas) return;
+  const labels = [], data = [];
+  {% for p in projects|slice:":6" %}
+    labels.push("{{ p.title|truncatechars:12|escapejs }}");
+    data.push({{ forloop.counter0|add:1 }});
+  {% endfor %}
+  if (labels.length === 0) { labels.push('Proj A','Proj B','Proj C'); data.push(12,8,18); }
+  new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets:[{ label:'Interactions', data: data, backgroundColor: 'rgba(138,63,252,0.9)' }] },
+    options: { plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}} }
+  });
+})();
+
+/* -------------------------
+   Tech cloud animation (size by skill.level)
+   ------------------------- */
+(function cloudSizes(){
+  document.querySelectorAll('.tech-pill').forEach(el=>{
+    const size = parseInt(el.dataset.size || 40,10);
+    const scale = 0.8 + (Math.min(100, size)/100) * 1.2;
+    el.style.fontSize = Math.max(12, Math.round(12*scale)) + 'px';
+    el.style.opacity = 0.95;
+  });
+})();
+
+/* -------------------------
+   Inline-edit quick behavior (POST to edit_profile)
+   ------------------------- */
+document.querySelectorAll('.inline-edit').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const field = el.dataset.field;
+    const current = el.textContent.trim();
+    const input = document.createElement('input'); input.type='text'; input.value=current;
+    input.className='form-control'; input.style.display='inline-block'; input.style.width='auto';
+    el.replaceWith(input); input.focus();
+    function save(){
+      const newVal = input.value.trim();
+      const payload = new FormData(); payload.append(field, newVal);
+      const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]")?.value;
+      fetch("{% url 'edit_profile' %}", { method:'POST', headers: csrftoken ? {'X-CSRFToken':csrftoken}:{}, body: payload })
+        .then(r=>{ if(!r.ok) alert('Save failed'); })
+        .finally(()=> {
+          const span = document.createElement('span'); span.className='inline-edit'; span.dataset.field=field; span.textContent=newVal||'{{ request.user.username }}';
+          input.replaceWith(span); span.addEventListener('click', ()=> span.click());
+        });
+    }
+    input.addEventListener('blur', save);
+    input.addEventListener('keydown', e=> { if (e.key==='Enter') save(); if (e.key==='Escape') { input.replaceWith(el); } });
+  });
+});
+
+/* -------------------------
+   Modal handlers
+   ------------------------- */
+document.getElementById('previewResumeBtn')?.addEventListener('click', ()=> { document.getElementById('resumeModal').style.display='block'; });
+document.getElementById('closeResume')?.addEventListener('click', ()=> { document.getElementById('resumeModal').style.display='none'; });
+document.getElementById('closeFollowers')?.addEventListener('click', ()=> { document.getElementById('followersModal').style.display='none'; });
+
+/* -------------------------
+   Message / follow actions (simple)
+   ------------------------- */
+document.getElementById('messageMeBtn')?.addEventListener('click', ()=> { location.href = "mailto:{{ request.user.email }}"; });
+document.getElementById('follow-btn')?.addEventListener('click', async function(){
+  const btn = this; btn.disabled = true;
+  const following = btn.dataset.following === '1';
+  try {
+    // TODO: Replace with real POST to your follow-toggle endpoint
+    await new Promise(r=>setTimeout(r, 300));
+    btn.dataset.following = following ? '0' : '1';
+    btn.textContent = following ? 'Follow' : 'Following';
+    const cnt = document.getElementById('followerCount');
+    if (cnt) cnt.textContent = Math.max(0, parseInt(cnt.textContent||'0') + (following ? -1 : 1));
+  } finally { btn.disabled = false; }
+});
+
+/* -------------------------
+   Theme toggle (persist in localStorage)
+   ------------------------- */
+(function themeSetup(){
+  const current = localStorage.getItem('theme') || '{{ request.COOKIES.theme|default:"dark" }}';
+  if (current === 'dark') document.documentElement.classList.add('dark');
+  window.toggleTheme = function(){
+    if (document.documentElement.classList.contains('dark')) { document.documentElement.classList.remove('dark'); localStorage.setItem('theme','light'); }
+    else { document.documentElement.classList.add('dark'); localStorage.setItem('theme','dark'); }
+  };
+})();
+</script>
+{% endblock %}

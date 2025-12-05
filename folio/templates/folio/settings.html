@@ -1,0 +1,232 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block title %}Settings — {{ request.user.username }}{% endblock %}
+
+{% block content %}
+
+<style>
+    .settings-box {
+        background: rgba(20,20,20,0.7);
+        border-radius: 18px;
+        padding: 25px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        transition: 0.3s ease;
+    }
+    .settings-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+    }
+    .section-title {
+        border-left: 4px solid #2196f3;
+        padding-left: 10px;
+        font-weight: 600;
+        color: #fff;
+    }
+    .theme-preview {
+        height: 50px;
+        border-radius: 10px;
+        background: linear-gradient(45deg, #111, #333);
+        transition: 0.3s;
+    }
+    .session-item {
+        background: rgba(255,255,255,0.06);
+        padding: 10px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+    }
+</style>
+
+
+<section class="section py-4">
+<div class="container-lg">
+<h2 class="text-light mb-4">⚙ Settings Panel</h2>
+
+<div class="row">
+
+<!-- LEFT SIDE -->
+<div class="col-lg-6">
+
+    <!-- PROFILE SETTINGS -->
+    <div class="settings-box mb-4">
+        <h4 class="section-title">👤 Profile Settings</h4>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-2">
+                <label class="form-label">Full Name</label>
+                <input class="form-control" name="full_name" value="{{ profile.full_name }}">
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">Location</label>
+                <input class="form-control" name="location" value="{{ profile.location }}">
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">Bio</label>
+                <textarea class="form-control" name="bio">{{ profile.bio }}</textarea>
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">Profile Image</label>
+                <input class="form-control" type="file" name="image">
+            </div>
+
+            <button class="btn btn-gradient w-100 mt-2">Save Profile</button>
+        </form>
+    </div>
+
+    <!-- SECURITY -->
+    <div class="settings-box mb-4">
+        <h4 class="section-title">🔐 Security</h4>
+
+        <form method="post" action="{% url 'change_password' %}">
+            {% csrf_token %}
+            <input class="form-control mb-2" type="password" name="old_password" placeholder="Current Password">
+            <input class="form-control mb-2" type="password" name="new_password1" placeholder="New Password">
+            <input class="form-control mb-2" type="password" name="new_password2" placeholder="Confirm New Password">
+
+            <button class="btn btn-outline-light w-100">Change Password</button>
+        </form>
+
+        <hr class="text-secondary">
+
+        <h6 class="text-light">🔑 Two-Factor Authentication</h6>
+        {% if profile.two_factor_enabled %}
+            <p class="text-success small">2FA is enabled</p>
+            <a href="{% url 'disable_2fa' %}" class="btn btn-danger btn-sm">Disable 2FA</a>
+        {% else %}
+            <p class="text-warning small">2FA is not enabled</p>
+            <a href="{% url 'enable_2fa' %}" class="btn btn-info btn-sm">Enable 2FA</a>
+        {% endif %}
+    </div>
+
+</div>
+
+
+<!-- RIGHT SIDE -->
+<div class="col-lg-6">
+
+    <!-- THEME -->
+    <div class="settings-box mb-4">
+        <h4 class="section-title">🎨 Theme & Appearance</h4>
+
+        <div class="theme-preview mb-3" id="themePreview"></div>
+
+        <button class="btn btn-outline-info w-100" onclick="toggleTheme()">Toggle Theme</button>
+
+        <script>
+            function toggleTheme() {
+                document.cookie = "theme=light; path=/";
+                location.reload();
+            }
+        </script>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="settings-box mb-4">
+        <h4 class="section-title">🔔 Notifications</h4>
+
+        <form method="post" action="{% url 'update_notifications' %}">{% csrf_token %}
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="email_updates"
+                    {% if profile.email_updates %}checked{% endif %}>
+                <label class="form-check-label">Email Updates</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="product_emails"
+                    {% if profile.product_emails %}checked{% endif %}>
+                <label class="form-check-label">Product Alerts</label>
+            </div>
+
+            <label class="form-label mt-2">Notification Sound</label>
+            <select name="notify_sound" class="form-control mb-2">
+                <option value="chime">Chime</option>
+                <option value="ding">Ding</option>
+                <option value="pop">Pop</option>
+            </select>
+
+            <button class="btn btn-gradient w-100">Save Notifications</button>
+        </form>
+    </div>
+
+    <!-- LANGUAGE -->
+    <div class="settings-box mb-4">
+        <h4 class="section-title">🌐 Language</h4>
+        <select class="form-control">
+            <option>English</option>
+            <option>Arabic</option>
+            <option>French</option>
+            <option>Hindi</option>
+        </select>
+    </div>
+
+    <!-- PRIVACY -->
+    <div class="settings-box mb-4">
+        <h4 class="section-title">🛡 Privacy Controls</h4>
+
+        <form method="post" action="{% url 'update_privacy' %}">
+            {% csrf_token %}
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="show_email"
+                    {% if profile.show_email %}checked{% endif %}>
+                <label class="form-check-label">Show Email Publicly</label>
+            </div>
+
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="show_skills"
+                    {% if profile.show_skills %}checked{% endif %}>
+                <label class="form-check-label">Show Skills Publicly</label>
+            </div>
+
+            <button class="btn btn-outline-light w-100">Save Privacy</button>
+        </form>
+    </div>
+
+    <!-- SESSION MANAGEMENT -->
+    <div class="settings-box mb-4">
+        <h4 class="section-title">💻 Active Sessions</h4>
+
+        {% for session in sessions %}
+            <div class="session-item">
+                <strong>{{ session.device }}</strong><br>
+                <small class="text-secondary">IP: {{ session.ip }} — {{ session.last_active }}</small>
+            </div>
+        {% empty %}
+            <p class="text-muted">No active sessions found.</p>
+        {% endfor %}
+
+        <a href="{% url 'logout_other_sessions' %}" class="btn btn-warning btn-sm w-100 mt-2">
+            Logout Other Devices
+        </a>
+    </div>
+
+    <!-- EXPORT DATA -->
+    <div class="settings-box mb-4">
+        <h4 class="section-title">📦 Export Your Data</h4>
+        <a href="{% url 'export_data' %}" class="btn btn-outline-info w-100">Download All Data (JSON)</a>
+    </div>
+
+    <!-- DANGER ZONE -->
+    <div class="settings-box">
+        <h4 class="section-title text-danger">⚠ Danger Zone</h4>
+        <p class="small text-muted">Delete your account permanently.</p>
+
+        <form method="post" action="{% url 'delete_account' %}">
+            {% csrf_token %}
+            <button class="btn btn-danger w-100"
+                    onclick="return confirm('⚠ Are you absolutely sure? This cannot be undone!');">
+                Delete Account Forever
+            </button>
+        </form>
+    </div>
+</div>
+
+</div> <!-- row -->
+</div>
+</section>
+
+{% endblock %}

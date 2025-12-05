@@ -1,0 +1,108 @@
+{% load static %}
+{% extends 'folio/base.html' %}
+
+{% block extra_css %}
+<style>
+body {
+  background: radial-gradient(circle at top, #0a0a0a, #000000 85%);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Particle Background */
+#particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+
+/* Glass Logout Box */
+.logout-box {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(25px);
+  border-radius: 25px;
+  padding: 50px 40px;
+  box-shadow: 0 0 40px #00eaff;
+  border: 1px solid rgba(0,255,255,0.2);
+  animation: float 5s ease-in-out infinite, fadeIn 1.5s ease forwards;
+  max-width: 450px;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.logout-box h2 {
+  font-size: 36px;
+  color: #00eaff;
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px #00eaff;
+}
+
+.logout-box a {
+  display: inline-block;
+  margin: 10px 15px;
+  padding: 12px 25px;
+  border-radius: 15px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg,#00eaff,#0066ff);
+  transition: 0.3s;
+}
+
+.logout-box a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00eaff;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Particle.js Background -->
+<div id="particles-js"></div>
+
+<div class="logout-box">
+  <h2>✅ You have been logged out!</h2>
+  <a href="{% url 'login' %}">Login Again 🔑</a>
+  <a href="{% url 'index' %}">Back to Home 🏠</a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+particlesJS("particles-js", {
+  "particles": {
+    "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
+    "color": { "value": "#00eaff" },
+    "shape": { "type": "circle" },
+    "opacity": { "value": 0.3 },
+    "size": { "value": 3 },
+    "line_linked": { "enable": true, "distance": 120, "color": "#00eaff", "opacity": 0.2, "width": 1 },
+    "move": { "enable": true, "speed": 2 }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": { "onhover": { "enable": true, "mode": "repulse" } }
+  }
+});
+</script>
+{% endblock %}

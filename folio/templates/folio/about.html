@@ -1,0 +1,120 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+<section class="page-section">
+    <h1 class="page-title">About Me</h1>
+
+    <!-- Profile Section -->
+    <div class="glass-box profile-section">
+        <div class="profile-image">
+            <img src="{% static 'images/profile.jpg' %}" alt="Profile Image">
+        </div>
+        <div class="profile-details">
+            <h2>Hi, I'm Hamza</h2>
+            <p>Full Stack Developer with a passion for building dynamic, responsive web applications and exploring new technologies.</p>
+            <div class="social-links">
+                <a href="https://github.com/yourusername" target="_blank">GitHub</a> |
+                <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a> |
+                <a href="https://twitter.com/yourusername" target="_blank">Twitter</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills Section -->
+    <div class="glass-box skills-section">
+        <h2>Skills</h2>
+        <div class="skill">
+            <span>Python</span>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width: 90%;"></div>
+            </div>
+        </div>
+        <div class="skill">
+            <span>Django</span>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width: 85%;"></div>
+            </div>
+        </div>
+        <div class="skill">
+            <span>JavaScript</span>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width: 75%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experience / Timeline Section -->
+    <div class="glass-box timeline-section">
+        <h2>Experience</h2>
+        <ul class="timeline">
+            <li>
+                <span class="timeline-year">2025</span>
+                <p>SQL Internship at XYZ Company – Built reporting dashboards and optimized queries.</p>
+            </li>
+            <li>
+                <span class="timeline-year">2024</span>
+                <p>Web Developer at ABC Company – Developed e-commerce platforms with Django & React.</p>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Education Section -->
+    <div class="glass-box education-section">
+        <h2>Education</h2>
+        <p>Bachelor's in Computer Science – University Name, 2024</p>
+    </div>
+
+    <!-- Fun Facts / Stats Section -->
+    <div class="glass-box stats-section">
+        <h2>Fun Facts</h2>
+        <div class="stats-grid">
+            <div class="stat">
+                <h3>10+</h3>
+                <p>Projects Completed</p>
+            </div>
+            <div class="stat">
+                <h3>2</h3>
+                <p>Internships</p>
+            </div>
+            <div class="stat">
+                <h3>100+</h3>
+                <p>GitHub Commits</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Glass boxes */
+.glass-box {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+.glass-box:hover { transform: translateY(-5px); }
+
+/* Profile Section */
+.profile-section { display: flex; gap: 20px; align-items: center; }
+.profile-image img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; }
+.social-links a { color: #00ffff; text-decoration: none; margin-right: 10px; }
+.social-links a:hover { color: #ff69b4; }
+
+/* Skills Section */
+.skill { margin-bottom: 15px; }
+.skill-bar { background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; height: 15px; }
+.skill-progress { background: #00ffff; height: 100%; transition: width 1s ease; }
+
+/* Timeline Section */
+.timeline { list-style: none; padding: 0; }
+.timeline li { margin-bottom: 15px; }
+.timeline-year { font-weight: bold; color: #ff69b4; margin-right: 10px; }
+
+/* Stats Section */
+.stats-grid { display: flex; gap: 20px; }
+.stat { text-align: center; color: #00ffff; }
+.stat h3 { font-size: 2em; margin: 0; }
+</style>
+{% endblock %}

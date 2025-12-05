@@ -1,0 +1,505 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hamza Portfolio{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Global Style -->
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+            background: #0d0d0f;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ---------------- Background Video ---------------- */
+        #bgVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -10;
+            object-fit: cover;
+            filter: brightness(0.3);
+        }
+
+        /* ---------------- Floating 3D Words ---------------- */
+        .floating-words {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            pointer-events: none;
+            z-index: -5;
+        }
+        .floating-word {
+            font-size: 2rem;
+            font-weight: 800;
+            color: rgba(0,234,255,0.2);
+            animation: float 12s infinite alternate ease-in-out;
+            white-space: nowrap;
+        }
+        @keyframes float {
+            0% { transform: translate3d(0,0,0) rotateY(0deg);}
+            50% { transform: translate3d(20px,-30px,50px) rotateY(180deg);}
+            100% { transform: translate3d(-20px,30px,-50px) rotateY(360deg);}
+        }
+
+        /* ---------------- Glass Overlay Boxes ---------------- */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-box:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0,234,255,0.2);
+        }
+
+        /* ---------------- Background Neon Glow Overlay ---------------- */
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -5;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0,234,255,0.18), transparent 50%),
+                radial-gradient(circle at 80% 60%, rgba(138,63,252,0.18), transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(255,107,107,0.18), transparent 60%);
+            filter: blur(70px);
+        }
+
+        /* ---------------- Loader ---------------- */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+        }
+        .loader-ring {
+            width: 70px;
+            height: 70px;
+            border: 4px solid #222;
+            border-top: 4px solid #00eaff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg);} }
+
+        /* ---------------- Progress Bar ---------------- */
+        #progressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg,#00eaff,#8a3ffc);
+            width: 0%;
+            z-index: 9999;
+        }
+
+        /* ---------------- Navbar ---------------- */
+        .glass-nav {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            padding: 16px 0;
+            backdrop-filter: blur(18px) saturate(180%);
+            background: rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: .3s ease;
+        }
+        .glass-nav.scrolled {
+            padding: 8px 0;
+            background: rgba(0,0,0,0.75);
+        }
+        .navbar-brand {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00eaff, #8a3ffc);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .nav-link {
+            color: #eaeaea !important;
+            padding: 12px 18px;
+            border-radius: 12px;
+            transition: .3s;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            background: rgba(255,255,255,0.12);
+        }
+        .active {
+            background: linear-gradient(90deg, #00eaff, #8a3ffc);
+            color: #000 !important;
+        }
+
+        /* Dropdown Fix */
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu {
+            background: rgba(0,0,0,0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            margin-top: 12px;
+        }
+        .dropdown-item { color: #ddd; }
+        .dropdown-item:hover { background: rgba(255,255,255,0.15); }
+
+        /* AI Assistant */
+        #assistantBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 25px;
+            background: linear-gradient(90deg,#00eaff,#8a3ffc);
+            color: black;
+            padding: 18px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 999999;
+        }
+        #assistantPopup {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 320px;
+            background: rgba(0,0,0,0.9);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: none;
+            z-index: 999999;
+        }
+
+        /* Back to top */
+        #backTop {
+            position: fixed;
+            bottom: 30px;
+            left: 25px;
+            padding: 15px;
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            z-index: 99999;
+        }
+
+        /* Django Messages */
+        .django-message {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            z-index: 99999;
+            padding: 14px 22px;
+            border-radius: 12px;
+            background: linear-gradient(90deg,#00eaff,#8a3ffc);
+            color: #000;
+            font-weight: 600;
+            animation: fadeInRight .6s ease both;
+        }
+        @keyframes fadeInRight { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
+
+        /* Footer */
+        footer {
+            margin-top: 90px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<!-- Background Video -->
+<video id="bgVideo" autoplay muted loop>
+    <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+</video>
+
+<!-- Floating 3D Words -->
+<div class="floating-words">
+    <span class="floating-word">Skills</span>
+    <span class="floating-word">Experience</span>
+    <span class="floating-word">Education</span>
+    <span class="floating-word">Projects</span>
+    <span class="floating-word">Certificates</span>
+    <span class="floating-word">Testimonials</span>
+</div>
+
+<!-- Background Neon Overlay -->
+<div class="bg-overlay"></div>
+
+<!-- Progress Bar -->
+<div id="progressBar"></div>
+
+<!-- Loader -->
+<div id="loader">
+    <div class="loader-ring"></div>
+</div>
+
+<!-- Floating Keywords Banner -->
+<div class="floating-keywords">
+  <span>Skills</span>
+  <span>Experience</span>
+  <span>Education</span>
+  <span>Projects</span>
+  <span>Certificates</span>
+  <span>Testimonials</span>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg glass-nav" id="topNav">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <span class="brand-gradient">HAMZA.DEV</span>
+    </a>
+
+    <!-- Hamburger -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="toggler-icon"><i class="fa fa-bars"></i></span>
+    </button>
+
+    <!-- Navbar Menu -->
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center">
+
+        <!-- Home -->
+        <li class="nav-item floating-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+        </li>
+
+        <!-- Projects Dropdown -->
+        <li class="nav-item dropdown floating-item">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Projects</a>
+          <ul class="dropdown-menu animated-dropdown mega-menu">
+            <li><a class="dropdown-item" href="{% url 'projects' %}"><i class="fa fa-layer-group me-2"></i>All Projects</a></li>
+            <li><a class="dropdown-item" href="{% url 'featured_projects' %}"><i class="fa fa-star me-2"></i>Featured</a></li>
+            <li><a class="dropdown-item" href="{% url 'latest_projects' %}"><i class="fa fa-clock me-2"></i>Latest</a></li>
+          </ul>
+        </li>
+
+        <!-- Skills -->
+        <li class="nav-item floating-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'skills' %}active{% endif %}" href="{% url 'skills' %}">Skills</a>
+        </li>
+
+        <!-- Portfolio Dropdown -->
+        <li class="nav-item dropdown floating-item">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Portfolio</a>
+          <ul class="dropdown-menu animated-dropdown mega-menu">
+            <li><a class="dropdown-item" href="{% url 'about' %}"><i class="fa fa-user me-2"></i>About</a></li>
+            <li><a class="dropdown-item" href="{% url 'experience' %}"><i class="fa fa-briefcase me-2"></i>Experience</a></li>
+            <li><a class="dropdown-item" href="{% url 'education' %}"><i class="fa fa-graduation-cap me-2"></i>Education</a></li>
+            <li><a class="dropdown-item" href="{% url 'testimonials' %}"><i class="fa fa-comment-dots me-2"></i>Testimonials</a></li>
+          </ul>
+        </li>
+
+        <!-- Resume -->
+        <li class="nav-item floating-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'resume' %}active{% endif %}" href="{% url 'resume' %}">Resume</a>
+        </li>
+
+        <!-- Authenticated User -->
+        {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown floating-item">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'images/default_profile.png' %}" class="rounded-circle me-2" width="28" height="28" alt="Profile">
+            {{ request.user.username }}
+            <span class="badge bg-danger badge-animated ms-2">3</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end animated-dropdown">
+            <li><a class="dropdown-item" href="{% url 'profile' %}">My Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item floating-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+        <li class="nav-item floating-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+        {% endif %}
+
+        <!-- Dark Mode Toggle -->
+        <li class="nav-item ms-3">
+          <div class="toggle-dark d-flex align-items-center" onclick="toggleTheme()">
+            <i class="fa fa-moon" id="themeIcon"></i>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Extra CSS -->
+<style>
+  /* Glassy Navbar */
+  .glass-nav {
+    backdrop-filter: blur(22px) saturate(180%);
+    background: rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+  }
+  .glass-nav.scrolled {
+    background: rgba(0,0,0,0.75);
+    box-shadow: 0 4px 20px rgba(0,234,255,0.2);
+  }
+
+  /* Floating Keywords Banner */
+  .floating-keywords {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 5px 0;
+    font-weight: 600;
+    color: #00eaff;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    animation: floatWords 15s linear infinite;
+    overflow: hidden;
+  }
+  .floating-keywords span {
+    animation: floatIndividual 5s ease-in-out infinite alternate;
+    display: inline-block;
+  }
+  @keyframes floatWords {
+    0% {transform: translateX(0);}
+    100% {transform: translateX(-100%);}
+  }
+  @keyframes floatIndividual {
+    0% { transform: translateY(0);}
+    100% { transform: translateY(-6px);}
+  }
+
+  /* Hover 3D effect for nav items */
+  .floating-item a {
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+  }
+  .floating-item a:hover {
+    transform: translateY(-4px) scale(1.05);
+    text-shadow: 0 0 8px #00eaff, 0 0 12px #8a3ffc;
+  }
+
+  /* Animated notification badge */
+  .badge-animated {
+    animation: pulseBadge 1.5s infinite;
+  }
+  @keyframes pulseBadge {
+    0%, 100% { transform: scale(1);}
+    50% { transform: scale(1.3);}
+  }
+
+  /* Mega menu icons */
+  .mega-menu .dropdown-item i {
+    width: 18px;
+    text-align: center;
+  }
+
+</style>
+
+<!-- JS for scroll shrink & dark mode icon -->
+<script>
+  window.addEventListener("scroll", () => {
+    document.getElementById("topNav").classList.toggle("scrolled", window.scrollY > 50);
+  });
+
+  function toggleTheme(){
+    const html = document.documentElement;
+    const newTheme = html.dataset.theme === "dark" ? "light" : "dark";
+    html.dataset.theme = newTheme;
+    localStorage.setItem("theme", newTheme);
+
+    // Update icon
+    document.getElementById("themeIcon").className = newTheme === "dark" ? "fa fa-moon" : "fa fa-sun";
+  }
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";
+  document.getElementById("themeIcon").className = document.documentElement.dataset.theme === "dark" ? "fa fa-moon" : "fa fa-sun";
+</script>
+
+<!-- Django Messages -->
+{% if messages %}
+  {% for m in messages %}
+    <div class="django-message">{{ m }}</div>
+  {% endfor %}
+{% endif %}
+
+<!-- PAGE CONTENT -->
+{% block content %}{% endblock %}
+
+<!-- FOOTER -->
+<footer>
+  © {{ now|date:"Y" }} Hamza — Built with Django  
+</footer>
+
+<!-- AI Assistant -->
+<div id="assistantBtn"><i class="fas fa-robot"></i></div>
+<div id="assistantPopup">
+    <h6>AI Assistant</h6>
+    <p>How can I help you, Hamza?</p>
+</div>
+
+<!-- Back to top -->
+<div id="backTop"><i class="fa fa-arrow-up"></i></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Loader
+    window.onload = () => { setTimeout(()=>document.getElementById("loader").style.display="none",400); };
+
+    // Scroll progress & back-to-top
+    window.onscroll = function() {
+        let h=document.documentElement;
+        let scrolled=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+        document.getElementById("progressBar").style.width=scrolled+"%";
+        document.getElementById("backTop").style.display=window.scrollY>300?"block":"none";
+        document.getElementById("topNav").classList.toggle("scrolled",window.scrollY>50);
+    };
+    document.getElementById("backTop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+
+    // Dark Mode Toggle
+    function toggleTheme(){
+        const html=document.documentElement;
+        const newTheme=html.dataset.theme==="dark"?"light":"dark";
+        html.dataset.theme=newTheme;
+        localStorage.setItem("theme",newTheme);
+    }
+    document.documentElement.dataset.theme=localStorage.getItem("theme")||"dark";
+
+    // AI Assistant toggle
+    document.getElementById("assistantBtn").onclick=()=>{
+        const box=document.getElementById("assistantPopup");
+        box.style.display=(box.style.display==="block")?"none":"block";
+    };
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

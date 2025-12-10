@@ -170,7 +170,7 @@
             <a href="{% url 'resume' %}" class="btn btn-outline-light btn-glow">Download CV</a>
           </div>
 
-          <!-- Waterglass 3D Cards Slideshow -->
+         <!-- Waterglass 3D Cards Slideshow -->
           <div class="mt-5 hero-slideshow">
             <div class="slide active" style="--flash-color:#00eaff;">
               <h5>React Projects</h5>
@@ -184,8 +184,17 @@
               <h5>AWS Deployments</h5>
               <p>Cloud hosting and serverless solutions.</p>
             </div>
-          </div>
-
+            <div class="slide" style="--flash-color:#ff4d6d;">
+              <h5>Machine Learning Models</h5>
+              <p>Prediction systems, data analysis, and ML integrations.</p>
+            </div>
+            <div class="slide" style="--flash-color:#ff4d6d;">
+              <h5>Mobile Apps (Flutter)</h5>
+              <p>High-performance Android & iOS apps with clean UI.</p>
+            </div>
+            
+            
+          </div>   
         </div>
 
         <div class="col-lg-4 text-center mt-4 mt-lg-0">
@@ -230,7 +239,7 @@
   /* Hero Slideshow Cards */
   .hero-slideshow { display:flex; gap:20px; margin-top:2rem; perspective:1000px; }
   .hero-slideshow .slide {
-    background: rgba(0,0,0,0.25);
+    background: rgba(114, 204, 25, 0.93);
     backdrop-filter: blur(15px);
     border: 2px solid var(--flash-color,#00eaff);
     border-radius: 20px;
@@ -336,7 +345,7 @@
 <style>
 /* Skill Cards */
 .skill-card {
-  background: rgba(0,0,0,0.25);
+  background: rgba(232, 232, 21, 0.97);
   backdrop-filter: blur(15px);
   border: 2px solid rgba(0,234,255,0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
@@ -560,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function(){
 /* Glass / Neon Card */
 .project-card {
   border-radius: 1rem;
-  background: rgba(0,0,0,0.25);
+  background: rgba(231, 231, 30, 0.96);
   backdrop-filter: blur(15px);
   position: relative;
   transition: all 0.4s ease;
@@ -736,7 +745,7 @@ projectModal.addEventListener('show.bs.modal', event => {
   /* Glass/Water-box style */
   .testimonial-card {
     backdrop-filter: blur(15px);
-    background: rgba(0,0,0,0.25);
+    background: rgba(242, 211, 15, 0.96);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
   }
 

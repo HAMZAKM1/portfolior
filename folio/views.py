@@ -458,39 +458,7 @@ def delete_skill(request, skill_id):
 # SETTINGS VIEW
 # -------------------------------
 
-@login_required
-def settings_page(request):
-    user = request.user
 
-    if request.method == "POST":
-        # Update profile info
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-
-        if username:
-            user.username = username
-        
-        if email:
-            user.email = email
-        
-        user.save()
-        messages.success(request, "Profile updated successfully!")
-
-        # Password change section
-        if "old_password" in request.POST:
-            form = PasswordChangeForm(user, request.POST)
-            if form.is_valid():
-                form.save()
-                update_session_auth_hash(request, form.user)
-                messages.success(request, "Password changed successfully!")
-            else:
-                messages.error(request, "Invalid password details!")
-        
-        return redirect("settings")
-
-    # For GET request
-    form = PasswordChangeForm(user)
-    return render(request, "folio/settings.html", {"form": form})
 # Featured Projects Page
 def featured_projects(request):
     return render(request, "folio/featured_projects.html")
@@ -621,7 +589,42 @@ def logout_other_sessions(request):
                 session.delete()
 
     return redirect('settings')
+@login_required
+def settings_view(request):
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        profile = Profile(user=request.user)
+    
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Settings updated successfully!")
+            return redirect('settings')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = ProfileForm(instance=profile)
+    
+    # Fetch active sessions
+    sessions = []
+    all_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    for s in all_sessions:
+        data = s.get_decoded()
+        if data.get('_auth_user_id') == str(request.user.id):
+            sessions.append({
+                'device': 'Unknown',
+                'ip': data.get('ip', 'N/A'),
+                'last_active': s.expire_date,
+            })
 
+    context = {
+        'form': form,
+        'profile': profile,
+        'sessions': sessions,
+    }
+    return render(request, 'folio/settings.html', context)
 
 @login_required
 def export_data(request):
@@ -640,4 +643,7 @@ def export_data(request):
     )
     response['Content-Disposition'] = 'attachment; filename="user_data.json"'
     return response
-
+def support_page(request):
+    return render(request, "folio/support.html")  # Make sure this template exists
+def faq_page(request):
+    return render(request, "folio/faq.html")  # make sure you have this template

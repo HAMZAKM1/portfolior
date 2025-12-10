@@ -10,16 +10,12 @@ urlpatterns = [
     path("index/", views.index, name="index"),
     path("resume/", views.resume_view, name="resume"),
     path("newsletter/", views.newsletter_subscribe, name="newsletter"),
-<<<<<<< HEAD
+
+    # FAQ & Support
+    path('faq/', views.faq_page, name='faq'),
+    path('support/', views.support_page, name='support'),
 
     # Projects CRUD
-    
-=======
-    path('faq/', views.faq_page, name='faq'),
-    
-    # Projects
-    path('support/', views.support_page, name='support'),
->>>>>>> 6d348da (Fix urls.py duplicates and update static/media handling)
     path('projects/', views.projects, name='projects'),
     path("projects/add/", views.add_project, name="add_project"),
     path("projects/edit/<int:pk>/", views.edit_project, name="edit_project"),
@@ -49,7 +45,7 @@ urlpatterns = [
     path("change-password/", views.change_password, name="change_password"),
     path("update-notifications/", views.update_notifications, name="update_notifications"),
     path("delete-account/", views.delete_account, name="delete_account"),
-    
+
     # Skills
     path("skills/", views.skills_page, name="skills"),
     path("skills/add/", views.add_skill, name="add_skill"),
@@ -70,10 +66,7 @@ urlpatterns = [
     path("portfolio/", views.portfolio, name="portfolio"),
     path("messages/", views.messages_view, name="messages"),
     path("help/", views.help_view, name="help"),
-    path("settings/", user_settings, name="settings"),
-    path("settings/", views.user_settings, name="user_settings"),
-    path("settings/", views.settings_page, name="settings"),
-
+    path('settings/', views.settings_view, name='settings'),
 ]
 
 # Serve static and media files during development

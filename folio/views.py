@@ -15,7 +15,8 @@ from django.contrib import messages
 from django.contrib.sessions.models import Session
 from django.contrib.auth import update_session_auth_hash
 import json
-
+from django.http import HttpResponse
+import csv
 from .forms import ProjectForm, ProjectGalleryForm
 from .models import Project, ProjectGallery
 from .forms import ProjectForm
@@ -647,3 +648,20 @@ def support_page(request):
     return render(request, "folio/support.html")  # Make sure this template exists
 def faq_page(request):
     return render(request, "folio/faq.html")  # make sure you have this template
+
+
+def export_data(request):
+    # Example CSV export
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="data_export.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(["Name", "Email"])
+    writer.writerow([request.user.username, request.user.email])
+
+    return response
+@login_required
+def logout_other_sessions(request):
+    request.user.session_set.exclude(session_key=request.session.session_key).delete()
+    messages.success(request, "Other sessions logged out.")
+    return redirect("settings")

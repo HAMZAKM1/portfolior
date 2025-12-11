@@ -3,18 +3,21 @@ from .views import user_settings
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.contrib.auth import views as auth_views
+from folio import views as folio_views
 urlpatterns = [
     path("", views.home, name="home"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("index/", views.index, name="index"),
     path("resume/", views.resume_view, name="resume"),
     path("newsletter/", views.newsletter_subscribe, name="newsletter"),
-
+    path("logout-other-sessions/", auth_views.LogoutView.as_view(), name="logout_other_sessions"),
     # FAQ & Support
+    path("logout-other-sessions/", views.logout_other_sessions, name="logout_other_sessions"),
+
     path('faq/', views.faq_page, name='faq'),
     path('support/', views.support_page, name='support'),
-
+    path("export-data/", folio_views.export_data, name="export_data"),
     # Projects CRUD
     path('projects/', views.projects, name='projects'),
     path("projects/add/", views.add_project, name="add_project"),

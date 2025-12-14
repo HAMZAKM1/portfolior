@@ -5,19 +5,27 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from folio import views as folio_views
+
 urlpatterns = [
+    # Home & Dashboard
     path("", views.home, name="home"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("index/", views.index, name="index"),
+
+    # Resume & Newsletter
     path("resume/", views.resume_view, name="resume"),
     path("newsletter/", views.newsletter_subscribe, name="newsletter"),
-    path("logout-other-sessions/", auth_views.LogoutView.as_view(), name="logout_other_sessions"),
-    # FAQ & Support
+
+    # Logout other sessions
     path("logout-other-sessions/", views.logout_other_sessions, name="logout_other_sessions"),
 
+    # FAQ & Support
     path('faq/', views.faq_page, name='faq'),
     path('support/', views.support_page, name='support'),
+
+    # Data Export
     path("export-data/", folio_views.export_data, name="export_data"),
+
     # Projects CRUD
     path('projects/', views.projects, name='projects'),
     path("projects/add/", views.add_project, name="add_project"),
@@ -69,10 +77,20 @@ urlpatterns = [
     path("portfolio/", views.portfolio, name="portfolio"),
     path("messages/", views.messages_view, name="messages"),
     path("help/", views.help_view, name="help"),
-    path('settings/', views.settings_view, name='settings'),
+    path("settings/", views.user_settings, name="settings"),
+    path("skills/<str:tech>/", views.skill_detail, name="skill_detail"),
+    path("skills/python/", views.python_view, name="python"),
+    path("skills/java/", views.java_view, name="java"),
+    path("skills/react/", views.react_view, name="react"),
+    path("skills/django/", views.django_view, name="django"),
+    path("skills/aws/", views.aws_view, name="aws"),
+    path("skills/ml/", views.ml_view, name="ml"),
+    path("skills/flutter/", views.flutter_view, name="flutter"),
+    path("skills/c/", views.c_view, name="c"),
+
 ]
 
-# Serve static and media files during development
+# Static files
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

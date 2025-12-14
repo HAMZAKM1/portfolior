@@ -665,3 +665,28 @@ def logout_other_sessions(request):
     request.user.session_set.exclude(session_key=request.session.session_key).delete()
     messages.success(request, "Other sessions logged out.")
     return redirect("settings")
+def skill_detail(request, tech):
+    return render(request, f"skills/{tech}.html")
+def python_view(request):
+    return render(request, "skills/python.html")
+
+def java_view(request):
+    return render(request, "skills/java.html")
+
+def react_view(request):
+    return render(request, "skills/react.html")
+
+def django_view(request):
+    return render(request, "skills/django.html")
+
+def aws_view(request):
+    return render(request, "skills/aws.html")
+
+def ml_view(request):
+    return render(request, "skills/ml.html")
+
+def flutter_view(request):
+    return render(request, "skills/flutter.html")
+
+def c_view(request):
+    return render(request, "skills/c.html")

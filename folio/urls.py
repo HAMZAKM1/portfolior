@@ -38,7 +38,7 @@ urlpatterns = [
     path("blog/<int:pk>/", views.blog_detail, name="blog_detail"),
 
     # Contact & Profile
-    path("contact/", views.contact_view, name="contact"),
+
     path("contact/success/", views.contact_success, name="contact_success"),
     path('profile/', views.profile_view, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
@@ -47,7 +47,7 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("register/", views.register_view, name="register"),
-
+    path("contact/", views.contact, name="contact"), 
     # Settings
     path("settings/", views.user_settings, name="user_settings"),
     path("settings/privacy/update/", views.update_privacy, name="update_privacy"),
@@ -62,6 +62,7 @@ urlpatterns = [
     path("skills/add/", views.add_skill, name="add_skill"),
     path("skills/update/<int:skill_id>/", views.update_skill, name="update_skill"),
     path("skills/delete/<int:skill_id>/", views.delete_skill, name="delete_skill"),
+    path("contact/", views.contact_view, name="contact_page"),
 
     # Other pages
     path("about/", views.about, name="about"),

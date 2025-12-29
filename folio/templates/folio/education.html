@@ -2,98 +2,247 @@
 {% load static %}
 
 {% block content %}
-<section class="page-section">
-    <h1 class="page-title">Education</h1>
 
-    <!-- Education Timeline -->
-    <div class="glass-box education-section">
-        <h2>My Education Background</h2>
+<section class="page-section position-relative overflow-hidden">
 
-        <ul class="timeline">
-            <li>
-                <div class="timeline-content">
-                    <span class="timeline-year">2025</span>
-                    <h3>Bachelor's in Computer Application <small>@ Manipal University Jaipur</small></h3>
-                    <p>Graduated with Honors. Focused on web development, databases, and software engineering.</p>
-                </div>
-            </li>
-            <li>
-                <div class="timeline-content">
-                    <span class="timeline-year">2023</span>
-                    <h3>Certification: SQL & Data Science/ML <small>@ Coursera</small></h3>
-                    <p>Completed a professional course on SQL queries, database management, and analytics tools.</p>
-                </div>
-            </li>
-            <li>
-                <div class="timeline-content">
-                    <span class="timeline-year">2022</span>
-                    <h3>High School Diploma <small>@ High School</small></h3>
-                    <p>Graduated with distinction. Participated in coding clubs and tech competitions.</p>
-                </div>
-            </li>
-        </ul>
+  <!-- Background Video -->
+
+  <video autoplay muted loop playsinline class="edu-bg-video">
+    <source src="{% static 'videos/education_bg.mp4' %}" type="video/mp4">
+  </video>
+
+  <div class="edu-overlay"></div>
+
+  <div class="container position-relative z-2">
+    <h1 class="page-title text-center mb-5 gradient-text">Education & Certifications</h1>
+
+```
+<!-- ================= EDUCATION TIMELINE ================= -->
+<div class="glass-box mb-5">
+  <h2 class="section-title">🎓 Education</h2>
+
+  <ul class="timeline">
+    <li>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <span class="timeline-year">2025</span>
+        <h3>Bachelor's in Computer Application <small>@ Manipal University Jaipur</small></h3>
+        <p>Focused on Web Development, Django, Databases, Software Engineering, and UI/UX design.</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <span class="timeline-year">2023</span>
+        <h3>SQL & Data Science / ML / Python / Web developer / Certification <small>@ Entry</small></h3>
+        <p>Hands-on experience with SQL queries, data analytics, ML basics, and real-world datasets.</p>
+      </div>
+    </li>
+      <li>
+  <div class="timeline-dot"></div>
+  <div class="timeline-content">
+    <span class="timeline-year">2021</span>
+    <h3>Mobile Mechanic Engineer <small>@ AVODA Academy</small></h3>
+    <p>
+      Trained in smartphone hardware repair, software troubleshooting,
+      chip-level servicing, and mobile device diagnostics.
+    </p>
+  </div>
+</li>
+
+    <li>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <span class="timeline-year">2022</span>
+        <h3>Higher Secondary Education <small>@ High School</small></h3>
+        <p>Graduated with distinction. Active member of coding clubs and technical events.</p>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- ================= CERTIFICATIONS ================= -->
+<div class="glass-box mb-5">
+  <h2 class="section-title">📜 Certifications</h2>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="cert-card">
+        <i class="fa-solid fa-database"></i>
+        <h5>Advanced SQL</h5>
+        <p>Complex queries, joins, optimization & analytics.</p>
+      </div>
     </div>
+
+    <div class="col-md-4">
+      <div class="cert-card">
+        <i class="fa-solid fa-robot"></i>
+        <h5>Dta Science / Machine Learning</h5>
+        <p>Supervised & unsupervised learning fundamentals.</p>
+      </div>
+    </div>
+<div class="col-md-4">
+  <div class="cert-card">
+    <i class="fa-brands fa-react"></i>
+    <h5>React Development</h5>
+    <p>Component-based UI, hooks, state management & SPA development.</p>
+  </div>
+</div>
+
+  <div class="col-md-4">
+  <div class="cert-card">
+    <i class="fa-solid fa-bullhorn"></i>
+    <h5>Digital Marketing</h5>
+    <p>SEO, social media marketing, content strategy & campaign analytics.</p>
+  </div>
+</div>
+<div class="col-md-4">
+  <div class="cert-card">
+    <i class="fa-brands fa-python"></i>
+    <h5>Python Programming</h5>
+    <p>Data structures, OOP, scripting, automation, and web development basics.</p>
+  </div>
+</div>
+
+   <div class="col-md-4">
+  <div class="cert-card">
+    <i class="fa-brands fa-node-js"></i>
+    <h5>Full Stack MERN</h5>
+    <p>MongoDB, Express.js, React & Node.js for scalable web applications.</p>
+  </div>
+</div>
+
+  </div>
+</div>
+
+<!-- ================= ACHIEVEMENTS ================= -->
+<div class="glass-box mb-5">
+  <h2 class="section-title">🏆 Achievements</h2>
+  <ul class="achievement-list">
+    <li>⭐ Built multiple full-stack Django projects</li>
+    <li>⭐ Internship & real-world project experience</li>
+    <li>⭐ Strong GitHub portfolio with live demos</li>
+  </ul>
+</div>
+
+<!-- ================= SKILLS PROGRESS ================= -->
+<div class="glass-box">
+  <h2 class="section-title">🚀 Skill Highlights</h2>
+
+  <div class="skill-bar">
+    <span>Django</span>
+    <div class="bar"><div class="fill" style="width:90%"></div></div>
+  </div>
+   <div class="skill-bar">
+    <span>React</span>
+    <div class="bar"><div class="fill" style="width:90%"></div></div>
+  </div>
+
+  <div class="skill-bar">
+    <span>Python</span>
+    <div class="bar"><div class="fill" style="width:88%"></div></div>
+  </div>
+
+  <div class="skill-bar">
+    <span>SQL</span>
+    <div class="bar"><div class="fill" style="width:85%"></div></div>
+  </div>
+
+  <div class="skill-bar">
+    <span>HTML / CSS / JS</span>
+    <div class="bar"><div class="fill" style="width:92%"></div></div>
+  </div>
+</div>
+```
+
+  </div>
 </section>
 
 <style>
-/* Glass Box */
-.glass-box {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    transition: transform 0.3s ease;
+/* ================= BACKGROUND VIDEO ================= */
+.edu-bg-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
 }
-.glass-box:hover {
-    transform: translateY(-5px);
+.edu-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,rgba(0,0,0,.8),rgba(0,0,0,.6));
+  z-index:1;
 }
 
-/* Timeline Styles */
-.timeline {
-    list-style: none;
-    padding-left: 0;
-    position: relative;
+.gradient-text{
+  background:linear-gradient(90deg,#00eaff,#8a3ffc,#ff4ecd);
+  -webkit-background-clip:text;
+  color:transparent;
 }
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: #00ffff;
-    border-radius: 2px;
+
+.glass-box{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(14px);
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 0 40px rgba(0,255,255,0.15);
 }
-.timeline li {
-    position: relative;
-    margin: 20px 0 20px 60px;
+
+.section-title{
+  color:#00eaff;
+  margin-bottom:25px;
 }
-.timeline-year {
-    font-weight: bold;
-    color: #ff69b4;
-    font-size: 1.1em;
+
+/* ================= TIMELINE ================= */
+.timeline{list-style:none;position:relative;padding-left:40px;}
+.timeline::before{
+  content:'';position:absolute;left:18px;top:0;bottom:0;width:4px;
+  background:linear-gradient(#00eaff,#8a3ffc);
 }
-.timeline-content {
-    background: rgba(255,255,255,0.05);
-    padding: 15px 20px;
-    border-radius: 12px;
-    border-left: 4px solid #00ffff;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.timeline li{margin-bottom:30px;position:relative;}
+.timeline-dot{
+  position:absolute;left:10px;top:8px;width:20px;height:20px;
+  background:#00eaff;border-radius:50%;box-shadow:0 0 15px #00eaff;
 }
-.timeline-content:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(0,255,255,0.3);
+.timeline-content{
+  background:rgba(255,255,255,0.05);
+  padding:20px;border-radius:15px;border-left:4px solid #00eaff;
+  transition:.4s;
 }
-.timeline-content h3 {
-    margin: 5px 0;
-    color: #00ffff;
+.timeline-content:hover{transform:translateX(8px);box-shadow:0 0 25px rgba(0,255,255,.4)}
+.timeline-year{color:#ff4ecd;font-weight:bold}
+
+/* ================= CERTS ================= */
+.cert-card{
+  background:rgba(255,255,255,0.06);
+  border-radius:18px;padding:25px;text-align:center;
+  transition:.4s;
 }
-.timeline-content small {
-    color: #ff69b4;
+.cert-card i{
+  font-size:40px;color:#00eaff;margin-bottom:10px;
 }
-.timeline-content p {
-    margin: 8px 0 0 0;
+.cert-card:hover{
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 0 30px rgba(138,63,252,.5);
 }
+
+/* ================= ACHIEVEMENTS ================= */
+.achievement-list li{
+  margin:10px 0;color:#f1f1f1;
+}
+
+/* ================= SKILLS ================= */
+.skill-bar{margin-bottom:15px}
+.skill-bar span{display:block;margin-bottom:5px}
+.bar{background:#222;border-radius:20px;overflow:hidden}
+.fill{
+  height:10px;
+  background:linear-gradient(90deg,#00eaff,#8a3ffc,#ff4ecd);
+  animation:fillAnim 2s ease
+}
+@keyframes fillAnim{from{width:0}}
 </style>
+
 {% endblock %}

@@ -690,3 +690,7 @@ def flutter_view(request):
 
 def c_view(request):
     return render(request, "skills/c.html")
+from django.shortcuts import render
+
+def contact(request):
+    return render(request, "folio/contact.html")

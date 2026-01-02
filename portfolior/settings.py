@@ -107,9 +107,12 @@ LOGIN_REDIRECT_URL = '/'
 # STATIC FILES
 # -----------------------------------------
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # folder for your static files during development
-STATIC_ROOT = BASE_DIR / "staticfiles"    # folder for collectstatic in production
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",          # your global static folder
+    BASE_DIR / "folio" / "static" # your app-level static folder
+]
+STATIC_ROOT = BASE_DIR / "staticfiles"    # folder for collectstatic in production
 # -----------------------------------------
 # MEDIA FILES
 # -----------------------------------------

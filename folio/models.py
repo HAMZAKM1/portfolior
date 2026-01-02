@@ -197,9 +197,17 @@ class Visitor(models.Model):
 
 
 class Skill(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # <-- new
+    CATEGORY_CHOICES = [
+        ('Frontend', 'Frontend'),
+        ('Backend', 'Backend'),
+        ('Database', 'Database'),
+        ('Tools', 'Tools'),
+        ('Other', 'Other'),
+    ]
+
     name = models.CharField(max_length=100)
-    level = models.IntegerField(default=50)
+    level = models.PositiveIntegerField(help_text="0–100")
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
 
     def __str__(self):
-        return f"{self.name} ({self.level}%)"
+        return self.name

@@ -33,7 +33,10 @@ urlpatterns = [
     path("projects/delete/<int:pk>/", views.delete_project, name="delete_project"),
     path("projects/<int:pk>/", views.project_detail, name="project_detail"),
     path('latest-projects/', views.latest_projects, name='latest_projects'),
-
+    path('skills/', views.skills, name='skills'),
+    path('skills/add/', views.add_skill, name='add_skill'),
+    path('skills/update/<int:id>/', views.update_skill, name='update_skill'),
+    path('skills/delete/<int:id>/', views.delete_skill, name='delete_skill'),
     # Blog
     path("blog/", views.blog_list, name="blog"),
     path("blog/<int:pk>/", views.blog_detail, name="blog_detail"),

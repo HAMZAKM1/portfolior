@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.widgets import FileInput
 from .models import Profile, Skill, Contact, Project, ProjectGallery, ProjectMedia
-
+from .models import Skill
 # -------------------------
 # Multi-file upload widget
 # -------------------------
@@ -27,19 +27,15 @@ class ProfileForm(forms.ModelForm):
             'bio': forms.Textarea(attrs={'rows': 4}),
         }
 
-# -------------------------
-# Skill Form
-# -------------------------
+
 class SkillForm(forms.ModelForm):
     class Meta:
         model = Skill
-        fields = ['name', 'level']
+        fields = ['name', 'level', 'category']
         widgets = {
-            'level': forms.NumberInput(attrs={
-                'type': 'range',
-                'min': '0',
-                'max': '100',
-            })
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'level': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'max': 100}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
         }
 
 # -------------------------

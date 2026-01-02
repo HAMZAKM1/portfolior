@@ -9,6 +9,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth.models import User
 from .forms import ProfileForm
 from .forms import ContactForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Skill
+from .forms import SkillForm
 from .models import Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -712,3 +715,37 @@ from django.shortcuts import render
 
 def contact(request):
     return render(request, "folio/contact.html")
+
+
+def skills(request):
+    skills = Skill.objects.all()
+    return render(request, 'folio/skills.html', {'skills': skills})
+
+
+def add_skill(request):
+    if request.method == 'POST':
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('skills')
+    else:
+        form = SkillForm()
+    return render(request, 'folio/add_skill.html', {'form': form})
+
+
+def update_skill(request, id):
+    skill = get_object_or_404(Skill, id=id)
+    if request.method == 'POST':
+        form = SkillForm(request.POST, instance=skill)
+        if form.is_valid():
+            form.save()
+            return redirect('skills')
+    else:
+        form = SkillForm(instance=skill)
+    return render(request, 'folio/update_skill.html', {'form': form})
+
+
+def delete_skill(request, id):
+    skill = get_object_or_404(Skill, id=id)
+    skill.delete()
+    return redirect('skills')

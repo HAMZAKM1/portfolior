@@ -1,0 +1,18 @@
+{% extends "folio/base.html" %}
+{% block content %}
+
+<div class="container mt-5 text-light">
+    <h2>Add Skill</h2>
+
+    <form method="post" class="card p-4 bg-dark">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> Save Skill
+        </button>
+        <a href="{% url 'skills' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

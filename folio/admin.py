@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .models import Skill
 from .models import (
     Profile,
     Skill,
@@ -72,19 +73,6 @@ class ProfileAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'full_name', 'location')
 
 
-# =========================
-# Skill Admin
-# =========================
-@admin.register(Skill)
-class SkillAdmin(admin.ModelAdmin):
-    list_display = ('name', 'level', 'user')
-    search_fields = ('name', 'user__username')
-    list_filter = ('level',)
-
-
-# =========================
-# Other Models
-# =========================
 admin.site.register(Category)
 admin.site.register(ProjectGallery)
 admin.site.register(ProjectMedia)
@@ -94,3 +82,10 @@ admin.site.register(Testimonial)
 admin.site.register(Resume)
 admin.site.register(Contact)
 admin.site.register(Visitor)
+
+
+@admin.register(Skill)
+class SkillAdmin(admin.ModelAdmin):
+    list_display = ('name', 'category', 'level')
+    list_filter = ('category', 'level')
+    search_fields = ('name',)

@@ -584,74 +584,6 @@
 </section>
 
 <!-- CSS -->
-
-
-<!-- JS -->
-
-
-<!-- Optional: Lottie Animation -->
-
-
-<!-- Optional: Particle JS -->
-
-
-
-
-<!-- SKILLS SECTION -->
-<section id="skills" class="section position-relative py-5 overflow-hidden">
-  <!-- Background Video -->
-  <video autoplay muted loop playsinline class="skills-bg-video position-absolute w-100 h-100" style="object-fit:cover; z-index:-2;">
-    <source src="{% static 'videos/skills_bg.mp4' %}" type="video/mp4">
-  </video>
-
-  <!-- Dark Overlay -->
-  <div class="skills-overlay position-absolute w-100 h-100" style="background: rgba(0,0,0,0.35); z-index:-1;"></div>
-
-  <div class="container-sm position-relative" style="z-index:2;">
-    <h2 class="mb-5 text-center display-5 text-light">
-      Skills & Tools
-      <span class="underline-gradient"></span>
-    </h2>
-
-    <div class="skill-grid d-flex flex-wrap justify-content-center gap-4">
-
-      {% for s in skills %}
-      <div class="water-box skill-card tilt p-4 rounded-4 text-center position-relative skill-slide" data-bs-toggle="tooltip" title="{{ s.short_desc|default:'Expertise & experience summary.' }}">
-        
-        <!-- Radial Skill Circle -->
-        <div class="radial-skill mb-3" data-level="{{ s.level }}">
-          <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle-bg"
-              d="M18 2.0845
-                 a 15.9155 15.9155 0 0 1 0 31.831
-                 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            <path class="circle"
-              stroke-dasharray="{{ s.level }}, 100"
-              d="M18 2.0845
-                 a 15.9155 15.9155 0 0 1 0 31.831
-                 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            <text x="18" y="20.35" class="percentage">{{ s.level }}%</text>
-          </svg>
-        </div>
-
-        <!-- Skill Name -->
-        <h5 class="mt-2 text-light">{{ s.name }}</h5>
-
-        <!-- Skill Icon -->
-        {% if s.icon %}
-        <img src="{{ s.icon.url }}" alt="{{ s.name }}" class="skill-icon mt-2" style="width:40px; height:40px;">
-        {% endif %}
-
-      </div>
-      {% empty %}
-      <div class="water-box text-center p-4 rounded-4 text-light">No skills yet.</div>
-      {% endfor %}
-
-    </div>
-  </div>
-</section>
-
-<!-- CSS -->
 <style>
 .skills-bg-video {
   top:0;
@@ -767,23 +699,175 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
 </script>
 
 <!-- Advanced Gradient for Radial Skill -->
-<svg style="display:none;">
-  <defs>
-    <linearGradient id="gradientSkill" gradientUnits="userSpaceOnUse"
-      x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00eaff">
-        <animate attributeName="stop-color"
-          values="#00eaff;#8a3ffc;#ff4d6d;#00eaff"
-          dur="4s" repeatCount="indefinite"/>
-      </stop>
-      <stop offset="100%" stop-color="#8a3ffc">
-        <animate attributeName="stop-color"
-          values="#8a3ffc;#00eaff;#8a3ffc"
-          dur="4s" repeatCount="indefinite"/>
-      </stop>
-    </linearGradient>
-  </defs>
-</svg>
+<!-- ================= SKILLS & TOOLS SECTION ================= -->
+<section id="skills" class="section position-relative py-5 overflow-hidden">
+
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline class="skills-bg-video position-absolute w-100 h-100" style="object-fit:cover; z-index:-2;">
+    <source src="{% static 'videos/skills_bg.mp4' %}" type="video/mp4">
+  </video>
+
+  <!-- Dark Overlay -->
+  <div class="skills-overlay position-absolute w-100 h-100" style="background: rgba(0,0,0,0.35); z-index:-1;"></div>
+
+  <div class="container-sm position-relative" style="z-index:2;">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+      <h2 class="text-center display-5 text-light mb-3">
+        Skills & Tools
+        <span class="underline-gradient"></span>
+      </h2>
+
+      <!-- Add Skill Button (only for staff/admin) -->
+      {% if user.is_staff %}
+      <a href="{% url 'add_skill' %}" class="btn btn-outline-light btn-sm mb-3">+ Add Skill</a>
+      {% endif %}
+    </div>
+
+    <!-- Category Filter Buttons -->
+    <div class="d-flex justify-content-center mb-4 gap-2 flex-wrap">
+      <button class="btn btn-sm btn-light filter-btn" data-filter="all">All</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Frontend">Frontend</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Backend">Backend</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Database">Database</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Tools">Tools</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Other">Other</button>
+    </div>
+
+    <!-- Skill Grid / Carousel Wrapper -->
+    <div class="skill-grid d-flex flex-wrap justify-content-center gap-4">
+
+      {% for s in skills %}
+      <div class="water-box skill-card tilt p-4 rounded-4 text-center position-relative skill-slide" 
+           data-bs-toggle="tooltip" 
+           title="{{ s.short_desc|default:'Expertise & experience summary.' }}"
+           data-category="{{ s.category }}"
+           data-level="{{ s.level }}">
+
+        <!-- Radial Skill Chart -->
+        <div class="radial-skill mb-3">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+            <defs>
+              <linearGradient id="gradientSkill{{ forloop.counter }}" gradientUnits="userSpaceOnUse"
+                x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#00eaff">
+                  <animate attributeName="stop-color" values="#00eaff;#8a3ffc;#ff4d6d;#00eaff" dur="4s" repeatCount="indefinite"/>
+                </stop>
+                <stop offset="100%" stop-color="#8a3ffc">
+                  <animate attributeName="stop-color" values="#8a3ffc;#00eaff;#8a3ffc" dur="4s" repeatCount="indefinite"/>
+                </stop>
+              </linearGradient>
+            </defs>
+            <path class="circle-bg"
+                  d="M18 2.0845
+                     a 15.9155 15.9155 0 0 1 0 31.831
+                     a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <path class="circle" stroke="url(#gradientSkill{{ forloop.counter }})" stroke-width="2"
+                  d="M18 2.0845
+                     a 15.9155 15.9155 0 0 1 0 31.831
+                     a 15.9155 15.9155 0 0 1 0 -31.831"
+                  stroke-dasharray="0,100">
+              <animate attributeName="stroke-dasharray" from="0,100" to="{{ s.level }},100" dur="2s" fill="freeze" />
+            </path>
+            <text x="18" y="20.35" class="percentage">0%</text>
+          </svg>
+        </div>
+
+        <!-- Skill Icon & Name -->
+        <div class="d-flex flex-column align-items-center">
+          {% if s.icon %}
+          <img src="{{ s.icon.url }}" alt="{{ s.name }}" class="skill-icon mb-2" style="width:40px; height:40px;">
+          {% endif %}
+          <h5 class="mt-2 text-light">{{ s.name }}</h5>
+          <span class="badge bg-secondary">{{ s.category }}</span>
+        </div>
+
+        <!-- Linear Progress Bar -->
+        <div class="progress mt-2" style="height:8px; border-radius:4px;">
+          <div class="progress-bar bg-gradient" role="progressbar" style="width: {{ s.level }}%;" aria-valuenow="{{ s.level }}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
+        <!-- Optional Learn More Link -->
+        {% if s.link %}
+        <a href="{{ s.link }}" target="_blank" class="btn btn-outline-light btn-sm mt-2">Learn More</a>
+        {% endif %}
+
+      </div>
+      {% empty %}
+      <div class="water-box text-center p-4 rounded-4 text-light">No skills yet.</div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= JS ================= -->
+<script>
+  // Tooltip Initialization
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  // Animate radial chart % numbers
+  document.querySelectorAll('.circular-chart').forEach(chart => {
+    const text = chart.querySelector('.percentage');
+    const level = parseInt(chart.querySelector('.circle').getAttribute('stroke-dasharray').split(',')[0]);
+    let current = 0;
+    const interval = setInterval(() => {
+      if(current >= level) clearInterval(interval);
+      text.textContent = current + '%';
+      current++;
+    }, 20);
+  });
+
+  // Filter Skills by Category
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const skillCards = document.querySelectorAll('.skill-slide');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      skillCards.forEach(card => {
+        card.style.display = (filter === 'all' || card.dataset.category === filter) ? 'block' : 'none';
+      });
+    });
+  });
+</script>
+
+<!-- ================= CSS ================= -->
+<style>
+.skill-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  background: rgba(20,20,20,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.skill-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 0 20px rgba(0,255,255,0.5);
+}
+.radial-skill {
+  width: 80px; height: 80px;
+}
+.circular-chart {
+  width: 100%; height: 100%;
+}
+.skill-icon {
+  filter: drop-shadow(0 0 3px #00eaff);
+}
+.progress-bar.bg-gradient {
+  background: linear-gradient(90deg, #00eaff, #8a3ffc, #ff4d6d);
+  background-size: 200% 200%;
+  animation: gradientMove 4s ease infinite;
+}
+@keyframes gradientMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+</style>
+
 
 <div class="water-box skill-card neon-tilt text-center position-relative">
   

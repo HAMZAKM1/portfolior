@@ -73,9 +73,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-# ==========================================================
-# PROJECTS
-# ==========================================================
 class Project(models.Model):
     PROJECT_TYPES = [
         ('Frontend', 'Frontend'),
@@ -83,29 +80,37 @@ class Project(models.Model):
         ('Fullstack', 'Fullstack'),
     ]
 
-   
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=200)
     description = models.TextField()
+    short_description = models.CharField(max_length=300, blank=True)
+
     image = models.ImageField(upload_to='projects/', blank=True, null=True)
     link = models.URLField(blank=True, null=True)
     github = models.URLField(blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
-    technologies = models.CharField(max_length=200, blank=True)
-    project_type = models.CharField(max_length=20, choices=PROJECT_TYPES, default='Frontend')
-    created_at = models.DateTimeField(auto_now_add=True)
 
-    @property
-    def tech_list(self):
-        return [t.strip() for t in self.technologies.split(',')] if self.technologies else []
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    technologies = models.CharField(max_length=300, blank=True)
+    project_type = models.CharField(
+        max_length=20,
+        choices=PROJECT_TYPES,
+        default='Frontend'
+    )
+
+    is_featured = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
-# ==========================================================
-# PROJECT GALLERY
-# ==========================================================
+
 class ProjectGallery(models.Model):
     project = models.ForeignKey(Project, related_name="gallery", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="projects/gallery/")

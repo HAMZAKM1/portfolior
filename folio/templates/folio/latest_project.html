@@ -1,0 +1,21 @@
+<h2>🆕 Latest Projects</h2>
+
+<div class="project-grid">
+    {% for project in latest_projects %}
+        <div class="project-card">
+            {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}">
+            {% endif %}
+
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.short_description }}</p>
+
+            <p><strong>Tech:</strong> {{ project.technologies }}</p>
+
+            <a href="{{ project.link }}" target="_blank">Live Demo</a> |
+            <a href="{{ project.github }}" target="_blank">GitHub</a>
+        </div>
+    {% empty %}
+        <p>No projects yet.</p>
+    {% endfor %}
+</div>

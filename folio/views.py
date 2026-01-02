@@ -15,13 +15,15 @@ from django.contrib import messages
 from django.contrib.sessions.models import Session
 from django.contrib.auth import update_session_auth_hash
 import json
+from .models import Project, Category
 from django.http import HttpResponse
 import csv
+from .models import Project
 from .forms import ProjectForm, ProjectGalleryForm
 from .models import Project, ProjectGallery
 from .forms import ProjectForm
 from django.http import HttpResponse
-
+from .models import Project
 from .models import Profile, Skill, Project   # make sure Project exists
 from .forms import ProjectForm, ProjectGalleryForm
 from .models import Project
@@ -240,8 +242,16 @@ def messages_view(request):
 def help_view(request):
     return render(request, 'folio/help.html')  # create help.html in templates/folio/
 def projects(request):
-    all_projects = Project.objects.all()
-    return render(request, 'folio/projects.html', {'projects': all_projects})
+    all_projects = Project.objects.all().order_by('-created_at')
+    featured_projects = Project.objects.filter(is_featured=True)
+    latest_projects = Project.objects.order_by('-created_at')[:4]
+
+    return render(request, 'folio/projects.html', {
+        'projects': all_projects,
+        'featured_projects': featured_projects,
+        'latest_projects': latest_projects,
+    })
+
 def project_list(request, category_slug=None):
     projects = Project.objects.all()
     if category_slug:
@@ -455,16 +465,24 @@ def delete_skill(request, skill_id):
     skill.delete()
     messages.warning(request, "Skill deleted!")
     return redirect("skills")
-# -------------------------------
-# SETTINGS VIEW
-# -------------------------------
 
 
-# Featured Projects Page
+
 def featured_projects(request):
-    return render(request, "folio/featured_projects.html")
+    featured_projects = Project.objects.filter(is_featured=True)
+    categories = Category.objects.all()
+
+    return render(request, 'folio/featured_projects.html', {
+        'featured_projects': featured_projects,
+        'categories': categories,
+    })
+
 def latest_projects(request):
-    return render(request, "folio/latest_projects.html")
+    latest_projects = Project.objects.order_by('-created_at')[:6]
+    return render(request, 'folio/latest_projects.html', {
+        'latest_projects': latest_projects,
+    })
+
 def about(request):
     return render(request, "folio/about.html")
 def experience(request):

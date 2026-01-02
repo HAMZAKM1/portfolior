@@ -32,17 +32,19 @@ urlpatterns = [
     path("projects/edit/<int:pk>/", views.edit_project, name="edit_project"),
     path("projects/delete/<int:pk>/", views.delete_project, name="delete_project"),
     path("projects/<int:pk>/", views.project_detail, name="project_detail"),
+    path('latest-projects/', views.latest_projects, name='latest_projects'),
 
     # Blog
     path("blog/", views.blog_list, name="blog"),
     path("blog/<int:pk>/", views.blog_detail, name="blog_detail"),
 
     # Contact & Profile
+    path('featured-projects/', views.featured_projects, name='featured_projects'),
 
     path("contact/success/", views.contact_success, name="contact_success"),
     path('profile/', views.profile_view, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
-
+    path('latest-projects/', views.latest_projects, name='latest_projects'),
     # Authentication
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),

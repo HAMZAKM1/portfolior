@@ -13,19 +13,19 @@
     background: rgba(255,255,255,0.08);
     border-radius: 20px;
     padding: 25px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     transition: 0.3s;
 }
 .stats-box:hover {
-    transform: translateY(-5px);
-    background: rgba(255,255,255,0.12);
+    transform: translateY(-6px);
+    background: rgba(255,255,255,0.14);
 }
 
 .section-title {
     font-size: 28px;
     font-weight: bold;
-    margin-top: 30px;
-    margin-bottom: 15px;
+    margin-top: 35px;
+    margin-bottom: 18px;
 }
 
 .profile-img {
@@ -37,19 +37,31 @@
 }
 
 .card-item {
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.07);
     padding: 18px;
-    border-radius: 15px;
-    margin-bottom: 12px;
+    border-radius: 16px;
+    margin-bottom: 14px;
+    transition: 0.3s;
+}
+.card-item:hover {
+    background: rgba(255,255,255,0.12);
 }
 
+.featured-badge {
+    background: gold;
+    color: #000;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
 </style>
 
 <div class="container dashboard-container">
 
     <h2 class="text-center mb-4">🌟 Dashboard Overview</h2>
 
-    <!-- Top Stats -->
+    <!-- ================= STATS ================= -->
     <div class="row text-center">
         <div class="col-md-3">
             <div class="stats-box">
@@ -80,45 +92,63 @@
         </div>
     </div>
 
-
-    <!-- Profile Section -->
+    <!-- ================= PROFILE ================= -->
     <h3 class="section-title">👤 Profile</h3>
     <div class="card-item d-flex align-items-center">
         <img src="{{ profile.image.url }}" class="profile-img" alt="Profile">
-
         <div class="ms-4">
             <h4>{{ profile.name }}</h4>
             <p>{{ profile.bio }}</p>
-            <a href="{% url 'index' %}" class="btn btn-info btn-sm mt-2">View Portfolio</a>
+            <a href="{% url 'index' %}" class="btn btn-info btn-sm mt-2">
+                View Portfolio
+            </a>
         </div>
     </div>
 
+    <!-- ================= FEATURED PROJECTS ================= -->
+    <h3 class="section-title">⭐ Featured Projects</h3>
 
-    <!-- Recent Projects -->
+    {% for fp in featured_projects %}
+        <div class="card-item">
+            <div class="d-flex justify-content-between">
+                <h4>{{ fp.title }}</h4>
+                <span class="featured-badge">FEATURED</span>
+            </div>
+            <p>{{ fp.short_description|truncatewords:20 }}</p>
+            <a href="{% url 'project_detail' fp.id %}" class="btn btn-warning btn-sm">
+                View Details
+            </a>
+        </div>
+    {% empty %}
+        <p>No featured projects added.</p>
+    {% endfor %}
+
+    <!-- ================= LATEST PROJECTS ================= -->
     <h3 class="section-title">🛠 Latest Projects</h3>
 
     {% for p in projects|slice:":3" %}
         <div class="card-item">
             <h4>{{ p.title }}</h4>
             <p>{{ p.short_description }}</p>
+            <a href="{% url 'project_detail' p.id %}" class="btn btn-outline-info btn-sm">
+                Open Project
+            </a>
         </div>
     {% empty %}
         <p>No projects found.</p>
     {% endfor %}
 
-
-    <!-- Recent Blogs -->
+    <!-- ================= BLOGS ================= -->
     <h3 class="section-title">📝 Latest Blog Posts</h3>
 
     {% for b in blogs|slice:":3" %}
         <div class="card-item">
             <h4>{{ b.title }}</h4>
-            <p>{{ b.content|truncatewords:20 }}</p>
+            <p>{{ b.content|truncatewords:22 }}</p>
         </div>
     {% empty %}
         <p>No blog posts available.</p>
     {% endfor %}
 
 </div>
-
 {% endblock %}

@@ -1,3 +1,5 @@
+<!-- UPDATED FROM LOCAL ON 2026-01-02 -->
+
 {% extends "folio/base.html" %}
 {% load static %}
 
@@ -698,7 +700,6 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
 });
 </script>
 
-<!-- Advanced Gradient for Radial Skill -->
 <!-- ================= SKILLS & TOOLS SECTION ================= -->
 <section id="skills" class="section position-relative py-5 overflow-hidden">
 
@@ -712,17 +713,10 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
 
   <div class="container-sm position-relative" style="z-index:2;">
 
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-      <h2 class="text-center display-5 text-light mb-3">
-        Skills & Tools
-        <span class="underline-gradient"></span>
-      </h2>
-
-      <!-- Add Skill Button (only for staff/admin) -->
-      {% if user.is_staff %}
-      <a href="{% url 'add_skill' %}" class="btn btn-outline-light btn-sm mb-3">+ Add Skill</a>
-      {% endif %}
-    </div>
+    <h2 class="text-center display-5 text-light mb-4">
+      Skills & Tools
+      <span class="underline-gradient"></span>
+    </h2>
 
     <!-- Category Filter Buttons -->
     <div class="d-flex justify-content-center mb-4 gap-2 flex-wrap">
@@ -734,22 +728,22 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
       <button class="btn btn-sm btn-light filter-btn" data-filter="Other">Other</button>
     </div>
 
-    <!-- Skill Grid / Carousel Wrapper -->
+    <!-- Skill Grid -->
     <div class="skill-grid d-flex flex-wrap justify-content-center gap-4">
 
       {% for s in skills %}
-      <div class="water-box skill-card tilt p-4 rounded-4 text-center position-relative skill-slide" 
-           data-bs-toggle="tooltip" 
-           title="{{ s.short_desc|default:'Expertise & experience summary.' }}"
+      <div class="water-box skill-card tilt p-4 rounded-4 text-center position-relative skill-slide"
            data-category="{{ s.category }}"
-           data-level="{{ s.level }}">
-
-        <!-- Radial Skill Chart -->
+           data-level="{{ s.level }}"
+           data-bs-toggle="tooltip"
+           title="{{ s.name }} - {{ s.category }}">
+        
+        <!-- Radial Chart -->
         <div class="radial-skill mb-3">
           <svg viewBox="0 0 36 36" class="circular-chart">
             <defs>
               <linearGradient id="gradientSkill{{ forloop.counter }}" gradientUnits="userSpaceOnUse"
-                x1="0%" y1="0%" x2="100%" y2="0%">
+                              x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#00eaff">
                   <animate attributeName="stop-color" values="#00eaff;#8a3ffc;#ff4d6d;#00eaff" dur="4s" repeatCount="indefinite"/>
                 </stop>
@@ -773,11 +767,8 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
           </svg>
         </div>
 
-        <!-- Skill Icon & Name -->
-        <div class="d-flex flex-column align-items-center">
-          {% if s.icon %}
-          <img src="{{ s.icon.url }}" alt="{{ s.name }}" class="skill-icon mb-2" style="width:40px; height:40px;">
-          {% endif %}
+        <!-- Skill Name & Category -->
+        <div>
           <h5 class="mt-2 text-light">{{ s.name }}</h5>
           <span class="badge bg-secondary">{{ s.category }}</span>
         </div>
@@ -786,11 +777,6 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
         <div class="progress mt-2" style="height:8px; border-radius:4px;">
           <div class="progress-bar bg-gradient" role="progressbar" style="width: {{ s.level }}%;" aria-valuenow="{{ s.level }}" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-
-        <!-- Optional Learn More Link -->
-        {% if s.link %}
-        <a href="{{ s.link }}" target="_blank" class="btn btn-outline-light btn-sm mt-2">Learn More</a>
-        {% endif %}
 
       </div>
       {% empty %}
@@ -803,13 +789,11 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
 
 <!-- ================= JS ================= -->
 <script>
-  // Tooltip Initialization
+  // Tooltip
   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-  tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl);
-  });
+  tooltipTriggerList.map(function (el) { return new bootstrap.Tooltip(el); });
 
-  // Animate radial chart % numbers
+  // Animate radial chart percentages
   document.querySelectorAll('.circular-chart').forEach(chart => {
     const text = chart.querySelector('.percentage');
     const level = parseInt(chart.querySelector('.circle').getAttribute('stroke-dasharray').split(',')[0]);
@@ -821,10 +805,9 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
     }, 20);
   });
 
-  // Filter Skills by Category
+  // Filter Skills
   const filterButtons = document.querySelectorAll('.filter-btn');
   const skillCards = document.querySelectorAll('.skill-slide');
-
   filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const filter = btn.dataset.filter;
@@ -835,7 +818,6 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
   });
 </script>
 
-<!-- ================= CSS ================= -->
 <style>
 .skill-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -847,25 +829,14 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
   transform: translateY(-5px) scale(1.05);
   box-shadow: 0 0 20px rgba(0,255,255,0.5);
 }
-.radial-skill {
-  width: 80px; height: 80px;
-}
-.circular-chart {
-  width: 100%; height: 100%;
-}
-.skill-icon {
-  filter: drop-shadow(0 0 3px #00eaff);
-}
+.radial-skill { width: 80px; height: 80px; }
+.circular-chart { width: 100%; height: 100%; }
 .progress-bar.bg-gradient {
   background: linear-gradient(90deg, #00eaff, #8a3ffc, #ff4d6d);
   background-size: 200% 200%;
   animation: gradientMove 4s ease infinite;
 }
-@keyframes gradientMove {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
+@keyframes gradientMove { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
 </style>
 
 
@@ -901,20 +872,116 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
   <p class="skill-desc">{{ s.short_desc|default:"Professional experience & hands-on knowledge" }}</p>
 </div>
 
-<!-- CSS -->
+<!-- SKILLS & TOOLS SECTION -->
+<section id="skills" class="section position-relative py-5 overflow-hidden">
 
-<!-- JS for Tooltip and Radial Animation -->
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline class="skills-bg-video position-absolute w-100 h-100" style="object-fit:cover; z-index:-2;">
+    <source src="{% static 'videos/skills_bg.mp4' %}" type="video/mp4">
+  </video>
+
+  <!-- Dark Overlay -->
+  <div class="skills-overlay position-absolute w-100 h-100" style="background: rgba(0,0,0,0.35); z-index:-1;"></div>
+
+  <div class="container-sm position-relative" style="z-index:2;">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-center display-5 text-light">
+        Skills & Tools
+        <span class="underline-gradient"></span>
+      </h2>
+
+      <!-- Add Skill Button (Visible only for admin/users) -->
+      {% if user.is_staff %}
+      <a href="{% url 'add_skill' %}" class="btn btn-outline-light btn-sm">+ Add Skill</a>
+      {% endif %}
+    </div>
+
+    <!-- Skill Category Filter -->
+    <div class="d-flex justify-content-center mb-4 gap-2 flex-wrap">
+      <button class="btn btn-sm btn-light filter-btn" data-filter="all">All</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Frontend">Frontend</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Backend">Backend</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Database">Database</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Tools">Tools</button>
+      <button class="btn btn-sm btn-light filter-btn" data-filter="Other">Other</button>
+    </div>
+
+    <!-- Skill Grid -->
+    <div class="skill-grid d-flex flex-wrap justify-content-center gap-4">
+
+      {% for s in skills %}
+      <div class="water-box skill-card tilt p-4 rounded-4 text-center position-relative skill-slide" 
+           data-bs-toggle="tooltip" title="{{ s.short_desc|default:'Expertise & experience summary.' }}"
+           data-category="{{ s.category }}">
+
+        <!-- Radial Skill Circle -->
+        <div class="radial-skill mb-3" data-level="{{ s.level }}">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+            <path class="circle-bg"
+              d="M18 2.0845
+                 a 15.9155 15.9155 0 0 1 0 31.831
+                 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <path class="circle"
+              stroke-dasharray="{{ s.level }}, 100"
+              d="M18 2.0845
+                 a 15.9155 15.9155 0 0 1 0 31.831
+                 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <text x="18" y="20.35" class="percentage">{{ s.level }}%</text>
+          </svg>
+        </div>
+
+        <!-- Skill Name & Icon -->
+        <div class="d-flex flex-column align-items-center">
+          {% if s.icon %}
+          <img src="{{ s.icon.url }}" alt="{{ s.name }}" class="skill-icon mb-2" style="width:40px; height:40px;">
+          {% endif %}
+          <h5 class="mt-2 text-light">{{ s.name }}</h5>
+        </div>
+
+        <!-- Optional Learn More -->
+        {% if s.link %}
+        <a href="{{ s.link }}" target="_blank" class="btn btn-outline-light btn-sm mt-2">Learn More</a>
+        {% endif %}
+
+      </div>
+      {% empty %}
+      <div class="water-box text-center p-4 rounded-4 text-light">No skills yet.</div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<!-- JS: Filter skills by category -->
+<script>
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const skillCards = document.querySelectorAll('.skill-slide');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      skillCards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<!-- JS: Tooltip init -->
+<script>
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  });
+</script>
 
 
-<!-- Optional: Gradient for radial skill stroke -->
-<svg style="display:none;">
-  <defs>
-    <linearGradient id="gradientSkill" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00eaff"/>
-      <stop offset="100%" stop-color="#8a3ffc"/>
-    </linearGradient>
-  </defs>
-</svg>
 
 
 <!-- PROJECTS -->

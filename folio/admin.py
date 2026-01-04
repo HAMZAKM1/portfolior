@@ -1,12 +1,10 @@
 from django.contrib import admin
-from .models import Skill
 from .models import (
     Profile,
     Skill,
     Category,
     Project,
     ProjectGallery,
-    ProjectMedia,
     TechStack,
     BlogPost,
     Testimonial,
@@ -20,11 +18,6 @@ from .models import (
 # =========================
 class ProjectGalleryInline(admin.TabularInline):
     model = ProjectGallery
-    extra = 1
-
-
-class ProjectMediaInline(admin.TabularInline):
-    model = ProjectMedia
     extra = 1
 
 
@@ -58,7 +51,6 @@ class ProjectAdmin(admin.ModelAdmin):
 
     inlines = [
         ProjectGalleryInline,
-        ProjectMediaInline,
     ]
 
     # ⭐ FEATURED STAR BADGE
@@ -67,21 +59,11 @@ class ProjectAdmin(admin.ModelAdmin):
 
     featured_badge.short_description = "Featured"
 
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'full_name', 'location')
     search_fields = ('user__username', 'full_name', 'location')
-
-
-admin.site.register(Category)
-admin.site.register(ProjectGallery)
-admin.site.register(ProjectMedia)
-admin.site.register(TechStack)
-admin.site.register(BlogPost)
-admin.site.register(Testimonial)
-admin.site.register(Resume)
-admin.site.register(Contact)
-admin.site.register(Visitor)
 
 
 @admin.register(Skill)
@@ -89,3 +71,13 @@ class SkillAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'level')
     list_filter = ('category', 'level')
     search_fields = ('name',)
+
+
+admin.site.register(Category)
+admin.site.register(ProjectGallery)
+admin.site.register(TechStack)
+admin.site.register(BlogPost)
+admin.site.register(Testimonial)
+admin.site.register(Resume)
+admin.site.register(Contact)
+admin.site.register(Visitor)

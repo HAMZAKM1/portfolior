@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.widgets import FileInput
 from .models import Profile, Skill, Visitor, Project, ProjectGallery, Category, BlogPost, Testimonial, Resume
-
+from .models import Contact
 # -------------------------
 # Multi-file upload widget
 # -------------------------
@@ -58,16 +58,11 @@ class SkillForm(forms.ModelForm):
 
 class ContactForm(forms.ModelForm):
     class Meta:
-        model = Visitor  # replace Visitor with Contact model if defined
+        model = Contact
         fields = ['name', 'email', 'subject', 'message']
         widgets = {
             'message': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}),
-        }
-
-
-# -------------------------
-# Project Form
-# -------------------------
+                }
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project

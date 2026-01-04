@@ -10,7 +10,6 @@ from django.contrib.sessions.models import Session
 from django.http import HttpResponse
 import json
 import csv
-
 from .models import (
     Profile, Skill, Project, ProjectGallery, Category,
     BlogPost, Testimonial, Resume, Visitor
@@ -379,3 +378,5 @@ def blog_detail(request, pk):
     post = get_object_or_404(BlogPost, pk=pk)
     return render(request, "folio/blog_detail.html", {"post": post})
 
+def user_settings(request):
+    return render(request, 'folio/user_settings.html')

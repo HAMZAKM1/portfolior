@@ -2,6 +2,10 @@ from django import forms
 from django.forms.widgets import FileInput
 from .models import Profile, Skill, Visitor, Project, ProjectGallery, Category, BlogPost, Testimonial, Resume
 from .models import Contact
+from .models import Blog
+from .models import Certificate
+from django import forms
+from .models import Course  # make sure you have a Course model
 # -------------------------
 # Multi-file upload widget
 # -------------------------
@@ -129,3 +133,42 @@ class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
         fields = ['file']
+# folio/forms.py
+
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = ['title', 'content']
+    
+# folio/forms.py
+class CertificateForm(forms.ModelForm):
+    class Meta:
+        model = Certificate
+        fields = [
+            'title',
+            'subject',
+            'certificate_type',
+            'issuer',
+            'issue_date',
+            'year',
+            'description',
+            'file',
+        ]
+        widgets = {
+            'issue_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'year': forms.NumberInput(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'subject': forms.TextInput(attrs={'class': 'form-control'}),
+            'issuer': forms.TextInput(attrs={'class': 'form-control'}),
+            'certificate_type': forms.Select(attrs={'class': 'form-select'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+# folio/forms.py
+
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['title', 'description', 'completed']

@@ -1,0 +1,266 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.chef-container{
+    max-width:1100px;
+    margin:auto;
+    color:white;
+}
+
+.text-gradient{
+    background: linear-gradient(90deg,#ff9a00,#ff4e50);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.glass{
+    background: rgba(20,20,20,0.65);
+    backdrop-filter: blur(14px);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 30px rgba(255,150,0,0.3);
+}
+
+.progress{
+    height:14px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.1);
+}
+.progress-bar{
+    background:linear-gradient(90deg,#ff9a00,#ff4e50);
+    border-radius:20px;
+    animation: glow 2s infinite alternate;
+}
+@keyframes glow{
+    from{box-shadow:0 0 10px #ff9a00;}
+    to{box-shadow:0 0 25px #ff4e50;}
+}
+
+.badge-skill{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#ff9a00,#ff4e50);
+    margin:5px;
+    font-size:14px;
+}
+
+/* floating chef panel */
+.side-panel{
+    position:fixed;
+    top:120px;
+    right:20px;
+    width:260px;
+    padding:20px;
+    z-index:999;
+}
+.side-panel h5{
+    color:#ffb347;
+}
+.side-panel ul{
+    list-style:none;
+    padding:0;
+}
+.side-panel li{
+    margin-bottom:10px;
+}
+.hide-panel{
+    transform: translateX(300px);
+    opacity:0;
+    transition:0.5s;
+}
+.side-panel{
+    transition:0.5s;
+}
+.gallery{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+.food-card{
+    width:140px;
+    height:140px;
+    background:linear-gradient(135deg,#ff9a00,#ff4e50);
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    cursor:pointer;
+    transition:0.4s;
+    box-shadow:0 0 20px rgba(255,100,0,0.5);
+}
+.food-card:hover{
+    transform: rotateY(20deg) rotateX(10deg) scale(1.1);
+}
+.rating{
+    font-size:40px;
+    color:gold;
+    text-shadow:0 0 15px gold;
+}
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:radial-gradient(circle at top,#ff9a0030,transparent 60%);
+    z-index:-1;
+}
+
+</style>
+
+<div class="chef-container py-5">
+
+    <!-- ================= HEADER ================= -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-gradient">👨‍🍳 Hamza – Professional Chef</h1>
+        <p class="lead text-muted">International Cuisine • Fine Dining • Catering Specialist</p>
+      <button class="btn btn-warning mt-3" onclick="toggleChefPanel()">
+    🍳 Toggle Chef Panel
+</button>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a href="{% static 'resume/chef_resume.pdf' %}" class="btn btn-warning">
+                <i class="fa fa-download"></i> Download Resume
+            </a>
+            <a href="{% static 'resume/chef_resume.pdf' %}" target="_blank" class="btn btn-danger">
+                <i class="fa fa-eye"></i> View Resume
+            </a>
+            <a href="#contact" class="btn btn-outline-light">
+                <i class="fa fa-paper-plane"></i> Hire Me
+            </a>
+        </div>
+    </div>
+
+    <!-- ================= PROFILE ================= -->
+    <div class="glass p-4 mb-4">
+        <h4>👤 Chef Hamza</h4>
+        <p>
+            Passionate professional chef with expertise in international cuisine,
+            food presentation, menu design, and kitchen leadership.
+        </p>
+        <p>📍 Middle East | 📧 hamza.chef@email.com | 📞 +966-XXX-XXXX</p>
+    </div>
+
+    <!-- ================= SKILLS ================= -->
+    <h3>🍽 Core Cooking Skills</h3>
+    <div class="glass p-4">
+        <div class="mb-3">Continental Cuisine
+            <div class="progress"><div class="progress-bar" style="width:95%"></div></div>
+        </div>
+        <div class="mb-3">Asian Cuisine
+            <div class="progress"><div class="progress-bar" style="width:90%"></div></div>
+        </div>
+        <div class="mb-3">Food Safety & Hygiene
+            <div class="progress"><div class="progress-bar" style="width:98%"></div></div>
+        </div>
+        <div class="mb-3">Menu Planning
+            <div class="progress"><div class="progress-bar" style="width:88%"></div></div>
+        </div>
+    </div>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <h3 class="mt-5">💼 Experience</h3>
+    <div class="glass p-4">
+        <h5>Executive Chef – Luxury Hotel</h5>
+        <span class="text-warning">2020 – Present</span>
+        <p>
+            Leading kitchen teams, designing gourmet menus,
+            ensuring food safety compliance and customer satisfaction.
+        </p>
+
+        <h5>Senior Cook – International Restaurant</h5>
+        <span class="text-warning">2016 – 2020</span>
+        <p>
+            Specialized in Asian, Continental, and Middle Eastern dishes.
+        </p>
+    </div>
+
+    <!-- ================= SIGNATURE DISHES ================= -->
+    <h3 class="mt-5">🍲 Signature Dishes</h3>
+    <div class="glass p-4">
+        <span class="badge-skill">Grilled Steak</span>
+        <span class="badge-skill">Butter Chicken</span>
+        <span class="badge-skill">Sushi Rolls</span>
+        <span class="badge-skill">Italian Pasta</span>
+        <span class="badge-skill">Arabic Mandi</span>
+    </div>
+    <h3 class="mt-5">📸 Food Gallery</h3>
+<div class="gallery">
+    <div class="food-card">🍕 Pizza</div>
+    <div class="food-card">🍔 Burger</div>
+    <div class="food-card">🍣 Sushi</div>
+    <div class="food-card">🍛 Curry</div>
+    <div class="food-card">🥩 Steak</div>
+</div>
+
+    <!-- ================= ACHIEVEMENTS ================= -->
+    <h3 class="mt-5">🏆 Achievements</h3>
+    <div class="glass p-4">
+        <ul>
+            <li>Served 1000+ customers monthly</li>
+            <li>Created 50+ unique recipes</li>
+            <li>Maintained 5-star hygiene ratings</li>
+            <li>Reduced kitchen waste by 30%</li>
+        </ul>
+    </div>
+
+    <!-- ================= CONTACT ================= -->
+    <h3 class="mt-5" id="contact">📞 Contact</h3>
+    <div class="glass p-4">
+        <p>Email: hamza.chef@email.com</p>
+        <p>Instagram: @chefhamza</p>
+        <p>WhatsApp: +966-XXX-XXXX</p>
+    </div>
+
+</div>
+<h3 class="mt-5">📅 Book a Chef</h3>
+<form class="glass p-4">
+    <input class="form-control mb-2" placeholder="Your Name">
+    <input class="form-control mb-2" placeholder="Phone">
+    <input class="form-control mb-2" type="date">
+    <textarea class="form-control mb-2" placeholder="Event Details"></textarea>
+    <button class="btn btn-warning w-100">Book Now</button>
+</form>
+
+<!-- ================= Floating Chef Panel ================= -->
+<div class="glass side-panel">
+    <h5>🍳 Kitchen Stats</h5>
+    <ul>
+        <li>✔ 10+ Years Experience</li>
+        <li>✔ 5 Star Hotels</li>
+        <li>✔ 100+ Recipes</li>
+        <li>✔ 1000+ Happy Clients</li>
+    </ul>
+
+    <h5>🎯 Specialties</h5>
+    <ul>
+        <li>Fine Dining</li>
+        <li>Buffet Services</li>
+        <li>Catering</li>
+        <li>Live Cooking</li>
+    </ul>
+</div>
+<h3 class="mt-5">⭐ Customer Rating</h3>
+<div class="rating">
+    ★★★★★
+</div>
+
+<script>
+function toggleChefPanel(){
+    const panel = document.querySelector(".side-panel");
+    panel.classList.toggle("hide-panel");
+}
+</script>
+<script>
+function openVideo(){
+    document.getElementById("videoBox").style.display="flex";
+}
+function closeVideo(){
+    document.getElementById("videoBox").style.display="none";
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="ba-layout">
+
+    <!-- ===== LEFT PANEL ===== -->
+    <div id="leftPanel" class="left-panel">
+        <h2>🏢 Business</h2>
+        <button class="toggle-btn" onclick="toggleLeft()">☰</button>
+
+        <ul>
+            <li>📊 Dashboard</li>
+            <li>📋 Management</li>
+            <li>📢 Marketing</li>
+            <li>👥 HR</li>
+            <li>📦 Operations</li>
+            <li>📈 Growth</li>
+        </ul>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content">
+        <h1>📊 Business Administration</h1>
+        <p class="subtitle">Learn how modern companies are managed & scaled</p>
+
+        <div class="cards">
+            <div class="glass-card">📋<h4>Management</h4><p>Leadership & decision making</p></div>
+            <div class="glass-card">📢<h4>Marketing</h4><p>Branding & advertising</p></div>
+            <div class="glass-card">👥<h4>Human Resources</h4><p>People management</p></div>
+            <div class="glass-card">📦<h4>Operations</h4><p>Supply chain & workflow</p></div>
+        </div>
+    </div>
+
+    <!-- ===== RIGHT PANEL ===== -->
+    <div id="rightPanel" class="right-panel">
+        <button class="toggle-btn right" onclick="toggleRight()">❯</button>
+
+        <div class="slideshow">
+            <div class="slide active">🏢 Run a Successful Business</div>
+            <div class="slide">📈 Grow Your Company</div>
+            <div class="slide">👥 Build a Strong Team</div>
+            <div class="slide">💼 Become a Business Leader</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== CSS ===== -->
+<style>
+body{ background:#0a0a0a; overflow:hidden; }
+
+.ba-layout{ display:flex; height:100vh; color:white; }
+
+.left-panel{
+    width:260px;
+    background:rgba(20,20,20,0.95);
+    padding:20px;
+    transition:0.4s;
+    position:relative;
+}
+.left-panel ul{ list-style:none; padding:0; }
+.left-panel li{
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.left-panel li:hover{ background:#ffb00033; }
+
+.main-content{
+    flex:1;
+    padding:40px;
+    text-align:center;
+    overflow:auto;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:30px;
+    margin-top:40px;
+}
+
+.glass-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 0 25px rgba(255,180,0,0.3);
+    transition:.4s;
+}
+.glass-card:hover{
+    transform:translateY(-15px) scale(1.05);
+    box-shadow:0 0 45px rgba(255,180,0,0.7);
+}
+
+.right-panel{
+    width:300px;
+    background:rgba(15,15,15,0.95);
+    padding:20px;
+    transition:0.4s;
+    position:relative;
+}
+
+.slideshow{
+    margin-top:50px;
+    height:300px;
+    position:relative;
+}
+.slide{
+    position:absolute;
+    opacity:0;
+    transition:1s;
+    font-size:22px;
+    text-align:center;
+}
+.slide.active{ opacity:1; }
+
+.toggle-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#ffb000;
+    border:none;
+    padding:10px 14px;
+    border-radius:50%;
+    cursor:pointer;
+}
+.toggle-btn.right{ left:-15px; right:auto; }
+</style>
+
+<!-- ===== JS ===== -->
+<script>
+function toggleLeft(){
+    let p=document.getElementById("leftPanel");
+    p.style.width = (p.style.width=="50px")?"260px":"50px";
+}
+
+function toggleRight(){
+    let p=document.getElementById("rightPanel");
+    p.style.width = (p.style.width=="50px")?"300px":"50px";
+}
+
+let slides=document.querySelectorAll(".slide");
+let i=0;
+setInterval(()=>{
+    slides.forEach(s=>s.classList.remove("active"));
+    i=(i+1)%slides.length;
+    slides[i].classList.add("active");
+},3000);
+</script>
+
+{% endblock %}

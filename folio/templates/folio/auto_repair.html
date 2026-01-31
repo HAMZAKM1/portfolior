@@ -1,0 +1,165 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="auto-layout">
+
+    <!-- ===== LEFT TOOL PANEL ===== -->
+    <div id="autoLeft" class="auto-left">
+        <h2>🚘 Garage Tools</h2>
+        <button class="auto-toggle" onclick="toggleAutoLeft()">☰</button>
+
+        <ul>
+            <li>🛠 Engine Tools</li>
+            <li>🚦 Brake Tester</li>
+            <li>🔋 Battery Scanner</li>
+            <li>💻 ECU Reader</li>
+            <li>⚙ Suspension Kit</li>
+            <li>🛞 Tire Tools</li>
+        </ul>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="auto-main">
+        <h1>🚘 Auto Repair & Maintenance</h1>
+        <p class="subtitle">Modern Vehicle Diagnostics & Repair Training Lab</p>
+
+        <div class="auto-cards">
+            <div class="auto-card">🛠 <h4>Engine Repair</h4><p>Diagnostics, tuning & rebuilding</p></div>
+            <div class="auto-card">🚦 <h4>Brake Systems</h4><p>ABS, hydraulic & disc brakes</p></div>
+            <div class="auto-card">🔋 <h4>Electrical</h4><p>Wiring, sensors & ECU</p></div>
+            <div class="auto-card">🚙 <h4>Suspension</h4><p>Alignment & steering systems</p></div>
+            <div class="auto-card">🛞 <h4>Tire Service</h4><p>Balancing & replacements</p></div>
+            <div class="auto-card">🧪 <h4>Diagnostics</h4><p>OBD scanning & fault codes</p></div>
+        </div>
+    </div>
+
+    <!-- ===== RIGHT STATUS PANEL ===== -->
+    <div id="autoRight" class="auto-right">
+        <button class="auto-toggle right" onclick="toggleAutoRight()">❯</button>
+
+        <h3>🏎 Live Workshop</h3>
+
+        <div class="auto-slide active">🚘 Vehicle Arrived</div>
+        <div class="auto-slide">🧪 Diagnostics Running</div>
+        <div class="auto-slide">🛠 Repair in Progress</div>
+        <div class="auto-slide">🧼 Cleaning & Testing</div>
+        <div class="auto-slide">✅ Ready for Delivery</div>
+
+        <a href="{% url 'skills' %}" class="btn btn-info w-100 mt-4">⬅ Back to Skills</a>
+    </div>
+
+</div>
+
+<!-- ================= CSS ================= -->
+<style>
+.auto-layout{
+    display:flex;
+    height:100vh;
+    background:#05070b;
+    color:white;
+    overflow:hidden;
+}
+
+/* LEFT */
+.auto-left{
+    width:260px;
+    background:rgba(10,10,15,0.95);
+    padding:20px;
+    transition:.4s;
+}
+.auto-left ul{list-style:none;padding:0;}
+.auto-left li{
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.auto-left li:hover{background:#00c8ff33;}
+
+/* MAIN */
+.auto-main{
+    flex:1;
+    padding:40px;
+    text-align:center;
+    overflow:auto;
+}
+
+.auto-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:30px;
+    margin-top:40px;
+}
+
+.auto-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 0 20px rgba(0,200,255,0.3);
+    transition:.4s;
+}
+.auto-card:hover{
+    transform:translateY(-15px) scale(1.05);
+    box-shadow:0 0 40px rgba(0,200,255,0.8);
+}
+
+/* RIGHT */
+.auto-right{
+    width:300px;
+    background:rgba(10,10,15,0.95);
+    padding:20px;
+    transition:.4s;
+    position:relative;
+}
+
+.auto-slide{
+    opacity:0;
+    position:absolute;
+    top:120px;
+    left:20px;
+    right:20px;
+    font-size:20px;
+    text-align:center;
+    transition:1s;
+}
+.auto-slide.active{opacity:1;}
+
+.auto-toggle{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#00c8ff;
+    border:none;
+    padding:10px 14px;
+    border-radius:50%;
+    cursor:pointer;
+}
+.auto-toggle.right{
+    left:-15px;
+    right:auto;
+}
+</style>
+
+<!-- ================= JS ================= -->
+<script>
+function toggleAutoLeft(){
+    let p=document.getElementById("autoLeft");
+    p.style.width = (p.style.width=="50px")?"260px":"50px";
+}
+
+function toggleAutoRight(){
+    let p=document.getElementById("autoRight");
+    p.style.width = (p.style.width=="50px")?"300px":"50px";
+}
+
+let autoSlides=document.querySelectorAll(".auto-slide");
+let i=0;
+setInterval(()=>{
+    autoSlides.forEach(s=>s.classList.remove("active"));
+    i=(i+1)%autoSlides.length;
+    autoSlides[i].classList.add("active");
+},3000);
+</script>
+
+{% endblock %}

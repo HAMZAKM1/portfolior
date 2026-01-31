@@ -1,0 +1,164 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="hvac-layout">
+
+    <!-- ===== LEFT HVAC TOOLS ===== -->
+    <div id="hvacLeft" class="hvac-left">
+        <h2>❄ HVAC Tools</h2>
+        <button class="hvac-toggle" onclick="toggleHvacLeft()">☰</button>
+
+        <ul>
+            <li>🌡 Temperature Meter</li>
+            <li>💨 Air Flow Gauge</li>
+            <li>🛠 AC Service Kit</li>
+            <li>🔋 Control Panel</li>
+            <li>🧊 Refrigerant Tools</li>
+            <li>🧰 Installation Tools</li>
+        </ul>
+    </div>
+
+    <!-- ===== MAIN HVAC AREA ===== -->
+    <div class="hvac-main">
+        <h1>❄ HVAC Technician Control Room</h1>
+        <p class="subtitle">Professional Heating, Cooling & Ventilation Training</p>
+
+        <div class="hvac-cards">
+            <div class="hvac-card">🌬 <h4>HVAC Systems</h4><p>Residential & commercial units</p></div>
+            <div class="hvac-card">🛠 <h4>Installation</h4><p>Split AC, ducting & chillers</p></div>
+            <div class="hvac-card">💧 <h4>Refrigeration</h4><p>Gas charging & leak detection</p></div>
+            <div class="hvac-card">⚡ <h4>Electrical</h4><p>Thermostats & control wiring</p></div>
+            <div class="hvac-card">📊 <h4>Energy Efficiency</h4><p>Power saving systems</p></div>
+            <div class="hvac-card">🧪 <h4>Gas Safety</h4><p>Refrigerant handling</p></div>
+        </div>
+    </div>
+
+    <!-- ===== RIGHT HVAC MONITOR ===== -->
+    <div id="hvacRight" class="hvac-right">
+        <button class="hvac-toggle right" onclick="toggleHvacRight()">❯</button>
+
+        <h3>❄ Live HVAC System</h3>
+
+        <div class="hvac-slide active">🌡 Temperature Stable</div>
+        <div class="hvac-slide">💨 Air Flow Normal</div>
+        <div class="hvac-slide">🧊 Cooling Active</div>
+        <div class="hvac-slide">🔋 Power Optimized</div>
+        <div class="hvac-slide">✅ System Healthy</div>
+
+        <a href="{% url 'skills' %}" class="btn btn-info w-100 mt-4">⬅ Back to Skills</a>
+    </div>
+
+</div>
+
+<!-- ================= CSS ================= -->
+<style>
+.hvac-layout{
+    display:flex;
+    height:100vh;
+    background:#030b12;
+    color:white;
+    overflow:hidden;
+}
+
+/* LEFT */
+.hvac-left{
+    width:260px;
+    background:rgba(10,20,30,0.95);
+    padding:20px;
+    transition:.4s;
+}
+.hvac-left ul{list-style:none;padding:0;}
+.hvac-left li{
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.hvac-left li:hover{background:#00bfff44;}
+
+/* MAIN */
+.hvac-main{
+    flex:1;
+    padding:40px;
+    text-align:center;
+    overflow:auto;
+}
+
+.hvac-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:30px;
+    margin-top:40px;
+}
+
+.hvac-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 0 25px rgba(0,191,255,0.4);
+    transition:.4s;
+}
+.hvac-card:hover{
+    transform:translateY(-15px) scale(1.05);
+    box-shadow:0 0 50px rgba(0,191,255,0.8);
+}
+
+/* RIGHT */
+.hvac-right{
+    width:300px;
+    background:rgba(10,20,30,0.95);
+    padding:20px;
+    transition:.4s;
+    position:relative;
+}
+
+.hvac-slide{
+    opacity:0;
+    position:absolute;
+    top:120px;
+    left:20px;
+    right:20px;
+    font-size:20px;
+    text-align:center;
+    transition:1s;
+}
+.hvac-slide.active{opacity:1;}
+
+.hvac-toggle{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#00bfff;
+    border:none;
+    padding:10px 14px;
+    border-radius:50%;
+    cursor:pointer;
+}
+.hvac-toggle.right{
+    left:-15px;
+    right:auto;
+}
+</style>
+
+<!-- ================= JS ================= -->
+<script>
+function toggleHvacLeft(){
+    let p=document.getElementById("hvacLeft");
+    p.style.width = (p.style.width=="50px")?"260px":"50px";
+}
+function toggleHvacRight(){
+    let p=document.getElementById("hvacRight");
+    p.style.width = (p.style.width=="50px")?"300px":"50px";
+}
+
+let hvacSlides=document.querySelectorAll(".hvac-slide");
+let i=0;
+setInterval(()=>{
+    hvacSlides.forEach(s=>s.classList.remove("active"));
+    i=(i+1)%hvacSlides.length;
+    hvacSlides[i].classList.add("active");
+},3000);
+</script>
+
+{% endblock %}

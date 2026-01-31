@@ -1,0 +1,161 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="container py-5">
+
+    <!-- ================= HEADER ================= -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-gradient">📸 Photographer Resume</h1>
+        <p class="lead text-muted">Portrait • Product • Event Photography</p>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a href="#" class="btn btn-primary">📥 Download Portfolio</a>
+            <a href="#contact" class="btn btn-outline-info">📩 Hire Me</a>
+        </div>
+    </div>
+
+    <!-- ================= PROFILE ================= -->
+    <div class="row mb-5">
+        <div class="col-md-4 text-center">
+            <img src="{% static 'images/profile.jpg' %}"
+                 class="img-fluid rounded-circle shadow-lg" width="200">
+        </div>
+        <div class="col-md-8">
+            <div class="glass-card p-4">
+                <h4>👤 Hamza</h4>
+                <p>
+                    Creative and detail-oriented professional photographer with
+                    expertise in portraits, product shoots, and event coverage.
+                    Passionate about visual storytelling and brand aesthetics.
+                </p>
+                <p>
+                    📍 Available Worldwide<br>
+                    📧 hamza.photo@email.com<br>
+                    📞 +966-XXX-XXXX
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SKILLS ================= -->
+    <h3 class="mb-3">📷 Photography Skills</h3>
+    <div class="row">
+        <div class="col-md-4"><div class="skill-box">Studio Photography</div></div>
+        <div class="col-md-4"><div class="skill-box">Outdoor Shoots</div></div>
+        <div class="col-md-4"><div class="skill-box">Event Coverage</div></div>
+        <div class="col-md-4"><div class="skill-box">Adobe Lightroom</div></div>
+        <div class="col-md-4"><div class="skill-box">Adobe Photoshop</div></div>
+        <div class="col-md-4"><div class="skill-box">Photo Retouching</div></div>
+    </div>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <h3 class="mt-5">💼 Professional Experience</h3>
+    <div class="timeline">
+        <div class="timeline-item">
+            <h5>Freelance Photographer</h5>
+            <span>2022 – Present</span>
+            <p>
+                Worked with brands, individuals, and events delivering
+                high-quality visual content for marketing and personal use.
+            </p>
+        </div>
+
+        <div class="timeline-item">
+            <h5>Studio Assistant</h5>
+            <span>2020 – 2022</span>
+            <p>
+                Assisted senior photographers, managed lighting setups,
+                and handled post-production editing.
+            </p>
+        </div>
+    </div>
+
+    <!-- ================= SERVICES ================= -->
+    <h3 class="mt-5">🖼 Photography Services</h3>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>Portrait Sessions</h5>
+                <p>Professional portraits for individuals & brands</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>Product Photography</h5>
+                <p>High-quality images for e-commerce & marketing</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>Event Coverage</h5>
+                <p>Weddings, corporate events & live shows</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CONTACT ================= -->
+    <h3 class="mt-5" id="contact">📞 Contact</h3>
+    <div class="glass-card p-4">
+        <p>Email: <b>hamza.photo@email.com</b></p>
+        <p>Instagram: @hamza.photography</p>
+        <p>Portfolio: www.hamzaphoto.com</p>
+    </div>
+
+</section>
+
+<!-- ================= STYLE ================= -->
+<style>
+.text-gradient {
+    background: linear-gradient(90deg,#ffb347,#ff6ec4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Glass Card */
+.glass-card {
+    background: rgba(20,20,20,0.65);
+    backdrop-filter: blur(14px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 25px rgba(255,110,196,0.3);
+}
+
+/* Skill Box */
+.skill-box {
+    background: linear-gradient(135deg,#ffb347,#ff6ec4);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Timeline */
+.timeline-item {
+    background: rgba(0,0,0,0.45);
+    padding: 20px;
+    border-left: 4px solid #ff6ec4;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* Project Cards */
+.project-card {
+    background: rgba(0,0,0,0.55);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px rgba(255,110,196,0.5);
+}
+</style>
+
+{% endblock %}

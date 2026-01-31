@@ -1,0 +1,159 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- ================= BACKGROUND ANIMATION ================= -->
+<div class="floating-bg"></div>
+
+<div class="container-fluid web-dev-page">
+
+<div class="row">
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="col-md-8 left-section">
+
+    <!-- ===== HERO ===== -->
+    <div class="glass hero-box">
+        <h1><i class="fa fa-globe text-info"></i> Web Development</h1>
+        <p>Build fast, modern and responsive websites using cutting-edge technologies and UI/UX design.</p>
+        <div class="hero-btns">
+            <a href="#projects" class="btn btn-info">🚀 View Projects</a>
+            <a href="{% url 'skills' %}" class="btn btn-outline-light">⬅ Back to Skills</a>
+        </div>
+    </div>
+
+    <!-- ===== TECHNOLOGIES ===== -->
+    <div class="glass tech-box">
+        <h3>🧰 Technologies I Use</h3>
+        <div class="tech-grid">
+            <div class="tech-card">HTML5</div>
+            <div class="tech-card">CSS3</div>
+            <div class="tech-card">JavaScript</div>
+            <div class="tech-card">Bootstrap</div>
+            <div class="tech-card">Tailwind</div>
+            <div class="tech-card">React</div>
+            <div class="tech-card">Django</div>
+        </div>
+    </div>
+
+    <!-- ===== SKILLS ===== -->
+    <div class="glass skill-box">
+        <h3>⚡ Web Development Skills</h3>
+
+        <div class="skill">
+            <span>HTML / CSS</span>
+            <div class="bar"><div class="fill" data="95"></div></div>
+        </div>
+        <div class="skill">
+            <span>JavaScript</span>
+            <div class="bar"><div class="fill" data="90"></div></div>
+        </div>
+        <div class="skill">
+            <span>React</span>
+            <div class="bar"><div class="fill" data="85"></div></div>
+        </div>
+        <div class="skill">
+            <span>Django</span>
+            <div class="bar"><div class="fill" data="88"></div></div>
+        </div>
+    </div>
+
+    <!-- ===== PROJECTS ===== -->
+    <div class="glass project-box" id="projects">
+        <h3>🛠 Web Projects</h3>
+
+        <div class="project-slider">
+            <div class="project-card">
+                <img src="{% static 'images/projects/gallery.jpg' %}">
+                <h5>Virtual Art Gallery</h5>
+                <p>Interactive gallery with animations & filters.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/portfolio.jpg' %}">
+                <h5>Portfolio Website</h5>
+                <p>Modern glass UI with animations.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/shop.jpg' %}">
+                <h5>E-Commerce UI</h5>
+                <p>Product filters, cart & checkout.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= RIGHT SIDE PANEL ================= -->
+<div class="col-md-4 right-panel">
+
+    <!-- ===== EXPERIENCE ===== -->
+    <div class="glass side-box">
+        <h4>💼 Experience</h4>
+        <p>3+ Years building professional web applications.</p>
+    </div>
+
+    <!-- ===== COUNTERS ===== -->
+    <div class="glass counter-box">
+        <div class="counter" data-count="40">0</div><span>Web Projects</span>
+        <div class="counter" data-count="25">0</div><span>Clients</span>
+        <div class="counter" data-count="3">0</div><span>Years</span>
+    </div>
+
+    <!-- ===== HIRE CARD ===== -->
+    <div class="glass hire-box">
+        <h4>🚀 Hire Me</h4>
+        <p>Let’s build something amazing together.</p>
+        <a href="mailto:hamza@gmail.com" class="btn btn-info w-100">Email Me</a>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<!-- ================= STYLES ================= -->
+<style>
+.web-dev-page{padding:30px; position:relative; overflow:hidden;}
+.floating-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 20%,rgba(0,198,255,0.15),transparent 40%),radial-gradient(circle at 80% 70%,rgba(255,0,255,0.15),transparent 40%);z-index:-1;animation:moveBg 20s infinite alternate;}
+@keyframes moveBg{0%{transform:translate(0,0);}100%{transform:translate(-50px,50px);}}
+
+.glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 0 25px rgba(0,255,255,0.15);}
+
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;}
+.tech-card{padding:15px;text-align:center;border-radius:15px;background:rgba(0,198,255,0.15);transition:.3s;}
+.tech-card:hover{transform:scale(1.1);background:#00c6ff;}
+
+.skill .bar{background:rgba(255,255,255,0.1);border-radius:10px;height:12px;}
+.fill{width:0;height:100%;background:#00c6ff;border-radius:10px;}
+
+.project-slider{display:flex;gap:15px;overflow-x:auto;}
+.project-card{min-width:220px;background:rgba(0,198,255,0.1);padding:10px;border-radius:15px;transition:.3s;}
+.project-card:hover{transform:scale(1.05);}
+.project-card img{width:100%;border-radius:10px;}
+
+.counter-box{display:flex;justify-content:space-around;text-align:center;}
+.counter{font-size:32px;color:#00c6ff;}
+</style>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+document.querySelectorAll('.fill').forEach(el=>{
+    let width=0,target=el.getAttribute('data');
+    let timer=setInterval(()=>{
+        if(width>=target){clearInterval(timer);}
+        else{width++;el.style.width=width+'%';}
+    },15);
+});
+
+document.querySelectorAll('.counter').forEach(el=>{
+    let count=0,target=el.getAttribute('data-count');
+    let timer=setInterval(()=>{
+        if(count>=target){clearInterval(timer);el.innerText=target;}
+        else{el.innerText=count++;}
+    },40);
+});
+</script>
+
+{% endblock %}

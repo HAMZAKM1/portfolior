@@ -1,0 +1,600 @@
+{% extends "folio/base.html" %}
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-info">📊 Financial Management</h1>
+        <p class="lead text-light">Strategic Finance • Business Growth • Risk Control</p>
+    </div>
+
+   <!-- Profile Summary -->
+<div class="glass-card mb-4 p-4">
+    <h4>👤 Profile Summary</h4>
+    <p>
+        Results-driven Financial Manager with expertise in budgeting, forecasting,
+        investment analysis, and financial reporting. Skilled in improving profitability,
+        controlling risk, and supporting business decision-making.
+    </p>
+
+    <!-- Key Metrics -->
+    <div class="metrics mt-3">
+        <div class="metric-item mb-2">
+            <i class="fa fa-dollar-sign text-warning"></i> Managed Budgets: <b>$5M+</b>
+        </div>
+        <div class="metric-item mb-2">
+            <i class="fa fa-chart-line text-success"></i> ROI Improvement: <b>15%</b>
+        </div>
+        <div class="metric-item mb-2">
+            <i class="fa fa-users text-info"></i> Teams Led: <b>10+</b>
+        </div>
+        <div class="metric-item mb-2">
+            <i class="fa fa-file-invoice-dollar text-primary"></i> Reports Delivered: <b>100+</b>
+        </div>
+    </div>
+
+    <!-- Skills Progress Bars -->
+    <h5 class="mt-4">💼 Core Competencies</h5>
+    <div class="skill-bar">
+        <div class="skill-name">Financial Analysis</div>
+        <div class="progress">
+            <div class="progress-bar bg-success" style="width: 95%">95%</div>
+        </div>
+    </div>
+    <div class="skill-bar">
+        <div class="skill-name">Budgeting & Forecasting</div>
+        <div class="progress">
+            <div class="progress-bar bg-info" style="width: 90%">90%</div>
+        </div>
+    </div>
+    <div class="skill-bar">
+        <div class="skill-name">Tax Compliance</div>
+        <div class="progress">
+            <div class="progress-bar bg-warning" style="width: 85%">85%</div>
+        </div>
+    </div>
+    <div class="skill-bar">
+        <div class="skill-name">Investment Strategy</div>
+        <div class="progress">
+            <div class="progress-bar bg-danger" style="width: 80%">80%</div>
+        </div>
+    </div>
+</div>
+
+<style>
+.glass-card {
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 30px;
+    box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 40px rgba(255, 110, 196, 0.5);
+}
+
+.skill-bar {
+    margin-bottom: 12px;
+}
+
+.skill-name {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #00c8ff;
+}
+
+.progress {
+    height: 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar {
+    border-radius: 10px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px #00c8ff; }
+    to { box-shadow: 0 0 15px #ff6ec4; }
+}
+
+.metrics .metric-item i {
+    margin-right: 8px;
+}
+.metric-item b {
+    font-weight: 600;
+}
+</style>
+
+   <!-- Skills -->
+<div class="row g-4">
+    <!-- Core Financial Skills -->
+    <div class="col-md-6">
+        <div class="glass-card p-4">
+            <h4>💼 Core Financial Skills</h4>
+
+            <div class="skill-bar">
+                <i class="fa fa-chart-line me-2"></i> Financial Planning & Analysis (FP&A)
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-success" style="width:95%">95%</div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <i class="fa fa-calculator me-2"></i> Budgeting & Forecasting
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-info" style="width:90%">90%</div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <i class="fa fa-money-bill-wave me-2"></i> Cash Flow Management
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-warning" style="width:85%">85%</div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <i class="fa fa-file-invoice-dollar me-2"></i> Profit & Loss Reporting
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-danger" style="width:90%">90%</div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <i class="fa fa-shield-alt me-2"></i> Risk Management
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-primary" style="width:80%">80%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools & Systems -->
+    <div class="col-md-6">
+        <div class="glass-card p-4">
+            <h4>📊 Tools & Systems</h4>
+
+            <div class="skill-bar">
+                <i class="fa fa-file-excel me-2"></i> Microsoft Excel (Advanced)
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-success" style="width:95%">95%</div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <i class="fa fa-book me-2"></i> QuickBooks & Accounting Software
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-info" style="width:90%">90%</div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <i class="fa fa-chart-pie me-2"></i> Financial Dashboards
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-warning" style="width:85%">85%</div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <i class="fa fa-balance-scale me-2"></i> Tax & Compliance Systems
+                <div class="progress mt-1">
+                    <div class="progress-bar bg-danger" style="width:80%">80%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.glass-card {
+    background: rgba(20,20,20,0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 25px;
+    box-shadow: 0 0 20px rgba(0,200,255,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 40px rgba(255,110,196,0.5);
+}
+
+.skill-bar {
+    margin-bottom: 15px;
+}
+
+.skill-bar i {
+    color: #00c8ff;
+}
+
+.progress {
+    height: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+}
+
+.progress-bar {
+    border-radius: 10px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px #00c8ff; }
+    to { box-shadow: 0 0 15px #ff6ec4; }
+}
+</style>
+
+
+    <!-- Professional Experience -->
+<div class="glass-card mt-4 p-4">
+    <h4>🏢 Professional Experience</h4>
+    <div class="timeline">
+
+        <!-- Experience Item -->
+        <div class="timeline-item">
+            <span class="year">2024</span>
+            <h5><i class="fa fa-dollar-sign me-2 text-warning"></i> Senior Financial Manager</h5>
+            <ul>
+                <li>Managed company budgets and monthly financial reports <span class="badge bg-info ms-2">Finance</span></li>
+                <li>Improved cash flow and reduced operating costs <span class="badge bg-success ms-2">Efficiency</span></li>
+                <li>Analyzed financial risks and investment opportunities <span class="badge bg-primary ms-2">Analysis</span></li>
+                <li>Prepared tax, audit, and compliance documentation <span class="badge bg-danger ms-2">Compliance</span></li>
+            </ul>
+        </div>
+
+        <!-- Experience Item -->
+        <div class="timeline-item">
+            <span class="year">2022</span>
+            <h5><i class="fa fa-chart-line me-2 text-success"></i> Financial Analyst</h5>
+            <ul>
+                <li>Created financial dashboards and KPI reports <span class="badge bg-info ms-2">Dashboard</span></li>
+                <li>Forecasted budgets and monitored expenditures <span class="badge bg-warning ms-2">Budget</span></li>
+                <li>Supported strategic decision-making <span class="badge bg-primary ms-2">Strategy</span></li>
+            </ul>
+        </div>
+
+        <!-- Experience Item -->
+        <div class="timeline-item">
+            <span class="year">2020</span>
+            <h5><i class="fa fa-book me-2 text-danger"></i> Junior Accountant</h5>
+            <ul>
+                <li>Assisted in bookkeeping and payroll management <span class="badge bg-success ms-2">Payroll</span></li>
+                <li>Prepared monthly P&L statements <span class="badge bg-warning ms-2">Reporting</span></li>
+                <li>Ensured tax compliance and documentation <span class="badge bg-danger ms-2">Tax</span></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.timeline {
+    position: relative;
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #00c8ff, #ff6ec4);
+    border-radius: 2px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+    padding-left: 20px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    background: #ff6ec4;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-item h5 {
+    margin-bottom: 10px;
+    color: #00c8ff;
+}
+
+.timeline-item .year {
+    font-weight: bold;
+    color: #ff6ec4;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.timeline-item ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+.timeline-item ul li {
+    margin-bottom: 6px;
+    transition: transform 0.3s;
+}
+
+.timeline-item ul li:hover {
+    transform: translateX(5px);
+}
+
+.timeline-item ul li .badge {
+    font-size: 0.7rem;
+}
+</style>
+
+
+    <!-- Education -->
+<div class="glass-card mt-4 p-4">
+    <h4>🎓 Education & Certifications</h4>
+
+    <div class="edu-timeline">
+
+        <!-- Education Item -->
+        <div class="edu-item">
+            <span class="year">2022 - 2024</span>
+            <h5><i class="fa fa-university me-2 text-warning"></i>Bachelor’s Degree in Finance / Business Administration</h5>
+            <p>Major in Financial Management, Investment Analysis, and Accounting.</p>
+            <span class="badge bg-info me-1">Finance</span>
+            <span class="badge bg-success me-1">Business</span>
+        </div>
+
+        <!-- Certification Item -->
+        <div class="edu-item">
+            <span class="year">2023</span>
+            <h5><i class="fa fa-certificate me-2 text-success"></i>Certified Financial Manager (CFM)</h5>
+            <p>Advanced professional certification covering budgeting, forecasting, and financial reporting.</p>
+            <span class="badge bg-primary me-1">Certification</span>
+        </div>
+
+        <!-- Specialized Training -->
+        <div class="edu-item">
+            <span class="year">2021</span>
+            <h5><i class="fa fa-graduation-cap me-2 text-danger"></i>Specialized Training in Accounting & Financial Management</h5>
+            <p>Focused on financial planning, taxation, and audit compliance.</p>
+            <span class="badge bg-warning me-1">Training</span>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.edu-timeline {
+    position: relative;
+    padding-left: 20px;
+    margin-top: 15px;
+}
+
+.edu-timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #00c8ff, #ff6ec4);
+    border-radius: 2px;
+}
+
+.edu-item {
+    position: relative;
+    margin-bottom: 25px;
+    padding-left: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.edu-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 10px;
+    width: 14px;
+    height: 14px;
+    background: #ff6ec4;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.edu-item h5 {
+    color: #00c8ff;
+    margin-bottom: 5px;
+}
+
+.edu-item .year {
+    font-weight: bold;
+    color: #ff6ec4;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.edu-item p {
+    margin-bottom: 5px;
+    color: #ccc;
+}
+
+.edu-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 0 15px rgba(255,110,196,0.5);
+}
+
+.edu-item .badge {
+    font-size: 0.7rem;
+    margin-top: 5px;
+}
+</style>
+
+
+    <!-- Strengths -->
+<div class="glass-card mt-4 p-4">
+    <h4>⭐ Professional Strengths</h4>
+
+    <div class="row text-center g-4 mt-3">
+        <!-- Strength Item -->
+        <div class="col-md-3">
+            <div class="strength-box">
+                <div class="strength-icon">📈</div>
+                <h6>Strategic Thinking</h6>
+                <div class="progress">
+                    <div class="progress-bar bg-info" style="width: 95%;">95%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="strength-box">
+                <div class="strength-icon">📊</div>
+                <h6>Data Analysis</h6>
+                <div class="progress">
+                    <div class="progress-bar bg-warning" style="width: 90%;">90%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="strength-box">
+                <div class="strength-icon">💼</div>
+                <h6>Business Planning</h6>
+                <div class="progress">
+                    <div class="progress-bar bg-success" style="width: 85%;">85%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="strength-box">
+                <div class="strength-icon">🧠</div>
+                <h6>Risk Management</h6>
+                <div class="progress">
+                    <div class="progress-bar bg-danger" style="width: 80%;">80%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.strength-box {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.strength-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(0,200,255,0.4);
+}
+
+.strength-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.progress {
+    height: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.7rem;
+    line-height: 12px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px #00c8ff; }
+    to { box-shadow: 0 0 15px #ff6ec4; }
+}
+</style>
+
+    <!-- Contact -->
+<div class="glass-card mt-4 p-4 text-center">
+    <h3 class="mb-3">📞 Get In Touch</h3>
+
+    <p class="mb-2">
+        📧 <b><a href="mailto:hamza.finance@email.com" class="contact-link">hamza.finance@email.com</a></b>
+    </p>
+
+    <p class="mb-3">
+        🌍 Open for Freelance • Consulting • Full-time Roles
+    </p>
+
+    <!-- Social Links -->
+    <div class="d-flex justify-content-center gap-3 mb-4">
+        <a href="#" class="social-btn">LinkedIn</a>
+        <a href="#" class="social-btn">Portfolio</a>
+        <a href="#" class="social-btn">GitHub</a>
+        <a href="#" class="social-btn">Upwork</a>
+    </div>
+
+    <!-- Call To Action -->
+    <div>
+        <a href="mailto:hamza.finance@email.com" class="btn btn-info btn-lg me-2 glow">
+            ✉ Email Me
+        </a>
+        <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg glow">
+            💬 Hire Me
+        </a>
+    </div>
+</div>
+
+<style>
+.contact-link {
+    color: #00c8ff;
+    text-decoration: none;
+}
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+.social-btn {
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+.social-btn:hover {
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    box-shadow: 0 0 15px rgba(255,110,196,0.6);
+    transform: translateY(-3px);
+}
+
+.glow:hover {
+    box-shadow: 0 0 20px rgba(0,200,255,0.7);
+}
+</style>
+
+</div>
+
+{% endblock %}

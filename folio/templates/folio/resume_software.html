@@ -1,0 +1,835 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="container py-5">
+
+   
+    <!-- ================= PROFILE ================= -->
+<div class="row mb-5">
+    <!-- Profile Picture -->
+    <div class="col-md-4 text-center">
+        <div class="glass-card p-3 shadow-lg" style="padding: 20px;">
+            <img src="{% static 'images/profile.jpg' %}" class="img-fluid rounded-circle shadow-lg mb-3" width="200">
+            <h5 class="text-gradient">👨‍💻 Hamza</h5>
+            <p class="text-muted small">
+                Software Engineer • Full-stack Developer • AI Enthusiast
+            </p>
+        </div>
+    </div>
+
+    <!-- Profile Info + Header -->
+    <div class="col-md-8">
+        <div class="glass-card p-4 shadow-lg">
+            <!-- Introduction -->
+            <p>
+                🚀 I build scalable, secure, and visually stunning web applications with Python, Django, JavaScript, and AI-driven solutions.
+                Experienced in REST APIs, cloud integration, and full-stack development.
+            </p>
+
+            <!-- Contact Quick Info -->
+            <div class="d-flex flex-wrap gap-3 mb-4">
+                <span>📍 Remote • Middle East • Worldwide</span>
+                <span>📧 <a href="mailto:hamza.dev@email.com" class="text-info">hamza.dev@email.com</a></span>
+                <span>📞 +966-XXX-XXXX</span>
+            </div>
+
+            <!-- Header / Resume Call-to-Action -->
+            <div class="text-center">
+                <h1 class="display-5 fw-bold text-gradient mb-2">💻 Software Engineering Resume</h1>
+                <p class="lead text-muted mb-3">Full-stack Developer • AI Enthusiast • System Architect</p>
+
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <!-- Download -->
+                    <a href="{% static 'resume/hamza_software_resume.pdf' %}" class="btn btn-primary">
+                        <i class="fa fa-download"></i> Download PDF
+                    </a>
+
+                    <!-- View -->
+                    <a href="{% static 'resume/hamza_software_resume.pdf' %}" target="_blank" class="btn btn-success">
+                        <i class="fa fa-eye"></i> View Resume
+                    </a>
+
+                    <!-- Hire -->
+                    <a href="#contact" class="btn btn-outline-info">
+                        <i class="fa fa-paper-plane"></i> Hire Me
+                    </a>
+                </div>
+            </div>
+
+            <!-- Optional Quick Skill Highlights -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="skill-badge">Python / Django</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="skill-badge">JavaScript / React</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="skill-badge">AI & Machine Learning</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.text-gradient {
+    background: linear-gradient(90deg, #00c8ff, #ff6ec4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Glass card styling */
+.glass-card {
+    background: rgba(20,20,20,0.65);
+    backdrop-filter: blur(14px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 25px rgba(0,200,255,0.3);
+    transition: 0.3s;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 35px rgba(255,110,196,0.5);
+}
+
+/* Skill badges */
+.skill-badge {
+    background: linear-gradient(135deg,#00f2fe,#4facfe);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 0 15px rgba(0,200,255,0.2);
+    margin-bottom: 10px;
+}
+</style>
+
+    <!-- ================= SKILLS ================= -->
+<h3 class="mb-3 text-gradient">🚀 Technical Skills</h3>
+<div class="row">
+
+    <!-- Skill 1 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-brands fa-python"></i> Python / Django
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 95%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill 2 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-brands fa-js-square"></i> JavaScript / React
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 90%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill 3 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-solid fa-robot"></i> AI & Machine Learning
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 85%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill 4 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-solid fa-code"></i> REST APIs
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 92%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill 5 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-solid fa-database"></i> PostgreSQL / MySQL
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 88%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill 6 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-solid fa-cloud"></i> Cloud (AWS / Azure)
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 80%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill 7 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-brands fa-git-alt"></i> Git & Version Control
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 95%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill 8 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-brands fa-docker"></i> Docker & Containers
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 85%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill 9 -->
+    <div class="col-md-4 mb-4">
+        <div class="skill-box">
+            <i class="fa-solid fa-server"></i> DevOps / CI-CD
+            <div class="skill-bar">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 78%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+.skill-box {
+    background: rgba(20,20,20,0.6);
+    padding: 15px 20px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    box-shadow: 0 0 15px rgba(0,200,255,0.2);
+    transition: transform 0.3s;
+}
+.skill-box i {
+    margin-right: 8px;
+    color: #00c8ff;
+}
+.skill-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(255,110,196,0.5);
+}
+.skill-bar {
+    margin-top: 8px;
+}
+.progress {
+    height: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+}
+.progress-bar {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg,#00c8ff,#ff6ec4);
+    animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+    from { box-shadow: 0 0 5px #00c8ff; }
+    to { box-shadow: 0 0 15px #ff6ec4; }
+}
+</style>
+
+
+    <!-- ================= EXPERIENCE ================= -->
+<h3 class="mt-5 text-gradient">💼 Professional Experience</h3>
+
+<div class="timeline">
+
+    <!-- Experience Item 1 -->
+    <div class="timeline-item">
+        <div class="timeline-header d-flex align-items-center mb-2">
+            <img src="{% static 'images/company_logo1.png' %}" alt="Company Logo" width="50" class="me-3 rounded-circle shadow-sm">
+            <div>
+                <h5 class="mb-0">Senior Software Engineer – Freelance</h5>
+                <small class="text-muted">2023 – Present</small>
+            </div>
+        </div>
+        <p>
+            Developing enterprise-grade Django platforms, financial dashboards,
+            e-commerce systems, and AI-powered web applications for clients worldwide.
+        </p>
+        <ul class="timeline-bullets">
+            <li>Designed scalable RESTful APIs serving 50k+ users.</li>
+            <li>Implemented AI modules for predictive analytics.</li>
+            <li>Improved application performance by 40% through optimization.</li>
+        </ul>
+        <div class="role-badges">
+            <span class="badge">Django</span>
+            <span class="badge">Python</span>
+            <span class="badge">AI / ML</span>
+            <span class="badge">Full-Stack</span>
+        </div>
+    </div>
+
+    <!-- Experience Item 2 -->
+    <div class="timeline-item">
+        <div class="timeline-header d-flex align-items-center mb-2">
+            <img src="{% static 'images/company_logo2.png' %}" alt="Startup Logo" width="50" class="me-3 rounded-circle shadow-sm">
+            <div>
+                <h5 class="mb-0">Web Developer – Startup Projects</h5>
+                <small class="text-muted">2021 – 2023</small>
+            </div>
+        </div>
+        <p>
+            Built responsive web apps, portfolio platforms, automation tools,
+            and API-driven services for early-stage startups.
+        </p>
+        <ul class="timeline-bullets">
+            <li>Developed portfolio websites for 10+ clients.</li>
+            <li>Integrated payment gateways and cloud hosting solutions.</li>
+            <li>Created automated scripts reducing repetitive tasks by 70%.</li>
+        </ul>
+        <div class="role-badges">
+            <span class="badge">HTML/CSS</span>
+            <span class="badge">JavaScript</span>
+            <span class="badge">React</span>
+            <span class="badge">API Development</span>
+        </div>
+    </div>
+
+    <!-- Optional Experience Item 3 -->
+    <div class="timeline-item">
+        <div class="timeline-header d-flex align-items-center mb-2">
+            <img src="{% static 'images/company_logo3.png' %}" alt="Previous Company Logo" width="50" class="me-3 rounded-circle shadow-sm">
+            <div>
+                <h5 class="mb-0">Junior Developer – Internship</h5>
+                <small class="text-muted">2020 – 2021</small>
+            </div>
+        </div>
+        <p>
+            Assisted senior developers in front-end and back-end projects, debugging, and testing.
+        </p>
+        <ul class="timeline-bullets">
+            <li>Contributed to 3 major client projects.</li>
+            <li>Learned best practices in version control & code reviews.</li>
+            <li>Automated repetitive testing tasks using Python scripts.</li>
+        </ul>
+        <div class="role-badges">
+            <span class="badge">Python</span>
+            <span class="badge">Django</span>
+            <span class="badge">Git/GitHub</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= STYLE ================= -->
+<style>
+.timeline {
+    position: relative;
+    padding-left: 40px;
+}
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg,#00c8ff,#ff6ec4);
+}
+.timeline-item {
+    position: relative;
+    background: rgba(20,20,20,0.65);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border-left: 4px solid #00c8ff;
+    box-shadow: 0 0 25px rgba(0,200,255,0.2);
+    transition: 0.3s;
+}
+.timeline-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 35px rgba(255,110,196,0.5);
+}
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    top: 25px;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle,#00c8ff,#ff6ec4);
+    border-radius: 50%;
+}
+.timeline-header img {
+    border: 2px solid rgba(255,255,255,0.2);
+}
+.timeline-bullets {
+    list-style: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+.timeline-bullets li {
+    margin-bottom: 6px;
+}
+.role-badges {
+    margin-top: 10px;
+}
+.role-badges .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    border-radius: 12px;
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+</style>
+
+
+    <!-- ================= PROJECTS ================= -->
+<h3 class="mt-5">📂 Projects</h3>
+
+<!-- Project Category Filters -->
+<div class="project-filters mb-4 text-center">
+    <button class="proj-btn active" data-filter="all">All</button>
+    <button class="proj-btn" data-filter="featured">Featured</button>
+    <button class="proj-btn" data-filter="latest">Latest</button>
+    <button class="proj-btn" data-filter="ongoing">Ongoing</button>
+    <button class="proj-btn" data-filter="completed">Completed</button>
+</div>
+
+<div class="row project-container">
+
+    <!-- Featured Project -->
+    <div class="col-md-4 project-card" data-category="featured">
+        <h5>Finance Management System</h5>
+        <p>Django-based accounting & reporting platform</p>
+        <span class="proj-status">⭐ Featured</span>
+    </div>
+
+    <!-- Latest Project -->
+    <div class="col-md-4 project-card" data-category="latest">
+        <h5>AI Chat Platform</h5>
+        <p>Smart chatbot using NLP and ML</p>
+        <span class="proj-status">🆕 Latest</span>
+    </div>
+
+    <!-- Completed Project -->
+    <div class="col-md-4 project-card" data-category="completed">
+        <h5>Portfolio Website</h5>
+        <p>Interactive modern developer portfolio</p>
+        <span class="proj-status">✅ Completed</span>
+    </div>
+
+    <!-- Ongoing Project -->
+    <div class="col-md-4 project-card" data-category="ongoing">
+        <h5>E-commerce Platform</h5>
+        <p>Building a full-stack online store with Django & React</p>
+        <span class="proj-status">🔄 Ongoing</span>
+    </div>
+
+    <!-- Featured + Latest -->
+    <div class="col-md-4 project-card" data-category="featured latest">
+        <h5>AI Recommendation Engine</h5>
+        <p>Machine learning-based product recommendation system</p>
+        <span class="proj-status">⭐🆕</span>
+    </div>
+
+</div>
+
+<!-- ================= PROJECTS STYLE ================= -->
+<style>
+.project-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.proj-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(0,200,255,0.2);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.proj-btn.active,
+.proj-btn:hover {
+    background: linear-gradient(135deg, #00c8ff, #ff6ec4);
+    color: black;
+    box-shadow: 0 0 15px rgba(0,200,255,0.6);
+}
+
+/* Project cards */
+.project-card {
+    background: rgba(20,20,20,0.65);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    margin-bottom: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 35px rgba(255,110,196,0.6);
+}
+
+/* Project status badges */
+.proj-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .project-card { margin-bottom: 15px; padding: 15px; }
+}
+</style>
+
+<!-- ================= PROJECTS SCRIPT ================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.proj-btn');
+    const projects = document.querySelectorAll('.project-card');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.getAttribute('data-filter');
+            
+            projects.forEach(p => {
+                if (filter === 'all') {
+                    p.style.display = 'block';
+                } else {
+                    const categories = p.getAttribute('data-category').split(' ');
+                    p.style.display = categories.includes(filter) ? 'block' : 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+
+
+   <!-- ================= EDUCATION ================= -->
+<h3 class="mt-5">🎓 Education & Training</h3>
+
+<div class="education-container">
+
+    <!-- Education Item -->
+    <div class="edu-item">
+        <div class="edu-year">2018 - 2022</div>
+        <h5>Bachelor in Computer Application</h5>
+        <p>Studied software development, databases, and algorithms with projects in web and mobile development.</p>
+    </div>
+
+    <div class="edu-item">
+        <div class="edu-year">2022</div>
+        <h5>AI & Data Science Certification</h5>
+        <p>Completed specialized certification in machine learning, data analysis, and predictive modeling.</p>
+    </div>
+
+    <div class="edu-item">
+        <div class="edu-year">2023</div>
+        <h5>Cloud Engineering Training</h5>
+        <p>Hands-on training in AWS and Azure cloud platforms, deploying scalable and secure applications.</p>
+    </div>
+
+    <div class="edu-item">
+        <div class="edu-year">2024</div>
+        <h5>Full-Stack Web Development Bootcamp</h5>
+        <p>Intensive bootcamp covering HTML, CSS, JavaScript, React, Django, and REST API development.</p>
+    </div>
+
+    <div class="edu-item">
+        <div class="edu-year">2025</div>
+        <h5>Cybersecurity Essentials</h5>
+        <p>Focused on network security, penetration testing, and secure coding practices.</p>
+    </div>
+
+</div>
+
+<!-- ================= EDUCATION STYLE ================= -->
+<style>
+.education-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Glassmorphic education items */
+.edu-item {
+    background: rgba(20,20,20,0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 20px 25px;
+    position: relative;
+    box-shadow: 0 0 25px rgba(0,200,255,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.edu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 40px rgba(255,110,196,0.5);
+}
+
+/* Year badge */
+.edu-year {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: linear-gradient(90deg, #00c8ff, #ff6ec4);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(0,200,255,0.7);
+}
+
+/* Headings and text */
+.edu-item h5 {
+    color: #00c8ff;
+    margin-bottom: 8px;
+}
+.edu-item p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .edu-year { top: 10px; right: 10px; padding: 4px 10px; font-size: 11px; }
+    .edu-item { padding: 15px 18px; }
+}
+</style>
+
+
+   <!-- ================= CONTACT ================= -->
+<h3 class="mt-5" id="contact">📞 Contact</h3>
+<div class="glass-card p-4 contact-card">
+
+    <!-- Contact Info -->
+    <div class="contact-row">
+        <i class="fa fa-envelope"></i>
+        <span>Email: hamza.dev@email.com</span>
+        <button onclick="copyText('hamza.dev@email.com')" title="Copy Email">
+            <i class="fa fa-copy"></i>
+        </button>
+    </div>
+
+    <div class="contact-row">
+        <i class="fab fa-linkedin"></i>
+        <span>LinkedIn: linkedin.com/in/hamza</span>
+        <button onclick="window.open('https://linkedin.com/in/hamza','_blank')">
+            <i class="fa fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <div class="contact-row">
+        <i class="fab fa-github"></i>
+        <span>GitHub: github.com/hamza</span>
+        <button onclick="window.open('https://github.com/hamza','_blank')">
+            <i class="fa fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- Quick Action Buttons -->
+    <div class="contact-actions mt-3">
+        <a href="mailto:hamza.dev@email.com" class="btn-glass">
+            ✉ Send Email
+        </a>
+        <a href="tel:+966XXXXXXX" class="btn-glass">
+            📞 Call Me
+        </a>
+        <a href="https://wa.me/966XXXXXXX" target="_blank" class="btn-glass">
+            💬 WhatsApp
+        </a>
+    </div>
+
+    <!-- Social Links -->
+    <div class="social-row mt-4">
+        <a href="https://linkedin.com/in/hamza" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/hamza" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com/hamza" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com/hamza" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+</div>
+
+<!-- ================= CONTACT STYLE ================= -->
+<style>
+.contact-card {
+    background: rgba(20,20,20,0.7);
+    backdrop-filter: blur(15px);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 25px rgba(0,200,255,0.2);
+    transition: all 0.3s ease;
+}
+.contact-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px rgba(255,110,196,0.3);
+}
+
+.contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.05);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 10px 0;
+    transition: all 0.3s;
+}
+.contact-row:hover {
+    background: rgba(0,200,255,0.1);
+    transform: scale(1.02);
+}
+.contact-row i {
+    font-size: 18px;
+    margin-right: 10px;
+    color: cyan;
+}
+.contact-row span {
+    flex: 1;
+    color: white;
+    font-weight: 500;
+}
+.contact-row button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: cyan;
+    font-size: 16px;
+    transition: transform 0.2s;
+}
+.contact-row button:hover {
+    transform: scale(1.2);
+}
+
+.btn-glass {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg,#00ffff30,#0077ff30);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+    transition: all 0.3s;
+}
+.btn-glass:hover {
+    background: linear-gradient(135deg,cyan,#0077ff);
+    color: black;
+    box-shadow: 0 0 15px cyan;
+}
+
+.social-row {
+    text-align: center;
+}
+.social-row a {
+    font-size: 24px;
+    margin: 0 10px;
+    color: white;
+    transition: 0.3s;
+}
+.social-row a:hover {
+    color: cyan;
+    text-shadow: 0 0 10px cyan;
+}
+</style>
+
+<!-- ================= CONTACT SCRIPT ================= -->
+<script>
+function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Copied: ' + text);
+    });
+}
+</script>
+
+
+</section>
+
+<style>
+.glass-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.skill-box {
+    background: linear-gradient(135deg,#00f2fe,#4facfe);
+    padding: 15px;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.project-card {
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+.project-card:hover {
+    transform: scale(1.05);
+}
+
+.timeline-item {
+    background: rgba(0,0,0,0.4);
+    padding: 20px;
+    border-left: 4px solid cyan;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+/* ================= GLOBAL ================= */
+.accounting-container{
+    max-width:1100px;
+    margin:auto;
+    color:white;
+}
+
+.text-gradient{
+    background: linear-gradient(90deg,#00f2fe,#4facfe);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.glass{
+    background: rgba(20,20,20,0.65);
+    backdrop-filter: blur(15px);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 30px rgba(0,255,255,0.25);
+}
+
+.progress{
+    height:14px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.1);
+}
+.progress-bar{
+    background:linear-gradient(90deg,#00f2fe,#4facfe);
+    border-radius:20px;
+    animation: glow 2s infinite alternate;
+}
+@keyframes glow{
+    from{box-shadow:0 0 8px #00f2fe;}
+    to{box-shadow:0 0 20px #4facfe;}
+}
+
+/* ================= SIDE PANEL ================= */
+.side-panel{
+    position:fixed;
+    top:120px;
+    right:20px;
+    width:260px;
+    padding:20px;
+    z-index:999;
+}
+.side-panel h5{
+    color:#4facfe;
+}
+.side-panel ul{
+    list-style:none;
+    padding:0;
+}
+.side-panel li{
+    margin-bottom:10px;
+}
+
+/* ================= BADGES ================= */
+.badge-skill{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#00f2fe,#4facfe);
+    margin:5px;
+    font-size:14px;
+}
+</style>
+
+<div class="accounting-container py-5">
+
+    <!-- ================= HEADER ================= -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-gradient">📊 Accounting Specialist</h1>
+        <p class="lead text-muted">Financial Analyst • Auditor • Tax Consultant</p>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a href="{% static 'resume/accounting_resume.pdf' %}" class="btn btn-success">
+                <i class="fa fa-download"></i> Download Resume
+            </a>
+            <a href="{% static 'resume/accounting_resume.pdf' %}" target="_blank" class="btn btn-info">
+                <i class="fa fa-eye"></i> View Resume
+            </a>
+            <a href="#contact" class="btn btn-outline-light">
+                <i class="fa fa-paper-plane"></i> Hire Me
+            </a>
+        </div>
+    </div>
+
+    <!-- ================= PROFILE ================= -->
+    <div class="glass p-4 mb-4">
+        <h4>👤 Hamza – Accounting Professional</h4>
+        <p>
+            Certified accounting specialist with strong experience in bookkeeping,
+            financial reporting, auditing, payroll, taxation, and business analytics.
+        </p>
+        <p>📍 Middle East | 📧 hamza.finance@email.com | 📞 +966-XXX-XXXX</p>
+    </div>
+
+    <!-- ================= SKILLS ================= -->
+    <h3 class="mt-4">📘 Core Skills</h3>
+
+    <div class="glass p-4">
+        <div class="mb-3">
+            Financial Statements
+            <div class="progress"><div class="progress-bar" style="width:95%"></div></div>
+        </div>
+        <div class="mb-3">
+            Payroll & Taxation
+            <div class="progress"><div class="progress-bar" style="width:90%"></div></div>
+        </div>
+        <div class="mb-3">
+            Auditing
+            <div class="progress"><div class="progress-bar" style="width:85%"></div></div>
+        </div>
+        <div class="mb-3">
+            QuickBooks & Excel
+            <div class="progress"><div class="progress-bar" style="width:92%"></div></div>
+        </div>
+    </div>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <h3 class="mt-5">💼 Experience</h3>
+    <div class="glass p-4">
+        <h5>Senior Accountant – Corporate Firm</h5>
+        <span class="text-info">2021 – Present</span>
+        <p>
+            Managed company accounts, financial statements, audits,
+            payroll systems, VAT filing and compliance.
+        </p>
+
+        <h5>Junior Accountant – Business Consultancy</h5>
+        <span class="text-info">2018 – 2021</span>
+        <p>
+            Assisted in bookkeeping, budgeting, taxation reports and internal audits.
+        </p>
+    </div>
+
+    <!-- ================= ACHIEVEMENTS ================= -->
+    <h3 class="mt-5">🏆 Achievements</h3>
+    <div class="glass p-4">
+        <ul>
+            <li>Reduced tax liabilities by 25% through strategic planning</li>
+            <li>Managed financial accounts of 50+ clients</li>
+            <li>Prepared audit-ready financial statements</li>
+            <li>Automated Excel reporting systems</li>
+        </ul>
+    </div>
+
+    <!-- ================= TOOLS ================= -->
+    <h3 class="mt-5">🛠 Tools & Software</h3>
+    <div class="glass p-4">
+        <span class="badge-skill">QuickBooks</span>
+        <span class="badge-skill">Excel</span>
+        <span class="badge-skill">SAP</span>
+        <span class="badge-skill">Tally</span>
+        <span class="badge-skill">Power BI</span>
+        <span class="badge-skill">Zoho Books</span>
+    </div>
+
+    <!-- ================= CONTACT ================= -->
+    <h3 class="mt-5" id="contact">📞 Contact</h3>
+    <div class="glass p-4">
+        <p>Email: hamza.finance@email.com</p>
+        <p>LinkedIn: linkedin.com/in/hamza</p>
+        <p>WhatsApp: +966-XXX-XXXX</p>
+    </div>
+
+</div>
+
+<!-- ================= SIDE PANEL ================= -->
+<div class="glass side-panel">
+    <h5>📊 Quick Stats</h5>
+    <ul>
+        <li>✔ 7+ Years Experience</li>
+        <li>✔ 50+ Clients</li>
+        <li>✔ 500+ Reports</li>
+        <li>✔ 100% Audit Compliance</li>
+    </ul>
+
+    <h5>🎯 Specialization</h5>
+    <ul>
+        <li>Tax Filing</li>
+        <li>Business Accounting</li>
+        <li>Payroll</li>
+        <li>Audit & Compliance</li>
+    </ul>
+</div>
+
+{% endblock %}

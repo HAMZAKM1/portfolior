@@ -1,0 +1,146 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.container{max-width:1000px;color:white}
+.text-gradient{
+    background:linear-gradient(90deg,#00c8ff,#ff6ec4);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.glass-card{
+    background:rgba(20,20,20,0.65);
+    backdrop-filter:blur(12px);
+    border-radius:16px;
+    padding:25px;
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 0 30px rgba(0,200,255,.25);
+    margin-bottom:25px;
+}
+.progress{height:12px;background:rgba(255,255,255,.1)}
+.progress-bar{box-shadow:0 0 15px cyan}
+.badge-skill{
+    background:linear-gradient(135deg,#00c8ff,#ff6ec4);
+    padding:6px 12px;
+    border-radius:15px;
+    margin:5px;
+    display:inline-block;
+}
+.right-panel{
+    position:fixed;
+    top:120px;
+    right:30px;
+    width:260px;
+    background:rgba(0,0,0,.7);
+    backdrop-filter:blur(12px);
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 0 30px rgba(255,110,196,.5);
+    z-index:10;
+}
+.right-panel h5{color:#ff6ec4}
+.timeline-item{
+    border-left:4px solid cyan;
+    padding-left:15px;
+    margin-bottom:15px;
+}
+.glow:hover{box-shadow:0 0 25px cyan}
+</style>
+
+<div class="container py-5">
+
+<h1 class="text-center text-gradient mb-4">🚗 Auto Repair Technician</h1>
+
+<!-- ABOUT -->
+<div class="glass-card">
+    <p>
+        Professional automotive technician specializing in vehicle diagnostics, 
+        engine repair, electrical systems, AC servicing, and preventive maintenance. 
+        Experienced in both petrol and diesel vehicles.
+    </p>
+</div>
+
+<!-- SKILLS -->
+<div class="glass-card">
+    <h3>🧰 Core Skills</h3>
+
+    Engine Diagnostics
+    <div class="progress mb-2"><div class="progress-bar bg-info" style="width:92%"></div></div>
+
+    Brake & Suspension
+    <div class="progress mb-2"><div class="progress-bar bg-warning" style="width:88%"></div></div>
+
+    Electrical Repair
+    <div class="progress mb-2"><div class="progress-bar bg-success" style="width:85%"></div></div>
+
+    AC & Cooling Systems
+    <div class="progress mb-2"><div class="progress-bar bg-danger" style="width:80%"></div></div>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="glass-card">
+    <h3>📜 Certifications</h3>
+    <span class="badge-skill">ASE Certified</span>
+    <span class="badge-skill">Automotive Diagnostics</span>
+    <span class="badge-skill">Hybrid Vehicle Repair</span>
+    <span class="badge-skill">AC Systems</span>
+</div>
+
+<!-- PROJECTS -->
+<div class="glass-card">
+    <h3>🚀 Workshop Projects</h3>
+    <ul>
+        <li>Engine overhaul for luxury vehicles</li>
+        <li>Hybrid car battery replacement</li>
+        <li>Fleet maintenance systems</li>
+        <li>High-performance tuning</li>
+    </ul>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="glass-card">
+    <h3>📈 Experience Timeline</h3>
+    <div class="timeline-item"><b>2024</b> – Master Technician, Multi-brand Garage</div>
+    <div class="timeline-item"><b>2023</b> – Diagnostic Specialist</div>
+    <div class="timeline-item"><b>2021</b> – Automotive Service Engineer</div>
+</div>
+
+<!-- TOOLS -->
+<div class="glass-card">
+    <h3>🔧 Tools & Equipment</h3>
+    <ul>
+        <li>OBD-II Scanners</li>
+        <li>Hydraulic Lifts</li>
+        <li>Engine Analyzers</li>
+        <li>AC Gas Refill Systems</li>
+    </ul>
+</div>
+
+<!-- CONTACT -->
+<div class="glass-card text-center">
+    <h3>📞 Contact</h3>
+    <p>📧 <b>hamza.auto@email.com</b></p>
+    <p>🚗 Available for Garage Work • Fleet Maintenance • Freelance</p>
+    <a href="mailto:hamza.auto@email.com" class="btn btn-info btn-lg glow">Email Me</a>
+</div>
+
+</div>
+
+<!-- RIGHT QUICK PANEL -->
+<div class="right-panel">
+    <h5>⚡ Quick Info</h5>
+    <p>✔ 10+ Years Experience</p>
+    <p>✔ Hybrid & Electric Cars</p>
+    <p>✔ Fleet Services</p>
+
+    <h5 class="mt-3">🧰 Specialties</h5>
+    <ul>
+        <li>Engine Repair</li>
+        <li>Electrical Systems</li>
+        <li>AC Service</li>
+        <li>Brake Systems</li>
+    </ul>
+</div>
+
+{% endblock %}

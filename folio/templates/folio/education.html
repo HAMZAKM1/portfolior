@@ -1,248 +1,293 @@
-{% extends "folio/base.html" %}
 {% load static %}
-
-{% block content %}
-
-<section class="page-section position-relative overflow-hidden">
-
-  <!-- Background Video -->
-
-  <video autoplay muted loop playsinline class="edu-bg-video">
-    <source src="{% static 'videos/education_bg.mp4' %}" type="video/mp4">
-  </video>
-
-  <div class="edu-overlay"></div>
-
-  <div class="container position-relative z-2">
-    <h1 class="page-title text-center mb-5 gradient-text">Education & Certifications</h1>
-
-```
-<!-- ================= EDUCATION TIMELINE ================= -->
-<div class="glass-box mb-5">
-  <h2 class="section-title">🎓 Education</h2>
-
-  <ul class="timeline">
-    <li>
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <span class="timeline-year">2025</span>
-        <h3>Bachelor's in Computer Application <small>@ Manipal University Jaipur</small></h3>
-        <p>Focused on Web Development, Django, Databases, Software Engineering, and UI/UX design.</p>
-      </div>
-    </li>
-
-    <li>
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <span class="timeline-year">2023</span>
-        <h3>SQL & Data Science / ML / Python / Web developer / Certification <small>@ Entry</small></h3>
-        <p>Hands-on experience with SQL queries, data analytics, ML basics, and real-world datasets.</p>
-      </div>
-    </li>
-      <li>
-  <div class="timeline-dot"></div>
-  <div class="timeline-content">
-    <span class="timeline-year">2021</span>
-    <h3>Mobile Mechanic Engineer <small>@ AVODA Academy</small></h3>
-    <p>
-      Trained in smartphone hardware repair, software troubleshooting,
-      chip-level servicing, and mobile device diagnostics.
-    </p>
-  </div>
-</li>
-
-    <li>
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <span class="timeline-year">2022</span>
-        <h3>Higher Secondary Education <small>@ High School</small></h3>
-        <p>Graduated with distinction. Active member of coding clubs and technical events.</p>
-      </div>
-    </li>
-  </ul>
-</div>
-
-<!-- ================= CERTIFICATIONS ================= -->
-<div class="glass-box mb-5">
-  <h2 class="section-title">📜 Certifications</h2>
-
-  <div class="row g-4">
-    <div class="col-md-4">
-      <div class="cert-card">
-        <i class="fa-solid fa-database"></i>
-        <h5>Advanced SQL</h5>
-        <p>Complex queries, joins, optimization & analytics.</p>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <div class="cert-card">
-        <i class="fa-solid fa-robot"></i>
-        <h5>Dta Science / Machine Learning</h5>
-        <p>Supervised & unsupervised learning fundamentals.</p>
-      </div>
-    </div>
-<div class="col-md-4">
-  <div class="cert-card">
-    <i class="fa-brands fa-react"></i>
-    <h5>React Development</h5>
-    <p>Component-based UI, hooks, state management & SPA development.</p>
-  </div>
-</div>
-
-  <div class="col-md-4">
-  <div class="cert-card">
-    <i class="fa-solid fa-bullhorn"></i>
-    <h5>Digital Marketing</h5>
-    <p>SEO, social media marketing, content strategy & campaign analytics.</p>
-  </div>
-</div>
-<div class="col-md-4">
-  <div class="cert-card">
-    <i class="fa-brands fa-python"></i>
-    <h5>Python Programming</h5>
-    <p>Data structures, OOP, scripting, automation, and web development basics.</p>
-  </div>
-</div>
-
-   <div class="col-md-4">
-  <div class="cert-card">
-    <i class="fa-brands fa-node-js"></i>
-    <h5>Full Stack MERN</h5>
-    <p>MongoDB, Express.js, React & Node.js for scalable web applications.</p>
-  </div>
-</div>
-
-  </div>
-</div>
-
-<!-- ================= ACHIEVEMENTS ================= -->
-<div class="glass-box mb-5">
-  <h2 class="section-title">🏆 Achievements</h2>
-  <ul class="achievement-list">
-    <li>⭐ Built multiple full-stack Django projects</li>
-    <li>⭐ Internship & real-world project experience</li>
-    <li>⭐ Strong GitHub portfolio with live demos</li>
-  </ul>
-</div>
-
-<!-- ================= SKILLS PROGRESS ================= -->
-<div class="glass-box">
-  <h2 class="section-title">🚀 Skill Highlights</h2>
-
-  <div class="skill-bar">
-    <span>Django</span>
-    <div class="bar"><div class="fill" style="width:90%"></div></div>
-  </div>
-   <div class="skill-bar">
-    <span>React</span>
-    <div class="bar"><div class="fill" style="width:90%"></div></div>
-  </div>
-
-  <div class="skill-bar">
-    <span>Python</span>
-    <div class="bar"><div class="fill" style="width:88%"></div></div>
-  </div>
-
-  <div class="skill-bar">
-    <span>SQL</span>
-    <div class="bar"><div class="fill" style="width:85%"></div></div>
-  </div>
-
-  <div class="skill-bar">
-    <span>HTML / CSS / JS</span>
-    <div class="bar"><div class="fill" style="width:92%"></div></div>
-  </div>
-</div>
-```
-
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Education | Knowledge Universe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ================= BACKGROUND VIDEO ================= */
-.edu-bg-video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:0;
+/* ================= RESET ================= */
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",sans-serif}
+html,body{height:100%;overflow-x:hidden}
+body{background:#02030a;color:#fff}
+
+/* ================= UNIVERSE BACKGROUND ================= */
+.universe{
+  position:fixed; inset:0;
+  background:
+    radial-gradient(circle at 20% 30%, #ffffff22 1px, transparent 2px),
+    radial-gradient(circle at 70% 80%, #ffffff22 1px, transparent 2px),
+    radial-gradient(circle at 50% 50%, #ffffff22 1px, transparent 2px),
+    #02030a;
+  background-size:350px 350px;
+  animation:stars 80s linear infinite;
+  z-index:-5;
 }
-.edu-overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg,rgba(0,0,0,.8),rgba(0,0,0,.6));
-  z-index:1;
+@keyframes stars{
+  from{background-position:0 0}
+  to{background-position:1600px 1200px}
 }
 
-.gradient-text{
-  background:linear-gradient(90deg,#00eaff,#8a3ffc,#ff4ecd);
+/* ================= TOPBAR ================= */
+.topbar{
+  position:fixed; top:0; left:0; right:0;
+  height:72px;
+  padding:0 30px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(135deg,rgba(100,200,255,.2),rgba(150,120,255,.15));
+  backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid rgba(255,255,255,.25);
+  box-shadow:0 10px 40px rgba(0,0,0,.7);
+  z-index:1000;
+}
+
+.logo{
+  font-size:1.5rem;
+  font-weight:900;
+  cursor:pointer;
+  text-shadow:0 0 18px rgba(120,200,255,.8);
+}
+.logo span{
+  background:linear-gradient(135deg,#6fdcff,#9f7bff);
   -webkit-background-clip:text;
-  color:transparent;
+  -webkit-text-fill-color:transparent;
 }
 
-.glass-box{
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(14px);
+/* ================= NAV ================= */
+.nav-links{display:flex;gap:22px}
+.nav-item{position:relative}
+.nav-item button{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  padding:8px 18px;
+  border-radius:18px;
+  cursor:pointer;
+  backdrop-filter:blur(10px);
+  transition:.3s;
+}
+.nav-item button:hover{
+  transform:translateY(-3px) scale(1.06);
+  box-shadow:0 10px 30px rgba(120,200,255,.6);
+}
+
+/* ================= DROPDOWN ================= */
+.dropdown{
+  position:absolute;
+  top:52px;
+  left:0;
+  min-width:220px;
+  background:rgba(15,25,55,.95);
+  backdrop-filter:blur(18px);
   border-radius:20px;
-  padding:30px;
-  box-shadow:0 0 40px rgba(0,255,255,0.15);
+  box-shadow:0 30px 70px rgba(0,0,0,.8);
+  transform:scaleY(.7);
+  opacity:0;
+  pointer-events:none;
+  transition:.35s ease;
+}
+.dropdown.show{
+  transform:scaleY(1);
+  opacity:1;
+  pointer-events:auto;
+}
+.dropdown a{
+  display:block;
+  padding:14px 18px;
+  color:#fff;
+  text-decoration:none;
+  border-radius:14px;
+}
+.dropdown a:hover{
+  background:rgba(255,255,255,.15);
+  transform:translateX(8px);
 }
 
-.section-title{
-  color:#00eaff;
-  margin-bottom:25px;
+/* ================= RIGHT ================= */
+.topbar-right{display:flex;align-items:center;gap:14px}
+.clock{
+  font-family:monospace;
+  background:rgba(255,255,255,.15);
+  padding:6px 14px;
+  border-radius:14px;
+}
+.icon-btn{
+  width:40px;height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  cursor:pointer;
+  transition:.3s;
+}
+.icon-btn:hover{
+  transform:rotate(25deg) scale(1.2);
+  box-shadow:0 0 25px rgba(120,200,255,.7);
 }
 
-/* ================= TIMELINE ================= */
-.timeline{list-style:none;position:relative;padding-left:40px;}
-.timeline::before{
-  content:'';position:absolute;left:18px;top:0;bottom:0;width:4px;
-  background:linear-gradient(#00eaff,#8a3ffc);
+/* ================= EARTH ================= */
+.earth{
+  position:absolute;
+  top:120px;
+  left:50%;
+  transform:translateX(-50%);
+  width:260px;height:260px;
+  border-radius:50%;
+  overflow:hidden;
+  box-shadow:0 0 120px rgba(0,150,255,1);
+  animation:spin 35s linear infinite;
 }
-.timeline li{margin-bottom:30px;position:relative;}
-.timeline-dot{
-  position:absolute;left:10px;top:8px;width:20px;height:20px;
-  background:#00eaff;border-radius:50%;box-shadow:0 0 15px #00eaff;
+.earth img{width:100%;height:100%;object-fit:cover}
+@keyframes spin{
+  from{transform:translateX(-50%) rotate(0)}
+  to{transform:translateX(-50%) rotate(360deg)}
 }
-.timeline-content{
-  background:rgba(255,255,255,0.05);
-  padding:20px;border-radius:15px;border-left:4px solid #00eaff;
+
+/* ================= ORBIT ================= */
+.orbit{
+  position:absolute;
+  top:50%; left:50%;
+  width:600px;height:600px;
+  margin:-300px;
+  border:1px dashed rgba(255,255,255,.18);
+  border-radius:50%;
+}
+.planet{
+  position:absolute;
+  width:90px;height:90px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  background:rgba(255,255,255,.18);
+  cursor:pointer;
+  transition:.35s;
+  box-shadow:0 0 30px rgba(120,200,255,.6);
+}
+.planet:hover{transform:scale(1.35)}
+.p1{top:-45px;left:255px}
+.p2{top:255px;right:-45px}
+.p3{bottom:-45px;left:255px}
+.p4{top:255px;left:-45px}
+
+/* ================= CONTENT ================= */
+.page-wrap{
+  padding-top:420px;
+  max-width:1200px;
+  margin:auto;
+}
+.section{
+  text-align:center;
+  padding:90px 20px;
+}
+.glass-box{
+  margin:40px auto;
+  padding:40px;
+  border-radius:26px;
+  max-width:900px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(18px);
+  box-shadow:0 0 50px rgba(0,0,0,.7);
   transition:.4s;
 }
-.timeline-content:hover{transform:translateX(8px);box-shadow:0 0 25px rgba(0,255,255,.4)}
-.timeline-year{color:#ff4ecd;font-weight:bold}
-
-/* ================= CERTS ================= */
-.cert-card{
-  background:rgba(255,255,255,0.06);
-  border-radius:18px;padding:25px;text-align:center;
-  transition:.4s;
+.glass-box:hover{
+  transform:translateY(-10px);
+  box-shadow:0 0 80px rgba(120,200,255,.7);
 }
-.cert-card i{
-  font-size:40px;color:#00eaff;margin-bottom:10px;
-}
-.cert-card:hover{
-  transform:translateY(-10px) scale(1.05);
-  box-shadow:0 0 30px rgba(138,63,252,.5);
-}
-
-/* ================= ACHIEVEMENTS ================= */
-.achievement-list li{
-  margin:10px 0;color:#f1f1f1;
-}
-
-/* ================= SKILLS ================= */
-.skill-bar{margin-bottom:15px}
-.skill-bar span{display:block;margin-bottom:5px}
-.bar{background:#222;border-radius:20px;overflow:hidden}
-.fill{
-  height:10px;
-  background:linear-gradient(90deg,#00eaff,#8a3ffc,#ff4ecd);
-  animation:fillAnim 2s ease
-}
-@keyframes fillAnim{from{width:0}}
 </style>
+</head>
 
-{% endblock %}
+<body>
+
+<div class="universe"></div>
+
+<!-- ================= TOPBAR ================= -->
+<header class="topbar">
+  <div class="logo" onclick="location.href='{% url 'dashboard' %}'">
+    🌌 HAMSU<span>DEV</span>
+  </div>
+
+  <nav class="nav-links">
+    <div class="nav-item">
+      <button onclick="toggleDrop(this)">Education ▾</button>
+      <div class="dropdown">
+        <a href="{% url 'courses' %}">🎓 Courses</a>
+        <a href="{% url 'certificates' %}">📜 Certificates</a>
+        <a href="{% url 'projects' %}">📂 Projects</a>
+        <a href="{% url 'career' %}">🚀 Career</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <button onclick="toggleDrop(this)">Profile ▾</button>
+      <div class="dropdown">
+        <a href="{% url 'dashboard' %}">👤 Dashboard</a>
+        <a href="{% url 'settings' %}">⚙ Settings</a>
+        <a href="{% url 'logout' %}" style="color:#ff6b6b">🚪 Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="topbar-right">
+    <div class="clock" id="clock"></div>
+    <button class="icon-btn" onclick="toggleDark()">🌗</button>
+  </div>
+</header>
+
+<!-- ================= EARTH ================= -->
+<div class="earth">
+  <img src="{% static 'images/earth.png' %}">
+</div>
+
+<!-- ================= ORBITS ================= -->
+<div class="orbit">
+  <div class="planet p1" onclick="location.href='{% url 'courses' %}'">🎓</div>
+  <div class="planet p2" onclick="location.href='{% url 'certificates' %}'">📜</div>
+  <div class="planet p3" onclick="location.href='{% url 'projects' %}'">📂</div>
+  <div class="planet p4" onclick="location.href='{% url 'career' %}'">🚀</div>
+</div>
+
+<!-- ================= SECTIONS ================= -->
+<div class="page-wrap">
+  <section class="section">
+    <h1>Knowledge Universe</h1>
+    <p>Your education, orbiting excellence</p>
+  </section>
+
+  <div class="glass-box"><h2>🎓 Courses</h2><p>Python, Django, React, AWS, AI</p></div>
+  <div class="glass-box"><h2>📜 Certificates</h2><p>Verified global certifications</p></div>
+  <div class="glass-box"><h2>📂 Projects</h2><p>Real-world industry builds</p></div>
+  <div class="glass-box"><h2>🚀 Career Roadmap</h2><p>Job-ready growth plan</p></div>
+  <div class="glass-box"><h2>📊 Skills Analytics</h2><p>Track learning progress</p></div>
+  <div class="glass-box"><h2>🧠 Learning Paths</h2><p>Beginner → Expert journeys</p></div>
+  <div class="glass-box"><h2>🌍 Global Exposure</h2><p>International standards</p></div>
+  <div class="glass-box"><h2>🤝 Community</h2><p>Mentors & peers</p></div>
+  <div class="glass-box"><h2>🏆 Achievements</h2><p>Badges & milestones</p></div>
+  <div class="glass-box"><h2>✨ Future Vision</h2><p>Continuous evolution</p></div>
+</div>
+
+<script>
+function toggleDrop(btn){
+  document.querySelectorAll('.dropdown').forEach(d=>{
+    if(d!==btn.nextElementSibling) d.classList.remove('show');
+  });
+  btn.nextElementSibling.classList.toggle('show');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.nav-item')){
+    document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('show'));
+  }
+});
+function toggleDark(){
+  document.body.classList.toggle('dark');
+}
+setInterval(()=>{
+  document.getElementById('clock').innerText=new Date().toLocaleTimeString();
+},1000);
+</script>
+
+</body>
+</html>

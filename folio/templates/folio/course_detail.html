@@ -1,0 +1,9 @@
+{% extends 'folio/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
+    <p>Status: {% if course.completed %}✅ Completed{% else %}❌ In Progress{% endif %}</p>
+    <a href="{% url 'courses' %}">⬅ Back to Courses</a>
+</div>
+{% endblock %}

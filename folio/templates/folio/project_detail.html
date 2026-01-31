@@ -1,238 +1,281 @@
 {% extends 'folio/base.html' %}
 {% load static %}
 
-{% block content %}
-<div id="particles-js"></div>
-
-<section class="container my-5 project-detail">
-
-  <!-- Breadcrumb -->
-  <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb glass-breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="{% url 'home' %}">Home</a>
-      </li>
-      <li class="breadcrumb-item active">{{ project.title }}</li>
-    </ol>
-  </nav>
-
-  <!-- Title -->
-  <h1 class="text-center neon-text mb-4">{{ project.title }}</h1>
-
-  <!-- Sidebar -->
-  <aside class="project-sidebar glass-box">
-    <h5>📌 Project Summary</h5>
-    <p>{{ project.description|truncatewords:40 }}</p>
-
-    {% if project.link %}
-      <a href="{{ project.link }}" target="_blank" class="btn btn-primary w-100 mb-2">
-        🔗 Live Demo
-      </a>
-    {% endif %}
-
-    {% if project.github %}
-      <a href="{{ project.github }}" target="_blank" class="btn btn-dark w-100">
-        💻 GitHub
-      </a>
-    {% endif %}
-
-    <hr>
-
-    <h6>📤 Share</h6>
-    <div class="d-flex gap-2">
-      <a class="btn btn-sm btn-outline-success"
-         href="https://wa.me/?text={{ request.build_absolute_uri }}">
-         WhatsApp
-      </a>
-      <a class="btn btn-sm btn-outline-info"
-         href="https://t.me/share/url?url={{ request.build_absolute_uri }}">
-         Telegram
-      </a>
-      <a class="btn btn-sm btn-outline-primary"
-         href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}">
-         LinkedIn
-      </a>
-    </div>
-
-    <!-- QR -->
-    <div class="text-center mt-3">
-      <img
-        src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data={{ request.build_absolute_uri }}"
-        class="qr-img">
-      <p class="small text-muted">Scan to open</p>
-    </div>
-  </aside>
-
-  <!-- Image Carousel -->
-  {% if project.images.all %}
-  <div id="projectCarousel" class="carousel slide mb-4 glass-box" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      {% for img in project.images.all %}
-      <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img src="{{ img.image.url }}" class="d-block w-100 rounded project-img">
-      </div>
-      {% endfor %}
-    </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
-  </div>
-  {% endif %}
-
-  <!-- Full Description -->
-  <div class="glass-box p-4 mb-4">
-    <h4>📄 Full Description</h4>
-    <p>{{ project.description }}</p>
-  </div>
-
-  <!-- Technologies -->
-  {% if project.tech_stack.all %}
-  <div class="glass-box p-4 mb-4">
-    <h5>🛠 Technologies Used</h5>
-    {% for tech in project.tech_stack.all %}
-      <span class="badge tech-badge">{{ tech.name }}</span>
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  <!-- Timeline -->
-  <div class="glass-box p-4 mb-4">
-    <h5>⏳ Development Timeline</h5>
-    <ul class="timeline">
-      <li>📌 Planning & Design</li>
-      <li>🚧 Development</li>
-      <li>🧪 Testing</li>
-      <li>🚀 Deployment</li>
-    </ul>
-  </div>
-
-  <!-- Stats -->
-  <div class="glass-box p-4 mb-4">
-    <h5>📊 Project Stats</h5>
-    <div class="row text-center">
-      <div class="col">
-        <h4>⏱</h4>
-        <p>Duration: <b>2–6 Weeks</b></p>
-      </div>
-      <div class="col">
-        <h4>📄</h4>
-        <p>Code: <b>800+ LOC</b></p>
-      </div>
-      <div class="col">
-        <h4>👤</h4>
-        <p>Developer: <b>Solo</b></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Related Projects -->
-  {% if project.category %}
-  <div class="glass-box p-4 mt-5">
-    <h5>🔗 Related Projects</h5>
-    <div class="row">
-      {% for p in project.category.project_set.exclude(pk=project.pk)|slice:":3" %}
-      <div class="col-md-4 mb-3">
-        <a href="{% url 'project_detail' p.pk %}" class="card h-100 related-card">
-          {% if p.cover_image %}
-            <img src="{{ p.cover_image.url }}" class="card-img-top">
-          {% endif %}
-          <div class="card-body">
-            <h6>{{ p.title }}</h6>
-          </div>
-        </a>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-</section>
-
-<!-- Bottom Bar -->
-<div class="bottom-bar">
-  {% if project.link %}
-    <a href="{{ project.link }}" target="_blank" class="btn btn-primary">
-      🔗 Live Project
-    </a>
-  {% endif %}
-  {% if project.github %}
-    <a href="{{ project.github }}" target="_blank" class="btn btn-dark">
-      💻 GitHub
-    </a>
-  {% endif %}
-</div>
-
-<!-- Particles -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-<script>
-particlesJS("particles-js", {
-  particles: {
-    number: { value: 40 },
-    move: { speed: 1 },
-    color: { value: "#00eaff" }
-  }
-});
-</script>
-
+{% block extra_css %}
 <style>
-.neon-text {
-  color:#00eaff;
-  text-shadow:0 0 10px #00eaff;
-}
-.glass-box {
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(15px);
-  border-radius:15px;
-  border:1px solid rgba(0,255,255,0.2);
-}
-.tech-badge {
-  background:#00eaff;
-  color:#000;
-  padding:6px 12px;
-  border-radius:20px;
-  margin:3px;
-}
-.timeline li {
-  list-style:none;
-  margin-bottom:8px;
-}
-.project-sidebar {
-  position:fixed;
-  top:140px;
-  right:40px;
-  width:260px;
-}
-.bottom-bar {
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#000c;
-  padding:10px;
-  border-top:1px solid #00eaff;
-  text-align:center;
-}
-.qr-img {
-  background:#fff;
-  padding:5px;
-  border-radius:10px;
-}
-#particles-js {
-  position:fixed;
-  inset:0;
-  z-index:-10;
+/* ================= BACKGROUND ================= */
+#particles-js{
+    position:fixed;
+    inset:0;
+    z-index:-2;
 }
 
-/* Mobile Fix */
-@media (max-width: 992px) {
-  .project-sidebar {
-    position:static;
+/* ================= SCROLL PROGRESS ================= */
+#scrollProgress{
+    position:fixed;
+    top:0;left:0;
+    height:4px;
+    width:0%;
+    background:#00eaff;
+    z-index:999;
+}
+
+/* ================= HEADER ================= */
+.project-header{
+    min-height:280px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:
+    linear-gradient(to bottom,rgba(0,0,0,.5),rgba(0,0,0,.9)),
+    url("{% static 'images/projects_header.jpg' %}") center/cover fixed;
+}
+.project-header h1{
+    font-size:48px;
+    color:#00eaff;
+    text-shadow:0 0 25px cyan;
+}
+
+/* ================= GLASS ================= */
+.glass{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+    border-radius:22px;
+    border:1px solid rgba(0,255,255,.25);
+}
+
+/* ================= SIDEBAR ================= */
+.project-sidebar{
+    position:sticky;
+    top:100px;
+}
+.sidebar-btn{
     width:100%;
-    margin-bottom:20px;
-  }
+    margin-bottom:10px;
+}
+
+/* ================= IMAGE ================= */
+.project-img{
+    height:420px;
+    object-fit:cover;
+    cursor:pointer;
+}
+
+/* ================= BADGES ================= */
+.tech-badge{
+    padding:6px 14px;
+    border-radius:20px;
+    background:#00eaff;
+    color:#000;
+    font-weight:600;
+    margin:4px;
+    display:inline-block;
+}
+
+/* ================= TIMELINE ================= */
+.timeline li{
+    list-style:none;
+    margin-bottom:10px;
+}
+
+/* ================= FAVORITE ================= */
+.fav{
+    cursor:pointer;
+    font-size:26px;
+}
+.fav.active{color:red}
+
+/* ================= BOTTOM BAR ================= */
+.bottom-bar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#000c;
+    border-top:1px solid cyan;
+    padding:12px;
+    text-align:center;
+    z-index:1000;
 }
 </style>
+{% endblock %}
+
+{% block content %}
+<div id="scrollProgress"></div>
+<div id="particles-js"></div>
+
+<!-- ================= HEADER ================= -->
+<div class="project-header">
+    <h1>{{ project.title }}</h1>
+</div>
+
+<div class="container my-5">
+<div class="row">
+
+<!-- ================= MAIN ================= -->
+<div class="col-lg-8">
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb glass p-2">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active">{{ project.title }}</li>
+  </ol>
+</nav>
+
+<!-- IMAGE CAROUSEL -->
+{% if project.images.all %}
+<div id="carousel" class="carousel slide glass mb-4" data-bs-ride="carousel">
+<div class="carousel-inner">
+{% for img in project.images.all %}
+<div class="carousel-item {% if forloop.first %}active{% endif %}">
+<img src="{{ img.image.url }}" class="d-block w-100 project-img"
+     data-bs-toggle="modal" data-bs-target="#imgModal">
+</div>
+{% endfor %}
+</div>
+<button class="carousel-control-prev" data-bs-target="#carousel" data-bs-slide="prev">
+<span class="carousel-control-prev-icon"></span>
+</button>
+<button class="carousel-control-next" data-bs-target="#carousel" data-bs-slide="next">
+<span class="carousel-control-next-icon"></span>
+</button>
+</div>
+{% endif %}
+
+<!-- DESCRIPTION -->
+<div class="glass p-4 mb-4">
+<h4>📄 Project Description</h4>
+<p>{{ project.description }}</p>
+</div>
+
+<!-- TECH STACK -->
+{% if project.tech_stack.all %}
+<div class="glass p-4 mb-4">
+<h5>🛠 Tech Stack</h5>
+{% for tech in project.tech_stack.all %}
+<span class="tech-badge">{{ tech.name }}</span>
+{% endfor %}
+</div>
+{% endif %}
+
+<!-- STATS -->
+<div class="glass p-4 mb-4">
+<div class="row text-center">
+<div class="col">⏱ <br><b>2–6 Weeks</b></div>
+<div class="col">📄 <br><b>800+ LOC</b></div>
+<div class="col">👤 <br><b>Solo</b></div>
+<div class="col">⭐ <br><b>4.5/5</b></div>
+</div>
+</div>
+
+<!-- TIMELINE -->
+<div class="glass p-4 mb-4">
+<h5>⏳ Timeline</h5>
+<ul class="timeline">
+<li>📌 Planning & Design</li>
+<li>⚙ Development</li>
+<li>🧪 Testing</li>
+<li>🚀 Deployment</li>
+</ul>
+</div>
+
+<!-- RELATED -->
+{% if project.category %}
+<div class="glass p-4">
+<h5>🔗 Related Projects</h5>
+<div class="row">
+{% for p in project.category.project_set.exclude(id=project.id)|slice:":3" %}
+<div class="col-md-4 mb-3">
+<a href="{% url 'project_detail' p.id %}" class="card bg-dark text-white">
+{% if p.cover_image %}
+<img src="{{ p.cover_image.url }}" class="card-img-top">
+{% endif %}
+<div class="card-body">
+<h6>{{ p.title }}</h6>
+</div>
+</a>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+</div>
+
+<!-- ================= SIDEBAR ================= -->
+<div class="col-lg-4">
+<div class="glass p-4 project-sidebar">
+
+<h5>📌 Quick Actions</h5>
+
+{% if project.link %}
+<a href="{{ project.link }}" target="_blank" class="btn btn-outline-info sidebar-btn">🔗 Live Demo</a>
+{% endif %}
+
+{% if project.github %}
+<a href="{{ project.github }}" target="_blank" class="btn btn-outline-light sidebar-btn">💻 GitHub</a>
+{% endif %}
+
+<button class="btn btn-outline-danger sidebar-btn fav" onclick="this.classList.toggle('active')">❤ Favorite</button>
+
+<hr>
+
+<h6>📤 Share</h6>
+<a class="btn btn-sm btn-outline-success w-100 mb-2"
+href="https://wa.me/?text={{ request.build_absolute_uri }}">WhatsApp</a>
+<a class="btn btn-sm btn-outline-primary w-100"
+href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}">LinkedIn</a>
+
+<hr>
+
+<div class="text-center">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data={{ request.build_absolute_uri }}"
+     class="bg-white p-2 rounded">
+<p class="small text-muted mt-2">Scan to open</p>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ================= BOTTOM BAR ================= -->
+<div class="bottom-bar">
+{% if project.link %}
+<a href="{{ project.link }}" target="_blank" class="btn btn-info">🚀 Live Project</a>
+{% endif %}
+{% if project.github %}
+<a href="{{ project.github }}" target="_blank" class="btn btn-dark">💻 GitHub</a>
+{% endif %}
+</div>
+
+<!-- ================= IMAGE MODAL ================= -->
+<div class="modal fade" id="imgModal">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content bg-dark p-3">
+<img src="{{ project.images.first.image.url }}" class="w-100 rounded">
+</div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<script>
+particlesJS("particles-js",{
+ particles:{number:{value:60},color:{value:"#00eaff"},size:{value:3}},
+ interactivity:{events:{onhover:{enable:true,mode:"repulse"}}}
+});
+
+/* SCROLL PROGRESS */
+window.addEventListener("scroll",()=>{
+ let h=document.body.scrollHeight-innerHeight;
+ document.getElementById("scrollProgress").style.width=
+ (scrollY/h)*100+"%";
+});
+</script>
 {% endblock %}

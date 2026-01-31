@@ -1,0 +1,158 @@
+{% extends 'folio/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ===================== SPACE BACKGROUND ===================== -->
+<div class="space-bg">
+    <div class="stars"></div>
+</div>
+
+<!-- ===================== EARTH SECTION ===================== -->
+<section class="earth-section">
+    <div class="earth-container">
+        <img src="{% static 'images/earth.png' %}" class="earth">
+        <div class="earth-glow"></div>
+    </div>
+
+    <div class="earth-overlay text-center">
+        <h1>🌍 Course Galaxy</h1>
+        <p>All your enrolled courses orbit here</p>
+
+        <a href="{% url 'course_create' %}" class="btn btn-primary btn-lg">
+            ➕ Add New Course
+        </a>
+    </div>
+</section>
+
+<!-- ===================== STATS ===================== -->
+<div class="container my-5">
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="glass-box">
+                <h2>{{ courses|length }}</h2>
+                <p>Total Courses</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-box">
+                <h2>{{ completed|length }}</h2>
+                <p>Completed</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-box">
+                <h2>{{ in_progress|length }}</h2>
+                <p>In Progress</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== SEARCH ===================== -->
+<div class="container mb-4">
+    <input type="text"
+           id="searchInput"
+           class="form-control glass-input"
+           placeholder="🔍 Search courses..."
+           onkeyup="filterCourses()">
+</div>
+
+<!-- ===================== COURSE GRID ===================== -->
+<div class="container">
+    <div class="row g-4" id="courseGrid">
+        {% for course in courses %}
+        <div class="col-lg-4 col-md-6 course-card" data-title="{{ course.title|lower }}">
+            <div class="course-glass">
+                {% if course.image %}
+                <img src="{{ course.image.url }}" class="img-fluid rounded mb-2">
+                {% endif %}
+
+                <h5>{{ course.title }}</h5>
+
+                {% if course.instructor %}
+                <p class="small text-info">{{ course.instructor }}</p>
+                {% endif %}
+
+                {% if course.description %}
+                <p class="small text-muted">{{ course.description|truncatewords:18 }}</p>
+                {% endif %}
+
+                <div class="progress mt-2 mb-2" style="height:8px;border-radius:20px;">
+                    <div class="progress-bar bg-gradient" role="progressbar"
+                         style="width:{{ course.progress }}%"
+                         aria-valuenow="{{ course.progress }}"
+                         aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+
+                <div class="course-actions mt-2 d-flex gap-2 flex-wrap">
+                    <a href="{% url 'course_detail' course.id %}" class="btn btn-sm btn-outline-light">👁 View</a>
+                    {% if course.material %}
+                    <a href="{{ course.material.url }}" download class="btn btn-sm btn-outline-info">⬇ Download</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center text-light">
+            <h4>🚫 No courses enrolled</h4>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ===================== STYLES ===================== -->
+<style>
+.space-bg{
+    position:fixed; inset:0; background:#05070d; z-index:-2;
+}
+.stars{
+    position:absolute; inset:0;
+    background:url("https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/star.png");
+    opacity:.2;
+}
+
+/* EARTH */
+.earth-section{position:relative;height:70vh;display:flex;justify-content:center;align-items:center;text-align:center}
+.earth-container{position:relative}
+.earth{width:320px;animation:spin 40s linear infinite}
+.earth-glow{position:absolute;inset:-40px;border-radius:50%;box-shadow:0 0 120px #2daaff}
+.earth-overlay{position:absolute;bottom:20%;width:100%}
+
+/* GLASS */
+.glass-box,
+.course-glass{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+    border-radius:20px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,.2);
+    color:#fff;
+    box-shadow:0 0 30px rgba(0,0,0,.6);
+}
+.course-glass:hover{transform:translateY(-6px) scale(1.03);transition:.3s}
+
+/* INPUT */
+.glass-input{background:rgba(255,255,255,.1);border:none;color:#fff;padding:10px 15px;border-radius:20px}
+.glass-input::placeholder{color:#ccc}
+
+/* PROGRESS BAR */
+.bg-gradient{background:linear-gradient(90deg,#ff5c5c,#ffb86c)}
+
+.course-actions a{flex:1; text-align:center}
+</style>
+
+<!-- ===================== SCRIPT ===================== -->
+<script>
+function filterCourses(){
+    let v=document.getElementById('searchInput').value.toLowerCase();
+    document.querySelectorAll('.course-card').forEach(c=>{
+        c.style.display=c.dataset.title.includes(v)?'block':'none';
+    });
+}
+
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+</script>
+
+{% endblock %}

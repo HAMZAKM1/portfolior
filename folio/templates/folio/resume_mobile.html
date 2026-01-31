@@ -1,0 +1,238 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <!-- ================= HEADER ================= -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-gradient">📱 Mobile Engineer Resume</h1>
+        <p class="lead text-muted">Mobile Technician • Hardware Specialist • Firmware Expert</p>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a href="{% static 'resume/hamza_mobile_resume.pdf' %}" class="btn btn-primary">
+                <i class="fa fa-download"></i> Download PDF
+            </a>
+            <a href="{% static 'resume/hamza_mobile_resume.pdf' %}" target="_blank" class="btn btn-success">
+                <i class="fa fa-eye"></i> View Resume
+            </a>
+            <a href="#contact" class="btn btn-outline-info">
+                <i class="fa fa-paper-plane"></i> Hire Me
+            </a>
+        </div>
+    </div>
+
+    <!-- ================= PROFILE ================= -->
+    <div class="row mb-5">
+        <div class="col-md-4 text-center">
+            <img src="{% static 'images/profile.jpg' %}"
+                 class="img-fluid rounded-circle shadow-lg" width="200">
+        </div>
+        <div class="col-md-8">
+            <div class="glass-card p-4">
+                <h4>👨‍🔧 Hamza</h4>
+                <p>
+                    Professional Mobile Repair Engineer with expertise in smartphone
+                    hardware diagnostics, firmware flashing, unlocking, and
+                    motherboard-level repairs.
+                </p>
+                <p>
+                    📍 Middle East • Worldwide Service<br>
+                    📧 hamza.mobile@email.com<br>
+                    📞 +966-XXX-XXXX
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SKILLS ================= -->
+    <h3 class="mb-3">🛠 Technical Skills</h3>
+    <div class="row">
+        <div class="col-md-4"><div class="skill-box">Screen Replacement</div></div>
+        <div class="col-md-4"><div class="skill-box">Battery & Charging Repair</div></div>
+        <div class="col-md-4"><div class="skill-box">Motherboard Repair</div></div>
+        <div class="col-md-4"><div class="skill-box">Firmware Flashing</div></div>
+        <div class="col-md-4"><div class="skill-box">IMEI / Network Unlock</div></div>
+        <div class="col-md-4"><div class="skill-box">Water Damage Recovery</div></div>
+    </div>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <h3 class="mt-5">💼 Experience</h3>
+    <div class="timeline">
+        <div class="timeline-item">
+            <h5>Senior Mobile Repair Engineer</h5>
+            <span>2023 – Present</span>
+            <p>Advanced board-level repairs, diagnostics, and data recovery.</p>
+        </div>
+
+        <div class="timeline-item">
+            <h5>Mobile Technician</h5>
+            <span>2021 – 2023</span>
+            <p>Device disassembly, flashing, unlocking and customer support.</p>
+        </div>
+    </div>
+
+    <!-- ================= EDUCATION ================= -->
+    <h3 class="mt-5">🎓 Education & Training</h3>
+    <ul class="list-group glass-list">
+        <li class="list-group-item">Diploma in Mobile Technology</li>
+        <li class="list-group-item">Advanced SMD Soldering</li>
+        <li class="list-group-item">Firmware & IMEI Repair Certification</li>
+    </ul>
+
+    <!-- ================= CONTACT ================= -->
+    <h3 class="mt-5" id="contact">📞 Contact</h3>
+    <div class="glass-card p-4">
+        <p>Email: hamza.mobile@email.com</p>
+        <p>WhatsApp: +966-XXX-XXXX</p>
+        <p>Service Area: Middle East & International</p>
+    </div>
+
+</section>
+
+<!-- ================= RIGHT PANEL TOGGLE ================= -->
+<button id="rpToggle" class="rp-toggle-btn">☰ Tools</button>
+
+<!-- ================= RIGHT PANEL ================= -->
+<div class="right-panel" id="rightPanel">
+    <div class="rp-section">
+        <h5>📜 Certifications</h5>
+        <ul class="rp-list">
+            <li>Mobile Hardware Pro</li>
+            <li>Firmware Specialist</li>
+            <li>IMEI Repair Expert</li>
+        </ul>
+    </div>
+
+    <div class="rp-section">
+        <h5>🧰 Tools</h5>
+        <ul class="rp-list">
+            <li>Digital Multimeter</li>
+            <li>Hot Air Station</li>
+            <li>Microscope</li>
+            <li>ESD Protection</li>
+        </ul>
+    </div>
+
+    <div class="rp-section">
+        <h5>📊 Stats</h5>
+        <div class="stat">Repairs <span>12k+</span></div>
+        <div class="stat">Success <span>98%</span></div>
+        <div class="stat">Avg Time <span>30 min</span></div>
+    </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const toggleBtn = document.getElementById("rpToggle");
+const rightPanel = document.getElementById("rightPanel");
+
+toggleBtn.addEventListener("click", () => {
+    rightPanel.classList.toggle("active");
+});
+</script>
+
+<!-- ================= STYLE ================= -->
+<style>
+.text-gradient {
+    background: linear-gradient(90deg,#00c8ff,#ff6ec4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Glass Card */
+.glass-card {
+    background: rgba(20,20,20,0.65);
+    backdrop-filter: blur(14px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 25px rgba(0,200,255,0.3);
+}
+
+/* Skills */
+.skill-box {
+    background: linear-gradient(135deg,#00f2fe,#4facfe);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Timeline */
+.timeline-item {
+    background: rgba(0,0,0,0.45);
+    padding: 20px;
+    border-left: 4px solid cyan;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* ================= RIGHT PANEL ================= */
+.right-panel {
+    position: fixed;
+    top: 115px; /* BELOW TOPBAR */
+    right: -280px;
+    width: 260px;
+    height: calc(100vh - 140px);
+    background: rgba(10,15,25,0.85);
+    backdrop-filter: blur(18px);
+    border-radius: 18px 0 0 18px;
+    padding: 20px;
+    border: 1px solid rgba(0,255,255,0.25);
+    box-shadow: -10px 0 35px rgba(0,255,255,0.3);
+    overflow-y: auto;
+    transition: right 0.4s ease;
+    z-index: 998;
+}
+
+.right-panel.active {
+    right: 0;
+}
+
+/* Panel Content */
+.rp-list {
+    list-style: none;
+    padding-left: 0;
+}
+.rp-list li {
+    background: rgba(255,255,255,0.07);
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.08);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+/* Toggle Button */
+.rp-toggle-btn {
+    position: fixed;
+    top: 130px;
+    right: 15px;
+    padding: 10px 16px;
+    border-radius: 30px;
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 0 0 20px rgba(0,200,255,0.5);
+}
+
+@media (max-width: 1200px) {
+    .right-panel { display: none; }
+    .rp-toggle-btn { display: none; }
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="container py-5">
+
+    <!-- ================= HEADER ================= -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-gradient">🎬 Video Editor Resume</h1>
+        <p class="lead text-muted">
+            Storytelling • Color Grading • Motion Graphics
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a href="#" class="btn btn-primary">📥 Download Showreel</a>
+            <a href="#contact" class="btn btn-outline-info">📩 Hire Me</a>
+        </div>
+    </div>
+
+    <!-- ================= PROFILE ================= -->
+    <div class="row mb-5">
+        <div class="col-md-4 text-center">
+            <img src="{% static 'images/profile.jpg' %}"
+                 class="img-fluid rounded-circle shadow-lg" width="200">
+        </div>
+        <div class="col-md-8">
+            <div class="glass-card p-4">
+                <h4>🎥 Hamza</h4>
+                <p>
+                    Creative and detail-oriented video editor with strong skills in
+                    cinematic storytelling, professional color grading,
+                    motion graphics, and social media video production.
+                </p>
+                <p>
+                    📍 Remote / Worldwide<br>
+                    📧 hamza.video@email.com<br>
+                    📞 +966-XXX-XXXX
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SKILLS ================= -->
+    <h3 class="mb-3">🎞 Video Editing Skills</h3>
+    <div class="row">
+        <div class="col-md-4"><div class="skill-box">Adobe Premiere Pro</div></div>
+        <div class="col-md-4"><div class="skill-box">After Effects</div></div>
+        <div class="col-md-4"><div class="skill-box">Color Grading</div></div>
+        <div class="col-md-4"><div class="skill-box">Motion Graphics</div></div>
+        <div class="col-md-4"><div class="skill-box">YouTube Editing</div></div>
+        <div class="col-md-4"><div class="skill-box">Reels & Shorts</div></div>
+    </div>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <h3 class="mt-5">💼 Professional Experience</h3>
+    <div class="timeline">
+        <div class="timeline-item">
+            <h5>Freelance Video Editor</h5>
+            <span>2022 – Present</span>
+            <p>
+                Edited commercials, YouTube videos, social media reels,
+                and promotional content for brands and creators.
+            </p>
+        </div>
+
+        <div class="timeline-item">
+            <h5>Assistant Video Editor</h5>
+            <span>2020 – 2022</span>
+            <p>
+                Assisted senior editors, managed raw footage,
+                added transitions, color correction, and audio sync.
+            </p>
+        </div>
+    </div>
+
+    <!-- ================= SERVICES ================= -->
+    <h3 class="mt-5">📂 Video Services</h3>
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>YouTube Video Editing</h5>
+                <p>Engaging long-form & short-form content</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>Social Media Reels</h5>
+                <p>Instagram, TikTok & Shorts editing</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>Commercial Videos</h5>
+                <p>Brand promos & marketing videos</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= CONTACT ================= -->
+    <h3 class="mt-5" id="contact">📞 Contact</h3>
+    <div class="glass-card p-4">
+        <p>Email: <b>hamza.video@email.com</b></p>
+        <p>YouTube: youtube.com/@hamza</p>
+        <p>Portfolio: www.hamzavideo.com</p>
+    </div>
+
+</section>
+
+<!-- ================= STYLE ================= -->
+<style>
+.text-gradient {
+    background: linear-gradient(90deg,#ff512f,#dd2476);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Glass Card */
+.glass-card {
+    background: rgba(20,20,20,0.65);
+    backdrop-filter: blur(14px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 25px rgba(221,36,118,0.35);
+}
+
+/* Skill Box */
+.skill-box {
+    background: linear-gradient(135deg,#ff512f,#dd2476);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Timeline */
+.timeline-item {
+    background: rgba(0,0,0,0.45);
+    padding: 20px;
+    border-left: 4px solid #dd2476;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* Project Cards */
+.project-card {
+    background: rgba(0,0,0,0.55);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px rgba(221,36,118,0.6);
+}
+</style>
+
+{% endblock %}

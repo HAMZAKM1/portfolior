@@ -1,0 +1,144 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+/* ====== Skill Detail Styling ====== */
+.skill-card {
+    border-radius: 15px;
+    background: rgba(20,20,20,0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.skill-card h2 {
+    margin-bottom: 10px;
+}
+.badge-category {
+    margin-right: 10px;
+    padding: 5px 12px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    color: #00c6ff;
+}
+.progress {
+    height: 20px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+}
+.progress-bar {
+    border-radius: 10px;
+    animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+    from { box-shadow: 0 0 10px #00c6ff; }
+    to { box-shadow: 0 0 25px #00c6ff; }
+}
+.star {
+    color: gold;
+    margin-right: 3px;
+}
+.project-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px 0;
+}
+.project-item {
+    min-width: 250px;
+    background: rgba(0,0,0,0.5);
+    padding: 15px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+.project-item:hover {
+    transform: translateY(-5px);
+}
+</style>
+
+<div class="container mt-5">
+
+    <!-- Skill Header -->
+    <div class="text-center mb-4">
+        <h1><i class="fas fa-star text-info"></i> {{ skill.name }}</h1>
+        <span class="badge-category">{{ skill.type }}</span>
+    </div>
+
+    <!-- Description -->
+    <div class="skill-card">
+        <h4>Description:</h4>
+        <p>{{ skill.description }}</p>
+    </div>
+
+    <!-- Topics -->
+    {% if skill.topics %}
+    <div class="skill-card">
+        <h4>Topics Covered:</h4>
+        <ul>
+            {% for topic in skill.topics %}
+            <li>{{ topic }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Certificates -->
+    {% if skill.certificates %}
+    <div class="skill-card">
+        <h4>Certificates:</h4>
+        <ul>
+            {% for cert in skill.certificates %}
+            <li>{{ cert }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Projects Carousel -->
+    {% if skill.projects %}
+    <div class="skill-card">
+        <h4>Projects:</h4>
+        <div class="project-carousel">
+            {% for project in skill.projects %}
+            <div class="project-item">
+                <h5>{{ project.title }}</h5>
+                <p>{{ project.description }}</p>
+                {% if project.link %}
+                <a href="{{ project.link }}" target="_blank" class="btn btn-sm btn-info">View</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Proficiency -->
+    <div class="skill-card">
+        <h4>Proficiency: {{ skill.level }}%</h4>
+        <div class="progress">
+            <div class="progress-bar bg-info" role="progressbar" style="width: {{ skill.level }}%">
+                {{ skill.level }}%
+            </div>
+        </div>
+
+        <!-- Star Rating -->
+        <div>
+            {% for i in "12345" %}
+                {% if forloop.counter <= skill.level|divisibleby:20 %}
+                    <i class="fas fa-star star"></i>
+                {% else %}
+                    <i class="far fa-star star"></i>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-4">
+        <a href="{% url 'skills' %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back to Skills</a>
+    </div>
+
+</div>
+{% endblock %}

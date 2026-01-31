@@ -1,0 +1,201 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+/* ================= VIDEO SECTION ================= */
+.video-editing-section {
+    padding: 50px 20px;
+    background: rgba(20,20,20,0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+}
+
+.video-editing-section h1 {
+    margin-bottom: 40px;
+    font-size: 2.8rem;
+    text-shadow: 0 0 15px #00eaff;
+    background: linear-gradient(90deg,#00c8ff,#ff6ec4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowText 3s infinite alternate;
+}
+
+@keyframes glowText {
+    0% { text-shadow: 0 0 10px #00eaff; }
+    50% { text-shadow: 0 0 20px #ff6ec4; }
+    100% { text-shadow: 0 0 15px #00eaff; }
+}
+
+/* Grid layout */
+.videos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* Video card styling */
+.video-card {
+    background: rgba(10,10,10,0.6);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.video-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 0 35px rgba(0,255,255,0.4);
+}
+
+/* Video element */
+.video-card video {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+/* Video title */
+.video-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: #00eaff;
+}
+
+/* Video description */
+.video-card p.description {
+    color: #ccc;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+/* Badge for video type */
+.video-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,255,255,0.5);
+}
+
+/* Stats / footer */
+.video-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* Float animation */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+.video-card { animation: float 4s ease-in-out infinite; }
+
+/* Optional glass effect */
+.glass {
+    background: rgba(20,20,20,0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+/* Filter buttons */
+.filter-btns {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+.filter-btns button {
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(0,200,255,0.3);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.filter-btns button:hover, .filter-btns button.active {
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    color: black;
+}
+</style>
+
+<section class="video-editing-section glass">
+    <h1>🎬 Video Editing Projects</h1>
+
+    <!-- ================= FILTER BUTTONS ================= -->
+    <div class="filter-btns">
+        <button class="active" data-filter="all">All Projects</button>
+        <button data-filter="featured">Featured</button>
+        <button data-filter="latest">Latest</button>
+        <button data-filter="completed">Completed</button>
+    </div>
+
+    <div class="videos-container">
+        {% for video in videos %}
+            <div class="video-card glass" data-type="{{ video.category|default:'all' }}">
+                {% if video.category %}
+                    <div class="video-badge">{{ video.category|title }}</div>
+                {% endif %}
+                <h2>{{ video.title }}</h2>
+
+                {% if video.file.url %}
+                    <video width="320" height="240" controls>
+                        <source src="{{ video.file.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% else %}
+                    <p>No video available</p>
+                {% endif %}
+
+                <p class="description">{{ video.description }}</p>
+
+                <div class="video-stats">
+                    <span>⏱ {{ video.duration|default:"N/A" }}</span>
+                    <span>👍 {{ video.likes|default:"0" }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <p>No videos found.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+const filterButtons = document.querySelectorAll('.filter-btns button');
+const videoCards = document.querySelectorAll('.video-card');
+
+filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        videoCards.forEach(card => {
+            if (filter === 'all' || card.dataset.type === filter) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

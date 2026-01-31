@@ -1,0 +1,210 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- ================= FINANCE BACKGROUND ================= -->
+<div class="finance-bg"></div>
+
+<div class="container-fluid finance-page">
+<div class="row">
+
+<!-- ================= LEFT PANEL ================= -->
+<div class="col-md-8 finance-left">
+
+    <!-- ===== HERO ===== -->
+    <div class="glass finance-hero">
+        <h1><i class="fa fa-calculator text-warning"></i> Accounting & Finance</h1>
+        <p>Master bookkeeping, taxation, payroll, and financial reporting with modern tools.</p>
+        <div class="hero-btns">
+            <a href="#finance-projects" class="btn btn-warning">📊 Finance Projects</a>
+            <a href="{% url 'skills' %}" class="btn btn-outline-light">⬅ Back</a>
+        </div>
+    </div>
+
+    <!-- ===== SERVICES ===== -->
+    <div class="glass service-box">
+        <h3>💼 Accounting Services</h3>
+        <div class="service-grid">
+            <div class="service-card">Bookkeeping</div>
+            <div class="service-card">GST Filing</div>
+            <div class="service-card">Income Tax</div>
+            <div class="service-card">Payroll</div>
+            <div class="service-card">Audit</div>
+            <div class="service-card">Financial Reports</div>
+            <div class="service-card">Budgeting</div>
+            <div class="service-card">Excel Automation</div>
+        </div>
+    </div>
+
+    <!-- ===== SKILLS ===== -->
+    <div class="glass skill-box">
+        <h3>📈 Skill Levels</h3>
+
+        <div class="skill">
+            <span>Tally</span>
+            <div class="bar"><div class="fill" data="92"></div></div>
+        </div>
+        <div class="skill">
+            <span>Excel</span>
+            <div class="bar"><div class="fill" data="95"></div></div>
+        </div>
+        <div class="skill">
+            <span>GST</span>
+            <div class="bar"><div class="fill" data="88"></div></div>
+        </div>
+        <div class="skill">
+            <span>Taxation</span>
+            <div class="bar"><div class="fill" data="90"></div></div>
+        </div>
+        <div class="skill">
+            <span>Financial Reports</span>
+            <div class="bar"><div class="fill" data="85"></div></div>
+        </div>
+    </div>
+
+    <!-- ===== FINANCE PROJECTS ===== -->
+    <div class="glass project-box" id="finance-projects">
+        <h3>📂 Finance Projects</h3>
+
+        <div class="project-slider">
+            <div class="project-card">
+                <img src="{% static 'images/projects/finance1.jpg' %}">
+                <h5>GST Filing System</h5>
+                <p>Automated GST calculation & reports.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/finance2.jpg' %}">
+                <h5>Payroll Manager</h5>
+                <p>Employee salary & tax system.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/finance3.jpg' %}">
+                <h5>Expense Tracker</h5>
+                <p>Monthly expense analysis.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/finance4.jpg' %}">
+                <h5>Profit & Loss</h5>
+                <p>Business performance reports.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= RIGHT FINANCE PANEL ================= -->
+<div class="col-md-4 finance-right">
+
+    <!-- ===== STATS ===== -->
+    <div class="glass stat-box">
+        <h4>📊 Finance Stats</h4>
+        <p><b>Clients:</b> 60+</p>
+        <p><b>Reports Generated:</b> 500+</p>
+        <p><b>Tax Filings:</b> 300+</p>
+    </div>
+
+    <!-- ===== CERTIFICATIONS ===== -->
+    <div class="glass cert-box">
+        <h4>🏆 Certifications</h4>
+        <ul>
+            <li>Tally Professional</li>
+            <li>GST Practitioner</li>
+            <li>Income Tax Expert</li>
+            <li>Excel Financial Analyst</li>
+        </ul>
+    </div>
+
+    <!-- ===== HIRE ===== -->
+    <div class="glass hire-box">
+        <h4>💰 Hire Accountant</h4>
+        <p>Need professional accounting & taxation services?</p>
+        <a href="mailto:hamza@gmail.com" class="btn btn-warning w-100">Contact Me</a>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<!-- ================= STYLES ================= -->
+<style>
+.finance-bg{
+    position:fixed; inset:0;
+    background:
+        radial-gradient(circle at 20% 30%,rgba(255,200,0,0.2),transparent 40%),
+        radial-gradient(circle at 80% 70%,rgba(255,120,0,0.2),transparent 40%);
+    z-index:-1;
+    animation:financeMove 20s infinite alternate;
+}
+@keyframes financeMove{
+    0%{transform:translate(0,0);}
+    100%{transform:translate(-50px,40px);}
+}
+.glass{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(12px);
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 0 30px rgba(255,200,0,0.25);
+}
+.service-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+.service-card{
+    background:rgba(255,200,0,0.15);
+    padding:15px;
+    text-align:center;
+    border-radius:15px;
+    transition:.3s;
+}
+.service-card:hover{
+    background:#ffc107;
+    color:black;
+    transform:scale(1.1);
+}
+.skill .bar{
+    background:rgba(255,255,255,0.1);
+    border-radius:10px;
+    height:12px;
+}
+.fill{
+    width:0;
+    height:100%;
+    background:#ffc107;
+    border-radius:10px;
+}
+.project-slider{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+}
+.project-card{
+    min-width:220px;
+    background:rgba(255,200,0,0.15);
+    padding:10px;
+    border-radius:15px;
+    transition:.3s;
+}
+.project-card:hover{transform:scale(1.05);}
+.project-card img{width:100%;border-radius:10px;}
+.finance-right .glass{box-shadow:0 0 30px rgba(255,200,0,0.35);}
+</style>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+document.querySelectorAll('.fill').forEach(el=>{
+    let width=0,target=el.getAttribute('data');
+    let timer=setInterval(()=>{
+        if(width>=target){clearInterval(timer);}
+        else{width++;el.style.width=width+'%';}
+    },15);
+});
+</script>
+
+{% endblock %}

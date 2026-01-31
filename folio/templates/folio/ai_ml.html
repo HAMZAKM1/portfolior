@@ -1,0 +1,168 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- ================= AI BACKGROUND ================= -->
+<div class="ai-bg"></div>
+
+<div class="container-fluid ai-page">
+
+<div class="row">
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="col-md-8 left-ai">
+
+    <!-- ===== HERO ===== -->
+    <div class="glass hero-ai">
+        <h1><i class="fa fa-robot text-warning"></i> AI & Machine Learning</h1>
+        <p>Build intelligent systems using Python, data science, deep learning and automation.</p>
+        <div class="hero-btns">
+            <a href="#projects" class="btn btn-warning">🧠 AI Projects</a>
+            <a href="{% url 'skills' %}" class="btn btn-outline-light">⬅ Back</a>
+        </div>
+    </div>
+
+    <!-- ===== TECHNOLOGIES ===== -->
+    <div class="glass tech-box">
+        <h3>⚙ Technologies & Tools</h3>
+        <div class="tech-grid">
+            <div class="tech-card">Python</div>
+            <div class="tech-card">TensorFlow</div>
+            <div class="tech-card">PyTorch</div>
+            <div class="tech-card">NumPy</div>
+            <div class="tech-card">Pandas</div>
+            <div class="tech-card">Scikit-Learn</div>
+            <div class="tech-card">OpenAI API</div>
+            <div class="tech-card">NLP</div>
+        </div>
+    </div>
+
+    <!-- ===== SKILLS ===== -->
+    <div class="glass skill-box">
+        <h3>🧬 AI Skill Levels</h3>
+
+        <div class="skill">
+            <span>Machine Learning</span>
+            <div class="bar"><div class="fill" data="90"></div></div>
+        </div>
+        <div class="skill">
+            <span>Deep Learning</span>
+            <div class="bar"><div class="fill" data="85"></div></div>
+        </div>
+        <div class="skill">
+            <span>Neural Networks</span>
+            <div class="bar"><div class="fill" data="88"></div></div>
+        </div>
+        <div class="skill">
+            <span>Data Science</span>
+            <div class="bar"><div class="fill" data="92"></div></div>
+        </div>
+        <div class="skill">
+            <span>NLP & Chatbots</span>
+            <div class="bar"><div class="fill" data="89"></div></div>
+        </div>
+    </div>
+
+    <!-- ===== PROJECTS ===== -->
+    <div class="glass project-box" id="projects">
+        <h3>🤖 AI Projects</h3>
+
+        <div class="project-slider">
+            <div class="project-card">
+                <img src="{% static 'images/projects/chatbot.jpg' %}">
+                <h5>AI Chatbot</h5>
+                <p>Smart chatbot using NLP & ML models.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/vision.jpg' %}">
+                <h5>Computer Vision</h5>
+                <p>Image detection and face recognition.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/predict.jpg' %}">
+                <h5>Prediction Engine</h5>
+                <p>ML-powered forecasting system.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/recommend.jpg' %}">
+                <h5>Recommendation System</h5>
+                <p>AI-based product and content recommender.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= RIGHT AI PANEL ================= -->
+<div class="col-md-4 right-ai">
+
+    <!-- ===== AI STATS ===== -->
+    <div class="glass stat-box">
+        <h4>📊 AI Stats</h4>
+        <p><b>Models Built:</b> 25+</p>
+        <p><b>Datasets Used:</b> 40+</p>
+        <p><b>Accuracy Achieved:</b> 92%</p>
+    </div>
+
+    <!-- ===== CERTIFICATIONS ===== -->
+    <div class="glass cert-box">
+        <h4>🏆 Certifications</h4>
+        <ul>
+            <li>Machine Learning Specialist</li>
+            <li>AI Engineer</li>
+            <li>Deep Learning Professional</li>
+            <li>Data Scientist</li>
+        </ul>
+    </div>
+
+    <!-- ===== HIRE ===== -->
+    <div class="glass hire-box">
+        <h4>🚀 Hire AI Engineer</h4>
+        <p>Need smart AI for your business?</p>
+        <a href="mailto:hamza@gmail.com" class="btn btn-warning w-100">Contact Me</a>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<!-- ================= STYLES ================= -->
+<style>
+.ai-page{padding:30px;}
+.ai-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 30%,rgba(255,200,0,0.15),transparent 40%),radial-gradient(circle at 70% 70%,rgba(0,255,255,0.15),transparent 40%);z-index:-1;animation:moveBg 18s infinite alternate;}
+@keyframes moveBg{0%{transform:translate(0,0);}100%{transform:translate(40px,-40px);}}
+
+/* Reuse Web Dev glass look */
+.glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 0 25px rgba(255,200,0,0.2);}
+
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;}
+.tech-card{padding:15px;text-align:center;border-radius:15px;background:rgba(255,200,0,0.15);transition:.3s;}
+.tech-card:hover{transform:scale(1.1);background:#ffc107;color:black;}
+
+.skill .bar{background:rgba(255,255,255,0.1);border-radius:10px;height:12px;}
+.fill{width:0;height:100%;background:#ffc107;border-radius:10px;}
+
+.project-slider{display:flex;gap:15px;overflow-x:auto;}
+.project-card{min-width:220px;background:rgba(255,200,0,0.1);padding:10px;border-radius:15px;transition:.3s;}
+.project-card:hover{transform:scale(1.05);}
+.project-card img{width:100%;border-radius:10px;}
+
+.right-ai .glass{box-shadow:0 0 30px rgba(255,200,0,0.25);}
+</style>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+document.querySelectorAll('.fill').forEach(el=>{
+    let width=0,target=el.getAttribute('data');
+    let timer=setInterval(()=>{
+        if(width>=target){clearInterval(timer);}
+        else{width++;el.style.width=width+'%';}
+    },15);
+});
+</script>
+
+{% endblock %}

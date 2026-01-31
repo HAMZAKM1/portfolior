@@ -1,0 +1,76 @@
+{% extends "folio/base.html" %}
+{% block content %}
+
+<style>
+.skill-hero{
+  min-height:60vh;
+  background:radial-gradient(circle at top,#0b1d3a,#000);
+  color:white;
+  padding:80px 10%;
+  text-align:center;
+}
+.skill-card{
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(15px);
+  border-radius:20px;
+  padding:30px;
+  margin-bottom:30px;
+  border:1px solid rgba(255,255,255,.2);
+}
+.progress-bar{
+  height:12px;
+  background:#00c6ff;
+  border-radius:10px;
+}
+</style>
+
+<section class="skill-hero">
+  <h1>{{ title }}</h1>
+  <p>{{ description }}</p>
+</section>
+
+<div class="container mt-5">
+
+<div class="skill-card">
+<h3>📘 Topics You Will Learn</h3>
+<ul>
+{% for t in topics %}
+<li>{{ t }}</li>
+{% endfor %}
+</ul>
+</div>
+
+<div class="skill-card">
+<h3>🚀 Career Opportunities</h3>
+<p>{{ careers }}</p>
+</div>
+
+<div class="skill-card">
+<h3>🛠 Real Projects</h3>
+<ul>
+{% for p in projects %}
+<li>{{ p }}</li>
+{% endfor %}
+</ul>
+</div>
+
+<div class="skill-card">
+<h3>🎓 Certifications</h3>
+<ul>
+{% for c in certificates %}
+<li>{{ c }}</li>
+{% endfor %}
+</ul>
+</div>
+
+<div class="skill-card">
+<h3>📊 Skill Progress</h3>
+<div style="background:#222;border-radius:10px">
+<div class="progress-bar" style="width:{{ level }}%"></div>
+</div>
+<p>{{ level }}% Completed</p>
+</div>
+
+</div>
+
+{% endblock %}

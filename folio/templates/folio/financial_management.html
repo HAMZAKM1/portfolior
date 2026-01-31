@@ -1,0 +1,179 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- ========== PAGE LAYOUT ========== -->
+<div class="fm-layout">
+
+    <!-- ========== LEFT SIDEBAR ========== -->
+    <div id="leftPanel" class="left-panel">
+        <h2>💰 Finance</h2>
+        <button class="toggle-btn" onclick="toggleLeft()">☰</button>
+
+        <ul>
+            <li>📊 Dashboard</li>
+            <li>💼 Accounting</li>
+            <li>📈 Investments</li>
+            <li>💳 Budgeting</li>
+            <li>⚖ Risk</li>
+            <li>📄 Reports</li>
+        </ul>
+    </div>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <div class="main-content">
+
+        <h1>📊 Financial Management</h1>
+        <p class="subtitle">Master budgeting, investments, accounting and business finance</p>
+
+        <div class="cards">
+            <div class="glass-card">💼<h4>Accounting</h4><p>Track income, expense, assets & liabilities</p></div>
+            <div class="glass-card">📈<h4>Investment</h4><p>Stocks, crypto & mutual funds</p></div>
+            <div class="glass-card">💳<h4>Budgeting</h4><p>Smart spending & saving</p></div>
+            <div class="glass-card">⚖<h4>Risk</h4><p>Protect money & business</p></div>
+        </div>
+
+    </div>
+
+    <!-- ========== RIGHT SLIDE PANEL ========== -->
+    <div id="rightPanel" class="right-panel">
+        <button class="toggle-btn right" onclick="toggleRight()">❯</button>
+
+        <div class="slideshow">
+            <div class="slide active">📊 Smart Financial Planning</div>
+            <div class="slide">📈 Grow Your Investments</div>
+            <div class="slide">💳 Control Your Expenses</div>
+            <div class="slide">🏦 Build Financial Freedom</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ========== CSS ========== -->
+<style>
+body{
+    background:#0a0a0a;
+    overflow:hidden;
+}
+
+.fm-layout{
+    display:flex;
+    height:100vh;
+    color:white;
+}
+
+/* LEFT PANEL */
+.left-panel{
+    width:250px;
+    background:rgba(20,20,20,0.9);
+    padding:20px;
+    transition:0.4s;
+    position:relative;
+}
+.left-panel ul{
+    list-style:none;
+    padding:0;
+}
+.left-panel li{
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.left-panel li:hover{
+    background:#00eaff33;
+}
+
+/* MAIN */
+.main-content{
+    flex:1;
+    padding:40px;
+    overflow:auto;
+    text-align:center;
+}
+
+/* GLASS CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:30px;
+    margin-top:40px;
+}
+.glass-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:30px;
+    transition:.4s;
+    box-shadow:0 0 25px rgba(0,255,255,0.2);
+}
+.glass-card:hover{
+    transform:translateY(-15px) scale(1.05);
+    box-shadow:0 0 40px rgba(0,255,255,0.6);
+}
+
+/* RIGHT PANEL */
+.right-panel{
+    width:300px;
+    background:rgba(15,15,15,0.95);
+    padding:20px;
+    transition:0.4s;
+    position:relative;
+}
+
+/* SLIDESHOW */
+.slideshow{
+    margin-top:50px;
+    height:300px;
+    position:relative;
+}
+.slide{
+    position:absolute;
+    opacity:0;
+    transition:1s;
+    font-size:22px;
+    text-align:center;
+}
+.slide.active{
+    opacity:1;
+}
+
+/* TOGGLE BUTTON */
+.toggle-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#00eaff;
+    border:none;
+    padding:10px 14px;
+    cursor:pointer;
+    border-radius:50%;
+}
+.toggle-btn.right{
+    left:-15px;
+    right:auto;
+}
+</style>
+
+<!-- ========== JS ========== -->
+<script>
+function toggleLeft(){
+    let p=document.getElementById("leftPanel");
+    p.style.width = (p.style.width=="50px")?"250px":"50px";
+}
+
+function toggleRight(){
+    let p=document.getElementById("rightPanel");
+    p.style.width = (p.style.width=="50px")?"300px":"50px";
+}
+
+/* slideshow */
+let slides=document.querySelectorAll(".slide");
+let i=0;
+setInterval(()=>{
+    slides.forEach(s=>s.classList.remove("active"));
+    i=(i+1)%slides.length;
+    slides[i].classList.add("active");
+},3000);
+</script>
+
+{% endblock %}

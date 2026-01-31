@@ -1,0 +1,212 @@
+{% extends 'folio/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- ================= HEADER ================= -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-light fw-bold">📜 My Certificates</h2>
+        <a href="{% url 'certificate_create' %}" class="btn btn-primary shadow">
+            ➕ Add Certificate
+        </a>
+    </div>
+
+    <!-- ================= SEARCH & FILTER ================= -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-7">
+            <input type="text" id="certSearch"
+                   class="form-control glass-input"
+                   placeholder="🔍 Search by title, subject, issuer..."
+                   onkeyup="filterCertificates()">
+        </div>
+
+        <div class="col-md-5">
+            <select id="yearFilter"
+                    class="form-select glass-input"
+                    onchange="filterCertificates()">
+                <option value="">📅 Filter by year</option>
+                {% for cert in certificates %}
+                    {% if cert.year %}
+                        <option value="{{ cert.year }}">{{ cert.year }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <!-- ================= CERTIFICATE GRID ================= -->
+    <div class="row g-4" id="certGrid">
+
+        {% for cert in certificates %}
+        <div class="col-lg-4 col-md-6 cert-card"
+             data-title="{{ cert.title|lower }}"
+             data-subject="{{ cert.subject|lower }}"
+             data-issuer="{{ cert.issuer|lower }}"
+             data-year="{{ cert.year }}">
+
+            <div class="glass-card h-100">
+
+                <!-- Badges -->
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="badge bg-success">✔ Verified</span>
+                    {% if forloop.first %}
+                        <span class="badge bg-warning text-dark">🌟 Latest</span>
+                    {% endif %}
+                </div>
+
+                <!-- Title -->
+                <h5 class="fw-bold mb-1">{{ cert.title }}</h5>
+
+                <!-- Meta -->
+                <div class="mb-2">
+                    {% if cert.subject %}
+                        <span class="badge bg-info">{{ cert.subject }}</span>
+                    {% endif %}
+                    {% if cert.issuer %}
+                        <span class="badge bg-secondary">{{ cert.issuer }}</span>
+                    {% endif %}
+                </div>
+
+                <p class="small mb-1"><strong>Year:</strong> {{ cert.year }}</p>
+
+                {% if cert.description %}
+                <p class="text-muted small">
+                    {{ cert.description|truncatewords:18 }}
+                </p>
+                {% endif %}
+
+                <!-- Actions -->
+                <div class="action-bar mt-auto pt-3">
+                    {% if cert.file %}
+                        <button class="btn btn-sm btn-outline-light"
+                                onclick="openModal('{{ cert.file.url }}', '{{ cert.title }}')">
+                            👁 View
+                        </button>
+
+                        <a href="{{ cert.file.url }}"
+                           download
+                           class="btn btn-sm btn-outline-info">
+                            ⬇ Download
+                        </a>
+                    {% endif %}
+
+                    <!-- Ready for views -->
+                    <a href="#"
+                       class="btn btn-sm btn-outline-warning disabled">
+                        ✏ Edit
+                    </a>
+
+                    <a href="#"
+                       class="btn btn-sm btn-outline-danger disabled">
+                        🗑 Delete
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-light fs-5">
+                🚫 No certificates uploaded yet.<br>
+                Click <strong>“Add Certificate”</strong> to get started.
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ================= PREVIEW MODAL ================= -->
+<div class="modal fade" id="certModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content bg-dark text-light rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="certModalLabel"></h5>
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <iframe id="certFrame"
+                        style="width:100%;height:550px;border:none;border-radius:12px;">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= STYLES ================= -->
+<style>
+.glass-card{
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 10px 35px rgba(0,0,0,.45);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: .3s ease;
+}
+.glass-card:hover{
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 0 30px rgba(255,255,255,.4);
+}
+
+.action-bar{
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.glass-input{
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: none;
+}
+.glass-input::placeholder{
+    color: #ccc;
+}
+.glass-input:focus{
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+}
+</style>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+function openModal(url, title){
+    const frame = document.getElementById('certFrame');
+    const label = document.getElementById('certModalLabel');
+
+    label.textContent = title;
+
+    if(url.endsWith('.pdf')){
+        frame.src = url;
+    }else{
+        frame.srcdoc = `<img src="${url}" style="width:100%;border-radius:12px;">`;
+    }
+
+    new bootstrap.Modal(document.getElementById('certModal')).show();
+}
+
+function filterCertificates(){
+    const search = document.getElementById('certSearch').value.toLowerCase();
+    const year   = document.getElementById('yearFilter').value;
+
+    document.querySelectorAll('.cert-card').forEach(card=>{
+        const text = (
+            card.dataset.title +
+            card.dataset.subject +
+            card.dataset.issuer
+        );
+        const matchText = text.includes(search);
+        const matchYear = (year === "" || card.dataset.year === year);
+
+        card.style.display = (matchText && matchYear) ? "block" : "none";
+    });
+}
+</script>
+
+{% endblock %}

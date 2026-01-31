@@ -8,8 +8,24 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.contrib.sessions.models import Session
+from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Certificate
 import json
 import csv
+from .models import Skill
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Course, Certificate, Career
+from .forms import BlogForm
+from django.shortcuts import render, redirect
+from .forms import SkillForm
+from .forms import CertificateForm
+from .models import Certificate
+from .forms import CourseForm 
 from .models import (
     Profile, Skill, Project, ProjectGallery, Category,
     BlogPost, Testimonial, Resume, Visitor
@@ -18,11 +34,61 @@ from .forms import (
     ProfileForm, ContactForm, SkillForm,
     ProjectForm, ProjectGalleryForm
 )
+from django.shortcuts import render
 
+SKILLS = [
+    {
+        "name": "Software Engineering",
+        "slug": "software-engineering",
+        "description": "Design, build and deploy professional software systems.",
+        "topics": ["Python","Django","APIs","Databases","Cloud"],
+        "projects": ["E-Commerce Platform","Chat App","ERP System"],
+        "certificates": ["Python Developer","Django Master"],
+        "careers": "Software Engineer, Backend Developer",
+        "level": 90
+    },
+    {
+        "name": "Web Development",
+        "slug": "web-development",
+        "description": "Create fast and responsive websites.",
+        "topics": ["HTML","CSS","JavaScript","Bootstrap","React"],
+        "projects": ["Portfolio","Virtual Art Gallery"],
+        "certificates": ["Frontend Developer"],
+        "careers": "Web Developer, UI Engineer",
+        "level": 85
+    },
+    {
+        "name": "Accounting",
+        "slug": "accounting",
+        "description": "Manage finances, taxes and bookkeeping.",
+        "topics": ["Tally","Excel","GST","Payroll"],
+        "projects": ["Company Reports"],
+        "certificates": ["Professional Accountant"],
+        "careers": "Accountant, Finance Manager",
+        "level": 75
+    },
+    {
+        "name": "Mobile Mechanic",
+        "slug": "mobile-mechanic",
+        "description": "Repair and maintain smartphones.",
+        "topics": ["Screen Repair","Flashing","Chipset Repair"],
+        "projects": ["500+ Devices Repaired"],
+        "certificates": ["Mobile Technician"],
+        "careers": "Mobile Repair Engineer",
+        "level": 85
+    },
+     {
+        "name": "Graphic Design",
+        "slug": "graphic-design",
+        "description": "Create stunning visual content and graphics.",
+        "topics": ["Photoshop", "Illustrator", "Figma"],
+        "projects": ["Portfolio Design", "Branding Projects"],
+        "certificates": ["Graphic Designer Certificate"],
+        "careers": "Graphic Designer, UI/UX Designer",
+        "level": 80
+    }
+]
 
-# ============================
-# HOME / INDEX / VISITOR LOG
-# ============================
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
@@ -168,15 +234,6 @@ def delete_project(request, pk):
         return redirect("project_list")
     return render(request, "folio/project_confirm_delete.html", {"project": project})
 
-
-# ============================
-# SKILL VIEWS
-# ============================
-
-@login_required
-def skills_page(request):
-    skills = Skill.objects.all().order_by('-id')
-    return render(request, "folio/skills.html", {"skills": skills})
 
 @login_required
 def add_skill(request):
@@ -380,3 +437,312 @@ def blog_detail(request, pk):
 
 def user_settings(request):
     return render(request, 'folio/user_settings.html')
+def dashboard(request):
+    return render(request, "folio/dashboard.html")
+def resume_view(request):
+    return render(request, "folio/resume.html")
+def newsletter_subscribe(request):
+    if request.method == "POST":
+        return HttpResponse("Subscribed successfully")
+    return HttpResponse("Newsletter page")
+def update_privacy(request):
+    if request.method == "POST":
+        # later you can save privacy settings here
+        return HttpResponse("Privacy settings updated successfully")
+    return HttpResponse("Privacy settings page")
+def enable_2fa(request):
+    return HttpResponse("2FA enabled")
+
+def disable_2fa(request):
+    return HttpResponse("2FA disabled")
+def update_notifications(request):
+    messages.success(request, "Notification settings updated")
+    return redirect("/")
+def delete_account(request):
+    messages.success(request, "Account deleted (demo)")
+    return redirect("/")
+def projects(request):
+    projects = Project.objects.all()
+    return render(request, "folio/projects.html", {
+        "projects": projects
+    })
+    
+def about(request):
+    return render(request, "folio/about.html")
+def experience(request):
+    return render(request, "folio/experience.html")
+def education(request):
+    return render(request, "folio/education.html")
+def testimonials(request):
+    return render(request, "folio/testimonials.html")
+def export_data(request):
+    # Temporary placeholder
+    return HttpResponse("Export Data page placeholder.")
+def featured_projects(request):
+    return render(request, 'folio/featured_projects.html')
+def latest_projects(request):
+    return render(request, 'folio/latest_projects.html')
+def settings_view(request):
+    return render(request, 'folio/settings.html')
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Account created successfully! You can now log in.")
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'folio/register.html', {'form': form})
+
+
+def contact(request):
+    return render(request, 'folio/contact.html')
+
+@login_required
+def skills_page(request):
+    skills = []
+    categories = set()  # to collect unique categories
+
+    for skill in SKILLS:
+        # Calculate stars (1 star per 20% proficiency)
+        stars = round(skill.get("level", 0) / 20)
+        skill_copy = skill.copy()
+        skill_copy["stars"] = stars
+        skills.append(skill_copy)
+
+        categories.add(skill.get("type", "Other"))  # collect unique types
+
+    categories = sorted(categories)  # optional: sort alphabetically
+
+    return render(request, "folio/skills.html", {
+        "skills": skills,
+        "categories": categories,
+    })
+
+def skill_detail(request, slug):
+    """Display a single skill based on slug"""
+    skill = next((s for s in SKILLS if s["slug"] == slug), None)
+    if not skill:
+        return HttpResponse("Skill not found", status=404)
+    return render(request, "folio/skill_detail.html", {"skill": skill})
+
+
+def skill_detail(request, slug):
+    """Display a single skill based on slug"""
+    skill = next((s for s in SKILLS if s["slug"] == slug), None)
+    if not skill:
+        return HttpResponse("Skill not found", status=404)
+    return render(request, "folio/skill_detail.html", {"skill": skill})
+
+def education(request):
+    certificates = Certificate.objects.all().order_by("-year")
+    return render(request, "folio/education.html", {
+        "certificates": certificates
+    })  
+    
+
+def software_engineering(request):
+    return render(request, "folio/software_engineering.html")
+
+def web_development(request):
+    return render(request, "folio/web_development.html")
+
+def ai_ml(request):
+    return render(request, "folio/ai_ml.html")
+
+def cloud_computing(request):
+    return render(request, "folio/cloud_computing.html")
+
+def accounting(request):
+    return render(request, "folio/accounting.html")
+
+def financial_management(request):
+    return render(request, "folio/financial_management.html")
+
+def business_admin(request):
+    return render(request, "folio/business_admin.html")
+
+def mobile_mechanic(request):
+    return render(request, "folio/mobile_mechanic.html")
+
+def auto_repair(request):
+    return render(request, "folio/auto_repair.html")
+
+def electrical_technician(request):
+    return render(request, "folio/electrical_technician.html")
+
+def hvac(request):
+    return render(request, "folio/hvac.html")
+
+def graphic_design(request):
+    return render(request, "folio/graphic_design.html")
+
+def video_editing(request):
+    return render(request, "folio/video_editing.html")
+
+def photography(request):
+    return render(request, "folio/photography.html")
+def financial_management(request):
+    return render(request, "folio/financial_management.html")
+def business_admin(request):
+    return render(request, "folio/business_admin.html")
+
+def auto_repair(request):
+    return render(request, "folio/auto_repair.html")
+def electrical_technician(request):
+    return render(request, "folio/electrical_technician.html")
+def hvac_technician(request):
+    return render(request, "folio/hvac_technician.html")
+
+
+def resume_software(request):
+    return render(request, "folio/resume_software.html")
+
+def resume_hardware(request):
+    return render(request, "folio/resume_hardware.html")
+
+def resume_accounting(request):
+    return render(request, "folio/resume_accounting.html")
+
+def resume_finance(request):
+    return render(request, "folio/resume_finance.html")
+
+def resume_mobile(request):
+    return render(request, "folio/resume_mobile.html")
+
+def resume_cooker(request):
+    return render(request, "folio/resume_cooker.html")
+
+def resume_auto(request):
+    return render(request, "folio/resume_auto.html")
+
+def resume_graphic(request):
+    return render(request, "folio/resume_graphic.html")
+
+def resume_video(request):
+    return render(request, "folio/resume_video.html")
+
+def resume_photography(request):
+    return render(request, "folio/resume_photography.html")
+
+@login_required
+def logout_other_sessions(request):
+    current_session_key = request.session.session_key
+
+    # Delete all sessions for this user except the current one
+    sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    for session in sessions:
+        data = session.get_decoded()
+        if data.get("_auth_user_id") == str(request.user.id):
+            if session.session_key != current_session_key:
+                session.delete()
+
+    return redirect("settings")
+def contact(request):
+    return render(request, 'folio/contact.html', {'title': 'Contact Me'})
+# views.py
+
+def project_create(request):
+    return render(request, "folio/project_form.html")
+# folio/views.py
+@login_required
+def blog_create(request):
+    if request.method == 'POST':
+        form = BlogForm(request.POST)
+        if form.is_valid():
+            blog = form.save(commit=False)
+            blog.author = request.user
+            blog.save()
+            return redirect('dashboard')
+    else:
+        form = BlogForm()
+
+    return render(request, 'folio/blog_create.html', {'form': form})
+# views.py
+
+def skill_create(request):
+    if request.method == "POST":
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = SkillForm()
+    return render(request, 'folio/skill_form.html', {'form': form})
+
+def education(request):
+    return render(request, 'folio/education.html')
+
+def certificates(request):
+    return render(request, 'folio/certificate.html')
+
+def courses(request):
+    return render(request, 'folio/courses.html')
+
+def python_section(request):
+    return render(request, 'folio/python.html')
+
+def frontend_section(request):
+    return render(request, 'folio/frontend.html')
+
+def projects(request):
+    return render(request, 'folio/projects.html')
+
+def career(request):
+    return render(request, 'folio/career.html')
+
+def dashboard(request):
+    return render(request, 'folio/dashboard.html')
+# List all certificates for the logged-in user
+@login_required(login_url='login')
+def certificates(request):
+    certs = Certificate.objects.filter(user=request.user).order_by('-year')
+    return render(request, 'folio/certificate.html', {'certificates': certs})
+
+# Add a new certificate
+@login_required(login_url='login')
+def certificate_create(request):
+    if request.method == 'POST':
+        form = CertificateForm(request.POST, request.FILES)
+        if form.is_valid():
+            certificate = form.save(commit=False)
+            certificate.user = request.user  # assign logged-in user
+            certificate.save()
+            return redirect('certificates')  # ✅ redirect to the certificate list
+    else:
+        form = CertificateForm()
+
+    return render(request, 'folio/certificate_form.html', {'form': form})
+
+
+def courses_view(request):
+    courses = Course.objects.filter(id__isnull=False)
+    return render(request, 'folio/courses.html', {'courses': courses})
+
+def career_view(request):
+    career = {
+        "skills": ["Python", "Django", "SQL"],
+        "goals": ["Become Backend Dev", "Deploy Projects"],
+        "certificates": [{"title": "Python Cert"}, {"title": "Django Cert"}]
+    }
+    return render(request, 'folio/career.html', {'career': career})
+
+# Detail page for a single course
+def course_detail_view(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    return render(request, 'folio/course_detail.html', {'course': course})
+
+
+@login_required
+def course_create(request):
+    if request.method == "POST":
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            course = form.save(commit=False)
+            course.user = request.user  # automatically assign logged-in user
+            course.save()
+            return redirect('courses')  # or any page you want to redirect to
+    else:
+        form = CourseForm()
+    return render(request, 'folio/course_create.html', {'form': form})

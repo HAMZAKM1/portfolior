@@ -308,9 +308,51 @@
         </li>
 
         <!-- Skills -->
-        <li class="nav-item floating-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'skills' %}active{% endif %}" href="{% url 'skills' %}">Skills</a>
-        </li>
+        <!-- Skills Dropdown -->
+<li class="nav-item dropdown floating-item">
+  <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'skills' %}active{% endif %}" 
+     href="#" data-bs-toggle="dropdown">
+    Skills
+  </a>
+
+  <ul class="dropdown-menu animated-dropdown mega-menu p-3">
+
+    <!-- Software & IT -->
+    <li class="dropdown-header text-info">💻 Software & IT</li>
+    <li><a class="dropdown-item" href="{% url 'software_engineering' %}">Software Engineering</a></li>             </li>
+    <li><a class="dropdown-item" href="{% url 'web_development' %}">Web Development</a></li>
+    <li><a class="dropdown-item" href="{% url 'ai_ml' %}">AI & Machine Learning</a></li>
+    <li><a class="dropdown-item" href="{% url 'cloud_computing' %}">Cloud Computing</a></li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <!-- Business -->
+    <li class="dropdown-header text-warning">📊 Business & Finance</li>
+    <li><a class="dropdown-item" href="{% url 'accounting' %}">Accounting</a></li>
+    <li><a class="dropdown-item" href="{% url 'financial_management' %}">Financial Management</a></li>
+    <li><a class="dropdown-item" href="{% url 'business_admin' %}">Business Administration</a></li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <!-- Technical Trades -->
+    <li class="dropdown-header text-success">🔧 Technical Trades</li>
+    <li><a class="dropdown-item" href="{% url 'mobile_mechanic' %}">Mobile Mechanic</a></li>
+    <li><a class="dropdown-item" href="{% url 'auto_repair' %}">Auto Repair</a></li>
+    <li><a class="dropdown-item" href="{% url 'electrical_technician' %}">Electrical Technician</a></li>
+    <li><a class="dropdown-item" href="{% url 'hvac' %}">HVAC Technician</a></li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <!-- Creative -->
+    <li class="dropdown-header text-danger">🎨 Creative</li>
+    <li><a class="dropdown-item" href="{% url 'skill_detail' 'graphic-design' %}"><i class="fa fa-paint-brush me-2"></i>Graphic Design</a></li>
+    <li><a class="dropdown-item" href="{% url 'graphic_design' %}">Graphic Design</a></li>
+    <li><a class="dropdown-item" href="{% url 'video_editing' %}">Video Editing</a></li>
+    <li><a class="dropdown-item" href="{% url 'photography' %}">Photography</a></li>
+
+  </ul>
+</li>
+
 
         <!-- Portfolio Dropdown -->
         <li class="nav-item dropdown floating-item">
@@ -322,12 +364,44 @@
             <li><a class="dropdown-item" href="{% url 'testimonials' %}"><i class="fa fa-comment-dots me-2"></i>Testimonials</a></li>
           </ul>
         </li>
+{% with request.resolver_match.url_name as page %}
 
-        <!-- Resume -->
-        <li class="nav-item floating-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'resume' %}active{% endif %}" href="{% url 'resume' %}">Resume</a>
-        </li>
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle {% if page == 'resume_software' or page == 'resume_hardware' or page == 'resume_accounting' or page == 'resume_finance' or page == 'resume_mobile' or page == 'resume_cooker' or page == 'resume_auto' or page == 'resume_graphic' or page == 'resume_video' or page == 'resume_photography' %}active{% endif %}" 
+     href="#" data-bs-toggle="dropdown">
+    Resume
+  </a>
 
+  <ul class="dropdown-menu">
+    <li class="dropdown-header">💻 Software</li>
+    <li><a class="dropdown-item" href="{% url 'resume_software' %}">Software Engineering</a></li>
+    <li><a class="dropdown-item" href="{% url 'resume_hardware' %}">Hardware Engineering</a></li>
+
+    <li><hr></li>
+
+    <li class="dropdown-header">📊 Business</li>
+    <li><a class="dropdown-item" href="{% url 'resume_accounting' %}">Accounting</a></li>
+    <li><a class="dropdown-item" href="{% url 'resume_finance' %}">Finance</a></li>
+
+    <li><hr></li>
+
+    <li class="dropdown-header">🔧 Technical</li>
+    <li><a class="dropdown-item" href="{% url 'resume_mobile' %}">Mobile Repair</a></li>
+    <li><a class="dropdown-item" href="{% url 'resume_cooker' %}">Cooker</a></li>
+    <li><a class="dropdown-item" href="{% url 'resume_auto' %}">Auto Repair</a></li>
+
+    <li><hr></li>
+
+    <li class="dropdown-header">🎨 Creative</li>
+    <li><a class="dropdown-item" href="{% url 'resume_graphic' %}">Graphic Design</a></li>
+    <li><a class="dropdown-item" href="{% url 'resume_video' %}">Video Editing</a></li>
+    <li><a class="dropdown-item" href="{% url 'resume_photography' %}">Photography</a></li>
+  </ul>
+</li>
+
+{% endwith %}
+
+  
         <!-- Authenticated User -->
         {% if request.user.is_authenticated %}
         <li class="nav-item dropdown floating-item">

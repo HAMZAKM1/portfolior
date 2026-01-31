@@ -1,22 +1,27 @@
 {% extends "folio/base.html" %}
 {% load static %}
 
+{% block title %}Dashboard{% endblock %}
+
 {% block content %}
 <style>
+/* ===================== DASHBOARD STYLES ===================== */
 .dashboard-container {
     margin-top: 80px;
     padding: 20px;
     color: #fff;
 }
 
-.stats-box {
+/* Glass cards */
+.stats-box, .card-item {
     background: rgba(255,255,255,0.08);
     border-radius: 20px;
-    padding: 25px;
-    backdrop-filter: blur(12px);
+    padding: 22px;
+    backdrop-filter: blur(14px);
     transition: 0.3s;
 }
-.stats-box:hover {
+.stats-box:hover,
+.card-item:hover {
     transform: translateY(-6px);
     background: rgba(255,255,255,0.14);
 }
@@ -24,8 +29,7 @@
 .section-title {
     font-size: 28px;
     font-weight: bold;
-    margin-top: 35px;
-    margin-bottom: 18px;
+    margin: 45px 0 18px;
 }
 
 .profile-img {
@@ -36,17 +40,6 @@
     border: 3px solid #00eaff;
 }
 
-.card-item {
-    background: rgba(255,255,255,0.07);
-    padding: 18px;
-    border-radius: 16px;
-    margin-bottom: 14px;
-    transition: 0.3s;
-}
-.card-item:hover {
-    background: rgba(255,255,255,0.12);
-}
-
 .featured-badge {
     background: gold;
     color: #000;
@@ -55,100 +48,294 @@
     font-size: 12px;
     font-weight: bold;
 }
+
+.progress-bar-wrap {
+    background: #222;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+.progress-bar {
+    background: #00eaff;
+    height: 10px;
+}
+
+.quick-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+}
+
+canvas {
+    width: 100%;
+    background: #000;
+    border-radius: 14px;
+}
+
+/* Certificates Grid */
+.cert-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+    margin-top:20px;
+}
+
+.cert-card{
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:18px;
+    position:relative;
+    transition:.4s;
+}
+.cert-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 0 20px rgba(0,255,255,.3);
+}
+
+.badge{
+    position:absolute;
+    top:15px;
+    right:15px;
+    padding:5px 12px;
+    font-size:12px;
+    border-radius:20px;
+    background:#0ff;
+    color:#000;
+}
+
+.featured{
+    position:absolute;
+    top:15px;
+    left:15px;
+    background:gold;
+    color:#000;
+    font-size:11px;
+    padding:4px 10px;
+    border-radius:20px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+}
+
+.btn{
+    background:#0ff;
+    color:#000;
+    padding:6px 12px;
+    border-radius:18px;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    z-index:9999;
+}
+
+.modal iframe{
+    width:80%;
+    height:80%;
+    margin:5% auto;
+    display:block;
+    border-radius:14px;
+}
+
+.close{
+    position:absolute;
+    top:20px;
+    right:30px;
+    font-size:30px;
+    color:#fff;
+    cursor:pointer;
+}
+
+#toTop{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    padding:12px;
+    border-radius:50%;
+    display:none;
+}
 </style>
 
 <div class="container dashboard-container">
 
-    <h2 class="text-center mb-4">🌟 Dashboard Overview</h2>
+<h2 class="text-center mb-4">🌟 Dashboard Overview</h2>
 
-    <!-- ================= STATS ================= -->
-    <div class="row text-center">
-        <div class="col-md-3">
-            <div class="stats-box">
-                <h4>Projects</h4>
-                <h2>{{ projects|length }}</h2>
-            </div>
-        </div>
+<!-- ================= STATS ================= -->
+<div class="row text-center">
+    <div class="col-md-3"><div class="stats-box"><h4>Projects</h4><h2>{{ projects|length }}</h2></div></div>
+    <div class="col-md-3"><div class="stats-box"><h4>Skills</h4><h2>{{ skills|length }}</h2></div></div>
+    <div class="col-md-3"><div class="stats-box"><h4>Blogs</h4><h2>{{ blogs|length }}</h2></div></div>
+    <div class="col-md-3"><div class="stats-box"><h4>Certificates</h4><h2>{{ certificates|length }}</h2></div></div>
+</div>
 
-        <div class="col-md-3">
-            <div class="stats-box">
-                <h4>Skills</h4>
-                <h2>{{ skills|length }}</h2>
-            </div>
-        </div>
+<!-- ================= QUICK ACTIONS ================= -->
+<h3 class="section-title">⚡ Quick Actions</h3>
+<div class="row text-center">
+    <div class="col-md-3"><a href="{% url 'project_create' %}" class="stats-box d-block quick-link">➕ Add Project</a></div>
+    <div class="col-md-3"><a href="{% url 'blog_create' %}" class="stats-box d-block quick-link">✍ New Blog</a></div>
+    <div class="col-md-3"><a href="{% url 'skill_create' %}" class="stats-box d-block quick-link">🎯 Add Skill</a></div>
+    <div class="col-md-3"><a href="{% url 'certificate' %}" class="stats-box d-block quick-link">🎓 Certificates</a></div>
+</div>
 
-        <div class="col-md-3">
-            <div class="stats-box">
-                <h4>Blogs</h4>
-                <h2>{{ blogs|length }}</h2>
-            </div>
-        </div>
+<!-- ================= PROFILE ================= -->
+<h3 class="section-title">👤 Profile</h3>
+<div class="card-item d-flex align-items-center">
+    <img src="{{ profile.image.url }}" class="profile-img">
+    <div class="ms-4">
+        <h4>{{ profile.name }}</h4>
+        <p>{{ profile.bio }}</p>
+        <a href="{% url 'index' %}" class="btn btn-info btn-sm">View Portfolio</a>
+    </div>
+</div>
 
-        <div class="col-md-3">
-            <div class="stats-box">
-                <h4>Visitors</h4>
-                <h2>{{ visitors|length }}</h2>
-            </div>
+<!-- ================= SKILL PROGRESS ================= -->
+<h3 class="section-title">📈 Skill Progress</h3>
+{% for s in skills %}
+<div class="card-item">
+    <strong>{{ s.name }}</strong>
+    <div class="progress-bar-wrap">
+        <div class="progress-bar" style="width:{{ s.level }}%"></div>
+    </div>
+</div>
+{% empty %}
+<p>No skills added.</p>
+{% endfor %}
+
+<!-- ================= FEATURED PROJECTS ================= -->
+<h3 class="section-title">⭐ Featured Projects</h3>
+{% for fp in featured_projects %}
+<div class="card-item">
+    <div class="d-flex justify-content-between">
+        <h4>{{ fp.title }}</h4>
+        <span class="featured-badge">FEATURED</span>
+    </div>
+    <p>{{ fp.short_description|truncatewords:20 }}</p>
+    <a href="{% url 'project_detail' fp.id %}" class="btn btn-warning btn-sm">View</a>
+</div>
+{% empty %}
+<p>No featured projects.</p>
+{% endfor %}
+
+<!-- ================= LATEST PROJECTS ================= -->
+<h3 class="section-title">🛠 Latest Projects</h3>
+{% for p in projects|slice:":3" %}
+<div class="card-item">
+    <h4>{{ p.title }}</h4>
+    <p>{{ p.short_description }}</p>
+    <a href="{% url 'project_detail' p.id %}" class="btn btn-outline-info btn-sm">Open</a>
+</div>
+{% empty %}
+<p>No projects available.</p>
+{% endfor %}
+
+<!-- ================= CERTIFICATES ================= -->
+<h3 class="section-title">🎓 Certificates</h3>
+{% if certificates %}
+<div class="cert-grid">
+    {% for cert in certificates %}
+    <div class="cert-card"
+         data-title="{{ cert.title|lower }} {{ cert.subject|lower }}"
+         data-type="{{ cert.certificate_type }}"
+         data-year="{{ cert.year }}">
+        <span class="badge">{{ cert.get_certificate_type_display }}</span>
+        {% if cert.certificate_type == 'degree' or cert.certificate_type == 'internship' %}
+        <span class="featured">⭐ Featured</span>
+        {% endif %}
+        <h4>{{ cert.title }}</h4>
+        <p><strong>Subject:</strong> {{ cert.subject }}</p>
+        <p><strong>Issuer:</strong> {{ cert.issuer }}</p>
+        <p>📅 {{ cert.issue_date|date:"F Y" }}</p>
+        {% if cert.description %}
+        <p>{{ cert.description|truncatechars:100 }}</p>
+        {% endif %}
+        <div class="actions">
+            <button class="btn view-btn" data-file="{{ cert.file.url }}">👁 View</button>
+            <a href="{{ cert.file.url }}" download class="btn">⬇ Download</a>
+            <button class="btn fullscreen-btn" data-file="{{ cert.file.url }}">⛶ Fullscreen</button>
         </div>
     </div>
-
-    <!-- ================= PROFILE ================= -->
-    <h3 class="section-title">👤 Profile</h3>
-    <div class="card-item d-flex align-items-center">
-        <img src="{{ profile.image.url }}" class="profile-img" alt="Profile">
-        <div class="ms-4">
-            <h4>{{ profile.name }}</h4>
-            <p>{{ profile.bio }}</p>
-            <a href="{% url 'index' %}" class="btn btn-info btn-sm mt-2">
-                View Portfolio
-            </a>
-        </div>
-    </div>
-
-    <!-- ================= FEATURED PROJECTS ================= -->
-    <h3 class="section-title">⭐ Featured Projects</h3>
-
-    {% for fp in featured_projects %}
-        <div class="card-item">
-            <div class="d-flex justify-content-between">
-                <h4>{{ fp.title }}</h4>
-                <span class="featured-badge">FEATURED</span>
-            </div>
-            <p>{{ fp.short_description|truncatewords:20 }}</p>
-            <a href="{% url 'project_detail' fp.id %}" class="btn btn-warning btn-sm">
-                View Details
-            </a>
-        </div>
-    {% empty %}
-        <p>No featured projects added.</p>
     {% endfor %}
+</div>
+{% else %}
+<p>No certificates uploaded yet.</p>
+{% endif %}
 
-    <!-- ================= LATEST PROJECTS ================= -->
-    <h3 class="section-title">🛠 Latest Projects</h3>
+<!-- ================= RECENT ACTIVITY ================= -->
+<h3 class="section-title">🕒 Recent Activity</h3>
+<div class="card-item">✅ Project added</div>
+<div class="card-item">📝 Blog published</div>
+<div class="card-item">🎓 Certificate uploaded</div>
 
-    {% for p in projects|slice:":3" %}
-        <div class="card-item">
-            <h4>{{ p.title }}</h4>
-            <p>{{ p.short_description }}</p>
-            <a href="{% url 'project_detail' p.id %}" class="btn btn-outline-info btn-sm">
-                Open Project
-            </a>
-        </div>
-    {% empty %}
-        <p>No projects found.</p>
-    {% endfor %}
+<!-- ================= BLOGS ================= -->
+<h3 class="section-title">📝 Latest Blogs</h3>
+{% for b in blogs|slice:":3" %}
+<div class="card-item">
+    <h4>{{ b.title }}</h4>
+    <p>{{ b.content|truncatewords:22 }}</p>
+</div>
+{% empty %}
+<p>No blogs found.</p>
+{% endfor %}
 
-    <!-- ================= BLOGS ================= -->
-    <h3 class="section-title">📝 Latest Blog Posts</h3>
+<!-- ================= VISITOR GRAPH ================= -->
+<h3 class="section-title">📊 Visitor Analytics</h3>
+<canvas id="visitorChart" height="90"></canvas>
 
-    {% for b in blogs|slice:":3" %}
-        <div class="card-item">
-            <h4>{{ b.title }}</h4>
-            <p>{{ b.content|truncatewords:22 }}</p>
-        </div>
-    {% empty %}
-        <p>No blog posts available.</p>
-    {% endfor %}
+<!-- ================= SESSION INFO ================= -->
+<h3 class="section-title">🔐 Session Info</h3>
+<div class="card-item">
+    <p><b>User:</b> {{ request.user.username }}</p>
+    <p><b>Last Login:</b> {{ request.user.last_login }}</p>
+    <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+</div>
 
 </div>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="certModal">
+  <span class="close">&times;</span>
+  <iframe id="certFrame"></iframe>
+</div>
+
+<button id="toTop">⬆</button>
+
+<script>
+/* Certificates Modal */
+const modal=document.getElementById("certModal");
+const frame=document.getElementById("certFrame");
+
+document.querySelectorAll(".view-btn,.fullscreen-btn").forEach(btn=>{
+    btn.onclick=()=>{
+        frame.src=btn.dataset.file;
+        modal.style.display="block";
+    }
+});
+document.querySelector(".close").onclick=()=>{
+    modal.style.display="none";
+    frame.src="";
+}
+
+/* Scroll top */
+const topBtn=document.getElementById("toTop");
+window.onscroll=()=>topBtn.style.display=window.scrollY>300?"block":"none";
+topBtn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+
+/* Visitor Chart */
+const ctx=document.getElementById("visitorChart").getContext("2d");
+const visitorData={{ visitors|length }};
+ctx.fillStyle="#00eaff";
+[12,18,10,25,30,22,40].forEach((v,i)=>{
+    ctx.fillRect(i*45,100-v*2,30,v*2);
+});
+</script>
+
 {% endblock %}

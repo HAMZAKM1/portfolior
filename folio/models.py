@@ -2,10 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils import timezone
-
-# ============================
-# PROFILE
-# ============================
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
@@ -21,9 +17,6 @@ class Profile(models.Model):
         return self.user.username
 
 
-# ============================
-# SKILLS
-# ============================
 class Skill(models.Model):
     CATEGORY_CHOICES = [
         ('Frontend', 'Frontend'),
@@ -32,15 +25,18 @@ class Skill(models.Model):
         ('Tools', 'Tools'),
         ('Other', 'Other'),
     ]
+
     name = models.CharField(max_length=100)
-    level = models.PositiveIntegerField(help_text="0–100")
+    slug = models.SlugField(unique=True, blank=True)
+    level = models.PositiveIntegerField()
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # <- new
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
-# ============================
-# CATEGORIES
-# ============================
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True)
@@ -144,3 +140,80 @@ class Visitor(models.Model):
 
     def __str__(self):
         return f"{self.ip_address} at {self.visited_at}"
+class TechStack(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+class Certificate(models.Model):
+    CERT_TYPE = [
+        ('course', 'Course'),
+        ('internship', 'Internship'),
+        ('workshop', 'Workshop'),
+        ('degree', 'Degree'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    title = models.CharField(max_length=200)
+    subject = models.CharField(max_length=150)
+
+    certificate_type = models.CharField(
+        max_length=20,
+        choices=CERT_TYPE,
+        default='course'   # ✅ REQUIRED
+    )
+
+    issuer = models.CharField(max_length=150, default='Unknown')  # ✅ REQUIRED
+
+    issue_date = models.DateField(default=timezone.now)  # ✅ REQUIRED
+    year = models.IntegerField(default=2025)             # ✅ REQUIRED
+
+    description = models.TextField(blank=True)
+    file = models.FileField(upload_to='certificates/')
+
+    status = models.CharField(
+        max_length=20,
+        choices=[('Pending', 'Pending'), ('Approved', 'Approved')],
+        default='Pending'
+    )
+
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.title}"
+    # folio/models.py
+
+class Blog(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+class Course(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+class Career(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    skills = models.JSONField(default=list, blank=True)
+    goals = models.JSONField(default=list, blank=True)
+    certificates = models.ManyToManyField(Certificate, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Career"

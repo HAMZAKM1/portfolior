@@ -1,0 +1,313 @@
+
+{% extends "folio/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Certificates | Knowledge Universe</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
+body{
+  background:#000;
+  color:#fff;
+  min-height:100vh;
+}
+
+/* HEADER */
+header{
+  position:sticky;
+  top:0;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(18px);
+  padding:20px 40px;
+  box-shadow:0 0 30px #0ff;
+  z-index:10;
+}
+header h1{
+  color:#0ff;
+  font-size:1.8rem;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1200px;
+  margin:50px auto;
+  padding:20px;
+}
+
+/* GRID */
+.cert-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:25px;
+}
+
+/* CARD */
+.cert-card{
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(18px);
+  border-radius:22px;
+  padding:25px;
+  box-shadow:0 0 40px rgba(0,255,255,.25);
+  transition:.3s;
+}
+.cert-card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 0 60px rgba(0,255,255,.45);
+}
+
+.cert-card h3{
+  color:#0ff;
+  margin-bottom:10px;
+}
+.cert-card p{
+  font-size:.95rem;
+  opacity:.9;
+  margin:5px 0;
+}
+
+.desc{
+  margin-top:10px;
+  font-size:.9rem;
+  opacity:.85;
+}
+
+/* BUTTONS */
+.actions{
+  margin-top:18px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.btn{
+  padding:10px 18px;
+  border-radius:14px;
+  background:rgba(0,255,255,.2);
+  color:#fff;
+  text-decoration:none;
+  font-size:.9rem;
+  transition:.3s;
+}
+.btn:hover{
+  background:#0ff;
+  color:#000;
+}
+
+/* BACK BUTTON */
+.back{
+  display:inline-block;
+  margin-top:30px;
+  color:#0ff;
+  text-decoration:none;
+}
+.back:hover{text-decoration:underline}
+
+/* EMPTY */
+.empty{
+  text-align:center;
+  margin-top:60px;
+  opacity:.7;
+}
+.glass{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(18px);
+  border-radius:18px;
+  padding:40px;
+}
+
+.cert-toolbar input{
+  width:100%;
+  padding:12px 18px;
+  border-radius:30px;
+  border:none;
+  background:#111;
+  color:#fff;
+  margin-bottom:30px;
+}
+
+.cert-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:25px;
+}
+
+.cert-card{
+  background:rgba(255,255,255,0.06);
+  padding:25px;
+  border-radius:18px;
+  position:relative;
+  transition:.4s;
+}
+
+.cert-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 0 25px rgba(0,255,255,.3);
+}
+
+.badge{
+  position:absolute;
+  top:15px;
+  right:15px;
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:12px;
+  background:#0ff;
+  color:#000;
+}
+
+.date{opacity:.8;font-size:14px}
+
+.desc{margin-top:10px;color:#ccc}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.btn{
+  padding:8px 14px;
+  border-radius:20px;
+  background:#0ff;
+  color:#000;
+  text-decoration:none;
+  border:none;
+  cursor:pointer;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  z-index:999;
+}
+
+.modal iframe{
+  width:80%;
+  height:80%;
+  margin:5% auto;
+  display:block;
+  border-radius:12px;
+}
+
+.close{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:30px;
+  color:#fff;
+  cursor:pointer;
+}
+
+#toTop{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  padding:12px;
+  border-radius:50%;
+  display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📜 Certificates</h1>
+</header>
+
+<div class="container glass">
+
+  <!-- 🔍 Search -->
+  <div class="cert-toolbar">
+    <input type="text" id="certSearch" placeholder="🔍 Search certificates...">
+  </div>
+
+  {% if certificates %}
+  <div class="cert-grid" id="certGrid">
+    {% for cert in certificates %}
+    <div class="cert-card" data-title="{{ cert.title|lower }} {{ cert.subject|lower }}">
+
+      <span class="badge {{ cert.certificate_type }}">
+        {{ cert.get_certificate_type_display }}
+      </span>
+
+      <h3>{{ cert.title }}</h3>
+
+      <p><strong>Subject:</strong> {{ cert.subject }}</p>
+      <p><strong>Issuer:</strong> {{ cert.issuer }}</p>
+      <p class="date">
+        📅 {{ cert.issue_date|date:"F Y" }}
+      </p>
+
+      {% if cert.description %}
+        <p class="desc">{{ cert.description|truncatechars:120 }}</p>
+      {% endif %}
+
+      <div class="actions">
+        <button class="btn view-btn" data-file="{{ cert.file.url }}">👁 Preview</button>
+        <a href="{{ cert.file.url }}" download class="btn">⬇ Download</a>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <div class="empty">
+      <h2>🎓 No certificates yet</h2>
+      <p>Your achievements will appear here</p>
+    </div>
+  {% endif %}
+
+  <a href="{% url 'education' %}" class="back">⬅ Back to Education</a>
+</div>
+
+<!-- 📄 Preview Modal -->
+<div class="modal" id="certModal">
+  <span class="close">&times;</span>
+  <iframe id="certFrame"></iframe>
+</div>
+
+<button id="toTop">⬆</button>
+
+
+</body>
+<script>
+const search = document.getElementById("certSearch");
+const cards = document.querySelectorAll(".cert-card");
+
+search?.addEventListener("keyup", () => {
+  let val = search.value.toLowerCase();
+  cards.forEach(card=>{
+    card.style.display =
+      card.dataset.title.includes(val) ? "block" : "none";
+  });
+});
+
+/* Modal preview */
+const modal = document.getElementById("certModal");
+const frame = document.getElementById("certFrame");
+
+document.querySelectorAll(".view-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    frame.src = btn.dataset.file;
+    modal.style.display="block";
+  }
+});
+
+document.querySelector(".close").onclick=()=>{
+  modal.style.display="none";
+  frame.src="";
+}
+
+/* Scroll top */
+const topBtn=document.getElementById("toTop");
+window.onscroll=()=>topBtn.style.display=window.scrollY>300?"block":"none";
+topBtn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+</script>
+
+</html>

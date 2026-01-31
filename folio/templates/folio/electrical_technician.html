@@ -1,0 +1,165 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="elec-layout">
+
+    <!-- ===== LEFT TOOL PANEL ===== -->
+    <div id="elecLeft" class="elec-left">
+        <h2>⚡ Electric Tools</h2>
+        <button class="elec-toggle" onclick="toggleElecLeft()">☰</button>
+
+        <ul>
+            <li>🔌 Multimeter</li>
+            <li>🧲 Voltage Tester</li>
+            <li>⚙ Control Panel Kit</li>
+            <li>🔋 Battery Analyzer</li>
+            <li>🧰 Wiring Tools</li>
+            <li>💡 Lighting Kit</li>
+        </ul>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="elec-main">
+        <h1>⚡ Electrical Technician Lab</h1>
+        <p class="subtitle">Professional Electrical Installation & Maintenance Training</p>
+
+        <div class="elec-cards">
+            <div class="elec-card">🔌 <h4>Wiring & Circuits</h4><p>Residential, commercial & industrial wiring</p></div>
+            <div class="elec-card">⚙ <h4>Control Panels</h4><p>Breakers, relays & distribution boards</p></div>
+            <div class="elec-card">💡 <h4>Lighting Systems</h4><p>LED, outdoor & indoor installations</p></div>
+            <div class="elec-card">🧰 <h4>Safety Systems</h4><p>Grounding, insulation & PPE</p></div>
+            <div class="elec-card">🔋 <h4>Power Backup</h4><p>Inverters, UPS & batteries</p></div>
+            <div class="elec-card">📊 <h4>Load Analysis</h4><p>Voltage, current & power factor</p></div>
+        </div>
+    </div>
+
+    <!-- ===== RIGHT MONITOR PANEL ===== -->
+    <div id="elecRight" class="elec-right">
+        <button class="elec-toggle right" onclick="toggleElecRight()">❯</button>
+
+        <h3>⚡ Live Power System</h3>
+
+        <div class="elec-slide active">🔌 Grid Connected</div>
+        <div class="elec-slide">🔋 Backup Power Active</div>
+        <div class="elec-slide">⚙ Load Balancing</div>
+        <div class="elec-slide">📊 Voltage Stable</div>
+        <div class="elec-slide">✅ System Normal</div>
+
+        <a href="{% url 'skills' %}" class="btn btn-warning w-100 mt-4">⬅ Back to Skills</a>
+    </div>
+
+</div>
+
+<!-- ================= CSS ================= -->
+<style>
+.elec-layout{
+    display:flex;
+    height:100vh;
+    background:#05050b;
+    color:white;
+    overflow:hidden;
+}
+
+/* LEFT */
+.elec-left{
+    width:260px;
+    background:rgba(10,10,20,0.95);
+    padding:20px;
+    transition:.4s;
+}
+.elec-left ul{list-style:none;padding:0;}
+.elec-left li{
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.elec-left li:hover{background:#ffd70033;}
+
+/* MAIN */
+.elec-main{
+    flex:1;
+    padding:40px;
+    text-align:center;
+    overflow:auto;
+}
+
+.elec-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:30px;
+    margin-top:40px;
+}
+
+.elec-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 0 20px rgba(255,215,0,0.3);
+    transition:.4s;
+}
+.elec-card:hover{
+    transform:translateY(-15px) scale(1.05);
+    box-shadow:0 0 40px rgba(255,215,0,0.8);
+}
+
+/* RIGHT */
+.elec-right{
+    width:300px;
+    background:rgba(10,10,20,0.95);
+    padding:20px;
+    transition:.4s;
+    position:relative;
+}
+
+.elec-slide{
+    opacity:0;
+    position:absolute;
+    top:120px;
+    left:20px;
+    right:20px;
+    font-size:20px;
+    text-align:center;
+    transition:1s;
+}
+.elec-slide.active{opacity:1;}
+
+.elec-toggle{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#ffd700;
+    border:none;
+    padding:10px 14px;
+    border-radius:50%;
+    cursor:pointer;
+}
+.elec-toggle.right{
+    left:-15px;
+    right:auto;
+}
+</style>
+
+<!-- ================= JS ================= -->
+<script>
+function toggleElecLeft(){
+    let p=document.getElementById("elecLeft");
+    p.style.width = (p.style.width=="50px")?"260px":"50px";
+}
+
+function toggleElecRight(){
+    let p=document.getElementById("elecRight");
+    p.style.width = (p.style.width=="50px")?"300px":"50px";
+}
+
+let elecSlides=document.querySelectorAll(".elec-slide");
+let i=0;
+setInterval(()=>{
+    elecSlides.forEach(s=>s.classList.remove("active"));
+    i=(i+1)%elecSlides.length;
+    elecSlides[i].classList.add("active");
+},3000);
+</script>
+
+{% endblock %}

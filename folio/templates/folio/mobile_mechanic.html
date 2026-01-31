@@ -1,0 +1,312 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="mm-layout">
+
+    <!-- ===== LEFT TOOL PANEL ===== -->
+    <div id="mmLeft" class="mm-left">
+        <h2>📱 Mobile Lab</h2>
+        <button class="mm-toggle" onclick="toggleLeft()">☰</button>
+
+        <ul>
+            <li>🔧 Diagnostics</li>
+            <li>📱 Screen Repair</li>
+            <li>🔋 Battery Replace</li>
+            <li>💾 Flashing</li>
+            <li>🔓 Unlocking</li>
+            <li>🧠 Chipset</li>
+        </ul>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+<div class="mm-main glass">
+    <h1><i class="fa fa-motorcycle text-danger"></i> Mobile Mechanic</h1>
+    <p class="subtitle">Professional Mobile Hardware & Software Repair Lab</p>
+
+    <div class="mm-cards">
+
+        <div class="mm-card">
+            <span class="mm-icon">📱</span>
+            <h4>Screen Replacement <span class="badge">Popular</span></h4>
+            <p>Original glass & display replacement</p>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width:95%"></div>
+            </div>
+            <button class="mm-btn">Book Service</button>
+        </div>
+
+        <div class="mm-card">
+            <span class="mm-icon">🔋</span>
+            <h4>Battery Repair</h4>
+            <p>Fast charging & battery health fixes</p>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width:90%"></div>
+            </div>
+            <button class="mm-btn">Book Service</button>
+        </div>
+
+        <div class="mm-card">
+            <span class="mm-icon">💾</span>
+            <h4>Flashing</h4>
+            <p>Firmware install & OS recovery</p>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width:85%"></div>
+            </div>
+            <button class="mm-btn">Book Service</button>
+        </div>
+
+        <div class="mm-card">
+            <span class="mm-icon">🔓</span>
+            <h4>Unlocking</h4>
+            <p>Pattern, FRP & carrier unlock</p>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width:80%"></div>
+            </div>
+            <button class="mm-btn">Book Service</button>
+        </div>
+
+        <div class="mm-card">
+            <span class="mm-icon">🧠</span>
+            <h4>Chipset Repair</h4>
+            <p>IC, CPU & motherboard fixing</p>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width:88%"></div>
+            </div>
+            <button class="mm-btn">Book Service</button>
+        </div>
+
+        <div class="mm-card">
+            <span class="mm-icon">🛠</span>
+            <h4>Water Damage</h4>
+            <p>Ultrasonic cleaning & recovery</p>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width:92%"></div>
+            </div>
+            <button class="mm-btn">Book Service</button>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.mm-main {
+    text-align: center;
+    padding: 50px 20px;
+    color: white;
+}
+.mm-main h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg,#00c8ff,#ff6ec4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.mm-main .subtitle {
+    margin-bottom: 40px;
+    color: #aaa;
+}
+
+/* MM Cards Grid */
+.mm-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+/* MM Card */
+.mm-card {
+    background: rgba(10,15,25,0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 25px 15px;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.mm-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 0 25px rgba(0,255,255,0.5);
+}
+
+/* Icon */
+.mm-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 15px;
+    text-shadow: 0 0 8px #00eaff;
+}
+
+/* Badge */
+.badge {
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    color: white;
+    margin-left: 5px;
+}
+
+/* Skill bar */
+.skill-bar {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    height: 10px;
+    margin: 10px 0 15px;
+}
+.skill-progress {
+    height: 100%;
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    border-radius: 10px;
+}
+
+/* Button */
+.mm-btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg,#00c8ff,#ff6ec4);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.mm-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0,255,255,0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px){
+    .mm-main h1 { font-size: 2rem; }
+    .mm-cards { grid-template-columns: 1fr; }
+}
+</style>
+
+
+    <!-- ===== RIGHT INFO PANEL ===== -->
+    <div id="mmRight" class="mm-right">
+        <button class="mm-toggle right" onclick="toggleRight()">❯</button>
+
+        <h3>🔧 Repair Status</h3>
+
+        <div class="mm-slide active">📱 Phone Checkup in Progress</div>
+        <div class="mm-slide">🔋 Battery Optimization</div>
+        <div class="mm-slide">💾 Flashing Firmware</div>
+        <div class="mm-slide">✅ Ready for Delivery</div>
+
+        <a href="{% url 'skills' %}" class="btn btn-danger w-100 mt-4">⬅ Back to Skills</a>
+    </div>
+
+</div>
+
+<!-- ================= CSS ================= -->
+<style>
+.mm-layout{
+    display:flex;
+    height:100vh;
+    background:#080808;
+    color:white;
+    overflow:hidden;
+}
+
+.mm-left{
+    width:260px;
+    background:rgba(20,20,20,0.95);
+    padding:20px;
+    transition:.4s;
+    position:relative;
+}
+
+.mm-left ul{list-style:none;padding:0;}
+.mm-left li{
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.mm-left li:hover{background:#ff333333;}
+
+.mm-main{
+    flex:1;
+    padding:40px;
+    text-align:center;
+    overflow:auto;
+}
+
+.mm-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:30px;
+    margin-top:40px;
+}
+
+.mm-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 0 20px rgba(255,0,0,0.3);
+    transition:.4s;
+}
+.mm-card:hover{
+    transform:translateY(-15px) scale(1.05);
+    box-shadow:0 0 40px rgba(255,0,0,0.8);
+}
+
+.mm-right{
+    width:300px;
+    background:rgba(15,15,15,0.95);
+    padding:20px;
+    position:relative;
+    transition:.4s;
+}
+
+.mm-slide{
+    opacity:0;
+    position:absolute;
+    top:120px;
+    left:20px;
+    right:20px;
+    font-size:20px;
+    text-align:center;
+    transition:1s;
+}
+.mm-slide.active{opacity:1;}
+
+.mm-toggle{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:#ff3333;
+    border:none;
+    padding:10px 14px;
+    border-radius:50%;
+    cursor:pointer;
+}
+.mm-toggle.right{
+    left:-15px;
+    right:auto;
+}
+</style>
+
+<!-- ================= JS ================= -->
+<script>
+function toggleLeft(){
+    let p=document.getElementById("mmLeft");
+    p.style.width = (p.style.width=="50px")?"260px":"50px";
+}
+
+function toggleRight(){
+    let p=document.getElementById("mmRight");
+    p.style.width = (p.style.width=="50px")?"300px":"50px";
+}
+
+let slides=document.querySelectorAll(".mm-slide");
+let i=0;
+setInterval(()=>{
+    slides.forEach(s=>s.classList.remove("active"));
+    i=(i+1)%slides.length;
+    slides[i].classList.add("active");
+},3000);
+</script>
+
+{% endblock %}

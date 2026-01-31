@@ -1,0 +1,97 @@
+{% extends "folio/skill_base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+.photography-section {
+    padding: 50px 20px;
+    background: rgba(20,20,20,0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+}
+
+.photography-section h1 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px #ff6ec4;
+}
+
+.photos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.photo-card {
+    background: rgba(0,0,0,0.5);
+    border-radius: 15px;
+    padding: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.photo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px rgba(255,110,196,0.5);
+}
+
+.photo-img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.photo-img:hover {
+    transform: scale(1.05);
+}
+
+.photo-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #ff6ec4;
+}
+
+.photo-card p.description {
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+/* Floating animation for subtle dynamic effect */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+
+.photo-card {
+    animation: float 4s ease-in-out infinite;
+}
+</style>
+
+<section class="photography-section glass">
+    <h1>📸 Photography Portfolio</h1>
+
+    <div class="photos-container">
+        {% for photo in photos %}
+            <div class="photo-card glass">
+                {% with photo.title as title %}
+                    <h2>{{ title }}</h2>
+                {% endwith %}
+
+                {% if photo.image.url %}
+                    <img src="{{ photo.image.url }}" alt="{{ photo.title }}" class="photo-img">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+
+                <p class="description">{{ photo.description }}</p>
+            </div>
+        {% empty %}
+            <p>No photos found.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

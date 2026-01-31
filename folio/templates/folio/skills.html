@@ -75,7 +75,6 @@
     color: white;
     border: 1px solid rgba(255,255,255,0.3);
 }
-
 </style>
 
 <div class="container mt-5">
@@ -101,11 +100,9 @@
         <!-- Category Filters -->
         <div class="mb-2">
             <span class="category-btn active" data-category="all">All</span>
-            <span class="category-btn" data-category="Frontend">Frontend</span>
-            <span class="category-btn" data-category="Backend">Backend</span>
-            <span class="category-btn" data-category="Database">Database</span>
-            <span class="category-btn" data-category="Tools">Tools</span>
-            <span class="category-btn" data-category="Other">Other</span>
+            <span class="category-btn" data-category="Software & IT">Software & IT</span>
+            <span class="category-btn" data-category="Business">Business</span>
+            <span class="category-btn" data-category="Technical">Technical</span>
         </div>
 
         <a href="{% url 'add_skill' %}" class="btn btn-primary shadow mb-2">
@@ -117,12 +114,11 @@
 
         {% for skill in skills %}
         <div class="col-md-4 mb-4 skill-item" 
-             data-name="{{ skill.name }}"
+             data-name="{{ skill.name|lower }}"
              data-level="{{ skill.level }}"
-             data-category="{{ skill.category }}">
+             data-category="{{ skill.type }}">
 
             <div class="card skill-card text-light">
-
                 <div class="card-body">
 
                     <!-- Skill Title -->
@@ -132,9 +128,9 @@
                     </h4>
 
                     <!-- Category -->
-                    <span class="badge bg-info text-dark mb-2">{{ skill.category }}</span>
+                    <span class="badge bg-info text-dark mb-2">{{ skill.type }}</span>
 
-                    <!-- Rating Stars (level ÷ 20) -->
+                    <!-- Rating Stars -->
                     <div class="mb-2">
                         {% for i in "12345" %}
                             {% if forloop.counter <= skill.level|divisibleby:20 %}
@@ -155,37 +151,47 @@
                         </div>
                     </div>
 
+                    <!-- Certificates -->
+                    <p class="small"><strong>Certificates:</strong> {{ skill.certificates|join:", " }}</p>
+
+                    <!-- Projects -->
+                    <p class="small"><strong>Projects:</strong> {{ skill.projects|join:", " }}</p>
+
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-between mt-3">
-                        <a href="{% url 'update_skill' skill.id %}" class="btn btn-warning btn-sm">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <a href="{% url 'delete_skill' skill.id %}" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i> Delete
-                        </a>
-                    </div>
+    {% if skill.id %}
+        <a href="{% url 'update_skill' skill.id %}" class="btn btn-warning btn-sm">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+
+        <a href="{% url 'delete_skill' skill.id %}" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i> Delete
+        </a>
+    {% else %}
+        <span class="text-danger small">Invalid Skill</span>
+    {% endif %}
+</div>
+
 
                 </div>
             </div>
 
         </div>
-
         {% empty %}
         <div class="col-12 text-center">
             <p class="text-light">No skills added yet.</p>
         </div>
         {% endfor %}
-    </div>
 
+    </div>
 </div>
 
-<!-- ================== JAVASCRIPT FEATURES ================== -->
 <script>
 // 🔍 Live Search
 document.getElementById("searchBox").addEventListener("keyup", function() {
     let value = this.value.toLowerCase();
     document.querySelectorAll(".skill-item").forEach(item => {
-        item.style.display = item.dataset.name.toLowerCase().includes(value) ? "" : "none";
+        item.style.display = item.dataset.name.includes(value) ? "" : "none";
     });
 });
 

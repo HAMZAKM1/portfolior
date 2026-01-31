@@ -1,0 +1,210 @@
+{% extends "folio/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+/* ===== Page Styling ===== */
+body { background:#0b0b0b; color:white; }
+
+.page-header {
+    background: linear-gradient(135deg, #ff6ec4, #7873f5);
+    padding: 40px 20px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.skill-card {
+    border-radius: 15px;
+    background: rgba(20,20,20,0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.badge-category {
+    margin-right: 10px;
+    padding: 5px 12px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    color: #ff6ec4;
+}
+
+.progress {
+    height: 20px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+}
+.progress-bar {
+    border-radius: 10px;
+    animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+    from { box-shadow: 0 0 10px #ff6ec4; }
+    to { box-shadow: 0 0 25px #ff6ec4; }
+}
+
+.star { color: gold; margin-right: 3px; }
+
+.skill-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* Project Carousel with 3D Fly */
+.project-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 15px 0;
+    perspective: 1500px;
+}
+.project-item {
+    min-width: 250px;
+    background: rgba(0,0,0,0.5);
+    padding: 15px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+.project-item:hover {
+    transform: rotateY(15deg) rotateX(5deg) translateZ(20px);
+}
+
+/* Right Panel */
+.right-panel {
+    width: 300px;
+    background: rgba(30,30,30,0.95);
+    padding: 20px;
+    border-radius: 15px;
+    transition: 0.4s;
+    position: relative;
+}
+
+.right-panel h4 { margin-bottom:15px; }
+.right-panel ul { list-style:none; padding:0; }
+.right-panel li { padding:8px 0; border-bottom:1px solid #555; }
+
+.toggle-btn {
+    position:absolute;
+    top:15px;
+    left:-35px;
+    background:#ff6ec4;
+    border:none;
+    padding:8px 12px;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+/* Layout Flex */
+.main-content { flex:1; }
+
+/* Full height container */
+.full-screen {
+    display:flex;
+    gap:20px;
+    min-height:80vh;
+}
+</style>
+
+<div class="container mt-5 full-screen">
+
+    <div class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-paint-brush"></i> Graphic Design</h1>
+            <span class="badge-category">Creative</span>
+        </div>
+
+        <!-- Description -->
+        <div class="skill-card">
+            <h4>Description:</h4>
+            <p>Learn visual communication, design principles, typography, color theory, and software like Photoshop and Illustrator to create stunning graphics.</p>
+        </div>
+
+        <!-- Tools & Software -->
+        <div class="skill-card">
+            <h4>Tools & Software:</h4>
+            <ul>
+                <li>Adobe Photoshop</li>
+                <li>Adobe Illustrator</li>
+                <li>Figma</li>
+                <li>Canva</li>
+            </ul>
+        </div>
+
+        <!-- Proficiency -->
+        <div class="skill-card">
+            <h4>Proficiency: 85%</h4>
+            <div class="progress mb-2">
+                <div class="progress-bar bg-warning" role="progressbar" style="width:85%">85%</div>
+            </div>
+            <!-- Star Rating -->
+            <div>
+                {% for i in "12345" %}
+                    {% if forloop.counter <= 4 %}
+                        <i class="fas fa-star star"></i>
+                    {% else %}
+                        <i class="far fa-star star"></i>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="skill-card">
+            <h4>Portfolio Projects:</h4>
+            <div class="project-carousel">
+                <div class="project-item">
+                    <h5>Logo Design</h5>
+                    <p>Designed logos for startups and small businesses.</p>
+                    <a href="#" class="btn btn-sm btn-warning">View</a>
+                </div>
+                <div class="project-item">
+                    <h5>Social Media Graphics</h5>
+                    <p>Created engaging graphics for Instagram and Facebook campaigns.</p>
+                    <a href="#" class="btn btn-sm btn-warning">View</a>
+                </div>
+                <div class="project-item">
+                    <h5>Brand Identity</h5>
+                    <p>Developed complete branding packages for clients.</p>
+                    <a href="#" class="btn btn-sm btn-warning">View</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== Right Panel ===== -->
+    <div class="right-panel" id="rightPanel">
+        <button class="toggle-btn" onclick="togglePanel()">☰</button>
+        <h4>Design Resources</h4>
+        <ul>
+            <li>🎨 Color Palettes</li>
+            <li>🖌 Typography Tips</li>
+            <li>📚 Tutorials</li>
+            <li>💡 Design Inspirations</li>
+            <li>🖼 Free Assets</li>
+        </ul>
+        <h4 class="mt-3">Certifications</h4>
+        <ul>
+            <li>Adobe Certified Expert</li>
+            <li>UI/UX Design Specialist</li>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+function togglePanel(){
+    let panel=document.getElementById("rightPanel");
+    panel.style.width=(panel.style.width=="50px"?"300px":"50px");
+    panel.querySelector("ul").style.display=(panel.style.width=="50px"?"none":"block");
+}
+</script>
+
+{% endblock %}

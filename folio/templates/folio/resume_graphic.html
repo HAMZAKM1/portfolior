@@ -1,0 +1,165 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="container py-5">
+
+    <!-- ================= HEADER ================= -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-gradient">🎨 Graphic Designer Resume</h1>
+        <p class="lead text-muted">
+            Branding • UI/UX • Social Media • Visual Identity
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a href="#" class="btn btn-primary">📥 Download Portfolio</a>
+            <a href="#contact" class="btn btn-outline-info">📩 Hire Me</a>
+        </div>
+    </div>
+
+    <!-- ================= PROFILE ================= -->
+    <div class="row mb-5">
+        <div class="col-md-4 text-center">
+            <img src="{% static 'images/profile.jpg' %}"
+                 class="img-fluid rounded-circle shadow-lg" width="200">
+        </div>
+        <div class="col-md-8">
+            <div class="glass-card p-4">
+                <h4>🎯 Hamza</h4>
+                <p>
+                    Creative Graphic Designer with a strong eye for detail and
+                    visual storytelling. Specialized in brand identity,
+                    UI/UX design, social media creatives, and marketing graphics.
+                </p>
+                <p>
+                    📍 Remote / Worldwide<br>
+                    📧 hamza.design@email.com<br>
+                    📞 +966-XXX-XXXX
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SKILLS ================= -->
+    <h3 class="mb-3">🖌 Design Skills</h3>
+    <div class="row">
+        <div class="col-md-4"><div class="skill-box">Adobe Photoshop</div></div>
+        <div class="col-md-4"><div class="skill-box">Adobe Illustrator</div></div>
+        <div class="col-md-4"><div class="skill-box">UI / UX Design</div></div>
+        <div class="col-md-4"><div class="skill-box">Brand Identity</div></div>
+        <div class="col-md-4"><div class="skill-box">Social Media Ads</div></div>
+        <div class="col-md-4"><div class="skill-box">Print Design</div></div>
+    </div>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <h3 class="mt-5">💼 Experience</h3>
+    <div class="timeline">
+        <div class="timeline-item">
+            <h5>Freelance Graphic Designer</h5>
+            <span>2022 – Present</span>
+            <p>
+                Designed logos, brand guidelines, social media creatives,
+                ad banners, UI layouts, and marketing assets for clients worldwide.
+            </p>
+        </div>
+
+        <div class="timeline-item">
+            <h5>Junior Graphic Designer</h5>
+            <span>2020 – 2022</span>
+            <p>
+                Assisted senior designers in branding projects,
+                print designs, social media posts, and UI mockups.
+            </p>
+        </div>
+    </div>
+
+    <!-- ================= SERVICES ================= -->
+    <h3 class="mt-5">📂 Design Services</h3>
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>Brand Identity</h5>
+                <p>Logos, color systems & brand guidelines</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>UI / UX Design</h5>
+                <p>Web & mobile interface design</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="project-card">
+                <h5>Social Media Design</h5>
+                <p>Ads, posts, banners & campaigns</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= CONTACT ================= -->
+    <h3 class="mt-5" id="contact">📞 Contact</h3>
+    <div class="glass-card p-4">
+        <p>Email: <b>hamza.design@email.com</b></p>
+        <p>Behance: behance.net/hamza</p>
+        <p>Portfolio: www.hamzadesign.com</p>
+    </div>
+
+</section>
+
+<!-- ================= STYLE ================= -->
+<style>
+.text-gradient {
+    background: linear-gradient(90deg,#8e2de2,#4a00e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Glass Card */
+.glass-card {
+    background: rgba(20,20,20,0.65);
+    backdrop-filter: blur(14px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 25px rgba(142,45,226,0.35);
+}
+
+/* Skill Box */
+.skill-box {
+    background: linear-gradient(135deg,#8e2de2,#4a00e0);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Timeline */
+.timeline-item {
+    background: rgba(0,0,0,0.45);
+    padding: 20px;
+    border-left: 4px solid #8e2de2;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* Project Cards */
+.project-card {
+    background: rgba(0,0,0,0.55);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px rgba(142,45,226,0.6);
+}
+</style>
+
+{% endblock %}

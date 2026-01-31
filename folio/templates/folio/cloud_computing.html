@@ -1,0 +1,210 @@
+{% extends "folio/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- ================= CLOUD BACKGROUND ================= -->
+<div class="cloud-bg"></div>
+
+<div class="container-fluid cloud-page">
+<div class="row">
+
+<!-- ================= LEFT CONTENT ================= -->
+<div class="col-md-8 cloud-left">
+
+    <!-- ===== HERO ===== -->
+    <div class="glass cloud-hero">
+        <h1><i class="fa fa-server text-success"></i> Cloud Computing</h1>
+        <p>Deploy, scale, and secure modern applications using AWS, Azure & Google Cloud.</p>
+        <div class="hero-btns">
+            <a href="#cloud-projects" class="btn btn-success">☁ Cloud Projects</a>
+            <a href="{% url 'skills' %}" class="btn btn-outline-light">⬅ Back</a>
+        </div>
+    </div>
+
+    <!-- ===== SERVICES ===== -->
+    <div class="glass service-box">
+        <h3>⚙ Cloud Services</h3>
+        <div class="service-grid">
+            <div class="service-card">AWS EC2</div>
+            <div class="service-card">Azure VM</div>
+            <div class="service-card">Google Cloud</div>
+            <div class="service-card">CI / CD</div>
+            <div class="service-card">Docker</div>
+            <div class="service-card">Kubernetes</div>
+            <div class="service-card">Linux Servers</div>
+            <div class="service-card">Cloud Security</div>
+        </div>
+    </div>
+
+    <!-- ===== CLOUD SKILLS ===== -->
+    <div class="glass skill-box">
+        <h3>☁ Cloud Skill Levels</h3>
+
+        <div class="skill">
+            <span>AWS</span>
+            <div class="bar"><div class="fill" data="92"></div></div>
+        </div>
+        <div class="skill">
+            <span>Azure</span>
+            <div class="bar"><div class="fill" data="88"></div></div>
+        </div>
+        <div class="skill">
+            <span>DevOps</span>
+            <div class="bar"><div class="fill" data="90"></div></div>
+        </div>
+        <div class="skill">
+            <span>Docker</span>
+            <div class="bar"><div class="fill" data="95"></div></div>
+        </div>
+        <div class="skill">
+            <span>Kubernetes</span>
+            <div class="bar"><div class="fill" data="85"></div></div>
+        </div>
+    </div>
+
+    <!-- ===== CLOUD PROJECTS ===== -->
+    <div class="glass project-box" id="cloud-projects">
+        <h3>🚀 Cloud Projects</h3>
+
+        <div class="project-slider">
+            <div class="project-card">
+                <img src="{% static 'images/projects/cloud1.jpg' %}">
+                <h5>AWS Hosting</h5>
+                <p>High performance EC2 deployment.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/cloud2.jpg' %}">
+                <h5>Dockerized App</h5>
+                <p>Microservices with Docker & Kubernetes.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/cloud3.jpg' %}">
+                <h5>CI/CD Pipeline</h5>
+                <p>Automated build & deployment.</p>
+            </div>
+
+            <div class="project-card">
+                <img src="{% static 'images/projects/cloud4.jpg' %}">
+                <h5>Cloud Monitoring</h5>
+                <p>Performance & security tracking.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= RIGHT CLOUD PANEL ================= -->
+<div class="col-md-4 cloud-right">
+
+    <!-- ===== CLOUD STATS ===== -->
+    <div class="glass stat-box">
+        <h4>📊 Cloud Stats</h4>
+        <p><b>Servers Deployed:</b> 120+</p>
+        <p><b>Uptime:</b> 99.99%</p>
+        <p><b>Projects Hosted:</b> 75+</p>
+    </div>
+
+    <!-- ===== CERTIFICATIONS ===== -->
+    <div class="glass cert-box">
+        <h4>🏆 Certifications</h4>
+        <ul>
+            <li>AWS Certified Solutions Architect</li>
+            <li>Azure Administrator</li>
+            <li>DevOps Engineer</li>
+            <li>Kubernetes Specialist</li>
+        </ul>
+    </div>
+
+    <!-- ===== HIRE ===== -->
+    <div class="glass hire-box">
+        <h4>☁ Hire Cloud Engineer</h4>
+        <p>Need secure & scalable cloud infrastructure?</p>
+        <a href="mailto:hamza@gmail.com" class="btn btn-success w-100">Contact Me</a>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<!-- ================= STYLES ================= -->
+<style>
+.cloud-bg{
+    position:fixed; inset:0;
+    background:
+        radial-gradient(circle at 20% 30%,rgba(0,255,150,0.2),transparent 40%),
+        radial-gradient(circle at 80% 70%,rgba(0,200,255,0.2),transparent 40%);
+    z-index:-1;
+    animation:cloudMove 20s infinite alternate;
+}
+@keyframes cloudMove{
+    0%{transform:translate(0,0);}
+    100%{transform:translate(50px,-40px);}
+}
+.glass{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(12px);
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 0 30px rgba(0,255,150,0.25);
+}
+.service-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+.service-card{
+    background:rgba(0,255,150,0.15);
+    padding:15px;
+    text-align:center;
+    border-radius:15px;
+    transition:.3s;
+}
+.service-card:hover{
+    background:#00ff99;
+    color:black;
+    transform:scale(1.1);
+}
+.skill .bar{
+    background:rgba(255,255,255,0.1);
+    border-radius:10px;
+    height:12px;
+}
+.fill{
+    width:0;
+    height:100%;
+    background:#00ff99;
+    border-radius:10px;
+}
+.project-slider{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+}
+.project-card{
+    min-width:220px;
+    background:rgba(0,255,150,0.15);
+    padding:10px;
+    border-radius:15px;
+    transition:.3s;
+}
+.project-card:hover{transform:scale(1.05);}
+.project-card img{width:100%;border-radius:10px;}
+.cloud-right .glass{box-shadow:0 0 30px rgba(0,255,150,0.35);}
+</style>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+document.querySelectorAll('.fill').forEach(el=>{
+    let width=0,target=el.getAttribute('data');
+    let timer=setInterval(()=>{
+        if(width>=target){clearInterval(timer);}
+        else{width++;el.style.width=width+'%';}
+    },15);
+});
+</script>
+
+{% endblock %}

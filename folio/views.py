@@ -466,7 +466,7 @@ def projects(request):
         "projects": projects
     })
     
-=======
+
 def dashboard(request):
     return render(request, "folio/dashboard.html")
 def resume_view(request):

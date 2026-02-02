@@ -435,6 +435,7 @@ def blog_detail(request, pk):
     post = get_object_or_404(BlogPost, pk=pk)
     return render(request, "folio/blog_detail.html", {"post": post})
 
+<<<<<<< Updated upstream
 def user_settings(request):
     return render(request, 'folio/user_settings.html')
 def dashboard(request):
@@ -467,6 +468,82 @@ def projects(request):
         "projects": projects
     })
     
+=======
+def dashboard(request):
+    return render(request, "folio/dashboard.html")
+def resume_view(request):
+    resume = Resume.objects.last()
+    return render(request, "folio/resume.html", {"resume": resume})
+def newsletter_subscribe(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        # You can later save email to a model
+        messages.success(request, "Subscribed successfully!")
+        return redirect("home")
+    return redirect("home")
+@login_required
+def logout_other_sessions(request):
+    """
+    Logs out all other sessions except the current one
+    """
+    current_session_key = request.session.session_key
+
+    sessions = Session.objects.filter(expire_date__gte=timezone.now())
+
+    for session in sessions:
+        data = session.get_decoded()
+        if data.get('_auth_user_id') == str(request.user.id):
+            if session.session_key != current_session_key:
+                session.delete()
+
+    messages.success(request, "Logged out from other sessions successfully.")
+    return redirect("settings")
+def export_data(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Sample', 'Data'])
+    writer.writerow(['Hello', 'World'])
+
+    return response
+def projects(request):
+    project_list = Project.objects.all()
+    return render(request, 'folio/projects.html', {
+        'projects': project_list
+    })
+
+def latest_projects(request):
+    projects = Project.objects.order_by('-id')[:6]
+    return render(request, 'folio/latest_projects.html', {
+        'projects': projects
+    })
+def skills(request):
+    skills = Skill.objects.all()
+    return render(request, "folio/skills.html", {"skills": skills})
+
+def featured_projects(request):
+    projects = Project.objects.filter(is_featured=True)
+    return render(request, "folio/featured_projects.html", {
+        "projects": projects
+    })
+def contact(request):
+    return render(request, "folio/contact.html")
+def user_settings(request):
+    # Replace 'folio/user_settings.html' with your actual template path
+    return render(request, "folio/user_settings.html")
+def update_privacy(request):
+    # Replace with your actual template
+    return render(request, "folio/update_privacy.html")
+def enable_2fa(request):
+    return render(request, "folio/enable_2fa.html")
+def disable_2fa(request):
+    return render(request, "folio/disable_2fa.html")
+def update_notifications(request):
+    return render(request, "folio/update_notifications.html")
+def delete_account(request):
+    return render(request, "folio/delete_account.html")
+>>>>>>> Stashed changes
 def about(request):
     return render(request, "folio/about.html")
 def experience(request):
@@ -475,6 +552,7 @@ def education(request):
     return render(request, "folio/education.html")
 def testimonials(request):
     return render(request, "folio/testimonials.html")
+<<<<<<< Updated upstream
 def export_data(request):
     # Temporary placeholder
     return HttpResponse("Export Data page placeholder.")
@@ -746,3 +824,38 @@ def course_create(request):
     else:
         form = CourseForm()
     return render(request, 'folio/course_create.html', {'form': form})
+=======
+def all_products(request):
+    return render(request, "folio/all_products.html")
+def category_list(request):
+    return render(request, "folio/category_list.html")
+def wishlist(request):
+    return render(request, "folio/wishlist.html")
+def orders(request):
+    return render(request, "folio/orders.html")
+def portfolio(request):
+    return render(request, "folio/portfolio.html")
+def messages_view(request):
+    return render(request, "folio/messages.html")
+def help_view(request):
+    return render(request, "folio/help.html")
+def skill_detail(request, tech):
+    return render(request, "folio/skill_detail.html", {"tech": tech})
+def python_view(request):
+    return render(request, "folio/python_view.html")
+def java_view(request):
+    return render(request, "folio/java_view.html")
+def react_view(request):
+    return render(request, "folio/react_view.html")
+def django_view(request):
+    return render(request, "folio/django_view.html")
+def aws_view(request):
+    return render(request, "folio/aws.html")
+def ml_view(request):
+    return render(request, "folio/ml.html")
+def flutter_view(request):
+    return render(request, "folio/flutter.html")
+
+def c_view(request):
+    return render(request, "folio/c.html")
+>>>>>>> Stashed changes

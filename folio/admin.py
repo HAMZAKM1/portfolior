@@ -127,3 +127,4 @@ admin.site.register(Testimonial)
 admin.site.register(Resume)
 admin.site.register(Contact)
 admin.site.register(Visitor)
+

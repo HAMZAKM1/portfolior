@@ -543,7 +543,7 @@ def update_notifications(request):
     return render(request, "folio/update_notifications.html")
 def delete_account(request):
     return render(request, "folio/delete_account.html")
->>>>>>> Stashed changes
+
 def about(request):
     return render(request, "folio/about.html")
 def experience(request):
@@ -552,7 +552,7 @@ def education(request):
     return render(request, "folio/education.html")
 def testimonials(request):
     return render(request, "folio/testimonials.html")
-<<<<<<< Updated upstream
+
 def export_data(request):
     # Temporary placeholder
     return HttpResponse("Export Data page placeholder.")
@@ -824,7 +824,6 @@ def course_create(request):
     else:
         form = CourseForm()
     return render(request, 'folio/course_create.html', {'form': form})
-=======
 def all_products(request):
     return render(request, "folio/all_products.html")
 def category_list(request):
@@ -858,4 +857,4 @@ def flutter_view(request):
 
 def c_view(request):
     return render(request, "folio/c.html")
->>>>>>> Stashed changes
+

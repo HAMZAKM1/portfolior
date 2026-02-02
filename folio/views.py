@@ -434,8 +434,6 @@ def blog_list(request):
 def blog_detail(request, pk):
     post = get_object_or_404(BlogPost, pk=pk)
     return render(request, "folio/blog_detail.html", {"post": post})
-
-<<<<<<< Updated upstream
 def user_settings(request):
     return render(request, 'folio/user_settings.html')
 def dashboard(request):
